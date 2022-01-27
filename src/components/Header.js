@@ -11,6 +11,7 @@ import {
 } from '@chakra-ui/react';
 import { FaDiscord } from 'react-icons/fa'
 import MouseTooltip from 'react-sticky-mouse-tooltip';
+// import { ColorModeSwitcher } from '../ColorModeSwitcher';
 
 
 export const Header = () => {
@@ -68,6 +69,7 @@ export const Header = () => {
             <Text color="#FCD9FF" fontFamily="Iosevka Nerd Font" fontWeight="normal" fontSize="24" letterSpacing="widest">Minecraft servers</Text>
           </VStack>
           <Spacer></Spacer>
+          {/* <ColorModeSwitcher /> */}
           <Flex alignItems="center" marginRight={24}>
             <Link href='https://discord.com'>
               <HStack spacing={5}>
