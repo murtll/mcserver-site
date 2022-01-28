@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import {
   ChakraProvider,
   theme,
+  useColorMode,
   Box
 } from '@chakra-ui/react';
 // import { ColorModeSwitcher } from './ColorModeSwitcher';
@@ -12,7 +13,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 function App() {
 
   return (
-    <ChakraProvider theme={theme}>
+    <ChakraProvider>
       <Header/>
       <BrowserRouter>
         <Routes>

@@ -7,21 +7,24 @@ import {
   Flex,
   Button,
   HStack,
+  useColorMode,
   Spacer
 } from '@chakra-ui/react';
 import { FaDiscord } from 'react-icons/fa'
 import MouseTooltip from 'react-sticky-mouse-tooltip';
-// import { ColorModeSwitcher } from '../ColorModeSwitcher';
 
 
 export const Header = () => {
     const [ show, setShow ] = useState(false)
     const [ hoverText, setHoverText ] = useState('Нажми, чтобы скопировать IP')
 
+    const colorMode = useColorMode();
+    colorMode.setColorMode('dark')
+
     const serverIp = '132.226.206.139'
 
     const copyIPToClipboard = () => {
-        navigator.clipboard.writeText(serverIp)
+        navigator.clipboard.writeText(serverIp + ':25565')
         setHoverText('Скопировано!')
         setTimeout(() => {setHoverText('Нажми, чтобы скопировать IP')}, 1000)
     }
@@ -32,15 +35,14 @@ export const Header = () => {
             <Button boxShadow="dark-lg" borderRadius="15" bgColor="#69009B" py="12" px="8" onClick={copyIPToClipboard} onMouseEnter={() => setShow(true)} onMouseLeave={() => setShow(false)}>
               <VStack>
                 <Text color="#FCD9FF" fontFamily="Iosevka Nerd Font" fontWeight="normal" fontSize="24">IP СЕРВЕРА</Text>
-                <Text fontFamily="Iosevka Nerd Font" fontWeight="normal" fontSize="30">{serverIp}</Text>
+                <Text color="#FFFFFF" fontFamily="Iosevka Nerd Font" fontWeight="normal" fontSize="30">{serverIp}</Text>
               </VStack>
             </Button>
 
           <MouseTooltip
           visible={show}
           offsetX={20}
-          offsetY={-40}
-          >
+          offsetY={-40}>
             <Box bg="purple.900" opacity={0.9} padding={2} borderRadius={15}>
               <Text color="#FCD9FF" fontFamily="Iosevka Nerd Font" fontWeight="normal" fontSize="18">{hoverText}</Text>
             </Box>
