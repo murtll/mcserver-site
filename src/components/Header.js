@@ -13,7 +13,6 @@ import {
 import { FaDiscord } from 'react-icons/fa'
 import MouseTooltip from 'react-sticky-mouse-tooltip';
 
-
 export const Header = () => {
     const [ show, setShow ] = useState(false)
     const [ hoverText, setHoverText ] = useState('Нажми, чтобы скопировать IP')
@@ -34,8 +33,8 @@ export const Header = () => {
         <Flex marginLeft={24}>
             <Button boxShadow="dark-lg" borderRadius="15" bgColor="#69009B" py="12" px="8" onClick={copyIPToClipboard} onMouseEnter={() => setShow(true)} onMouseLeave={() => setShow(false)}>
               <VStack>
-                <Text color="#FCD9FF" fontFamily="Iosevka Nerd Font" fontWeight="normal" fontSize="24">IP СЕРВЕРА</Text>
-                <Text color="#FFFFFF" fontFamily="Iosevka Nerd Font" fontWeight="normal" fontSize="30">{serverIp}</Text>
+                <Text color="#FCD9FF" fontFamily="Iosevka" fontWeight="normal" fontSize="24">IP СЕРВЕРА</Text>
+                <Text color="#FFFFFF" fontFamily="Iosevka" fontWeight="normal" fontSize="30">{serverIp}</Text>
               </VStack>
             </Button>
 
@@ -44,16 +43,16 @@ export const Header = () => {
           offsetX={20}
           offsetY={-40}>
             <Box bg="purple.900" opacity={0.9} padding={2} borderRadius={15}>
-              <Text color="#FCD9FF" fontFamily="Iosevka Nerd Font" fontWeight="normal" fontSize="18">{hoverText}</Text>
+              <Text color="#FCD9FF" fontFamily="Iosevka" fontWeight="normal" fontSize="18">{hoverText}</Text>
             </Box>
           </MouseTooltip>
 
           <Spacer></Spacer>
-          <VStack spacing={0}>
+          <VStack spacing={0} _hover={{cursor: 'pointer'}} onClick={() => { window.open('/', '_self') }}>
             <Flex>
               <Text 
               color="#FCD9FF" 
-              fontFamily="Iosevka Nerd Font" 
+              fontFamily="Iosevka" 
               fontWeight="bold" 
               fontSize="48"
               letterSpacing="widest">
@@ -61,24 +60,21 @@ export const Header = () => {
               </Text>
               <Text 
               color="#FF4291" 
-              fontFamily="Iosevka Nerd Font" 
+              fontFamily="Iosevka" 
               fontWeight="bold" 
               fontSize="48" 
               letterSpacing="widest">
                 SQUAD
               </Text>
             </Flex>
-            <Text color="#FCD9FF" fontFamily="Iosevka Nerd Font" fontWeight="normal" fontSize="24" letterSpacing="widest">Minecraft servers</Text>
+            <Text color="#FCD9FF" fontFamily="Iosevka" fontWeight="normal" fontSize="24" letterSpacing="widest">Minecraft servers</Text>
           </VStack>
           <Spacer></Spacer>
-          {/* <ColorModeSwitcher /> */}
           <Flex alignItems="center" marginRight={24}>
-            <Link href='https://discord.com'>
-              <HStack spacing={5}>
+              <HStack spacing={5} _hover={{cursor: 'pointer'}} onClick={() => { window.open('https://discord.com', '_blank') }}>
                 <FaDiscord size={60} color="#A000FF"/>
-                <Text color="#A000FF" fontFamily="Iosevka Nerd Font" fontWeight="normal" fontSize="24" letterSpacing="widest">Обновления</Text>
+                <Text color="#A000FF" fontFamily="Iosevka" fontWeight="normal" fontSize="24" letterSpacing="widest">Обновления</Text>
               </HStack>
-            </Link>
           </Flex>
         </Flex>
       </Box>
