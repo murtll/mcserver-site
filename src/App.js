@@ -14,8 +14,8 @@ function App() {
 
   return (
     <ChakraProvider>
-      <Header/>
       <BrowserRouter>
+      <Header/>
         <Routes>
           <Route path="/" element={<Home/>}></Route>
           <Route path="/cases" element={<Cases/>}></Route>

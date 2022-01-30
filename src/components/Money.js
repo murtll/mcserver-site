@@ -9,7 +9,8 @@ import {
   SimpleGrid
 } from '@chakra-ui/react';
 import '@fontsource/iosevka'
-
+import { Link } from 'react-router-dom'
+import { ItemGrid } from './ItemGrid';
 
 export const Money = () => {
 
@@ -17,25 +18,25 @@ export const Money = () => {
     {
       id: 1,
       picture: '/images/money/money1.png',
-      name: '100 евробаксов',
+      name: '100 гемов',
       price: 60
     },
     {
       id: 2,
       picture: '/images/money/money2.png',
-      name: '500 евробаксов',
+      name: '500 гемов',
       price: 290
     },
     {
       id: 3,
       picture: '/images/money/money3.png',
-      name: '1000 евробаксов',
+      name: '1000 гемов',
       price: 550
     },
     {
       id: 4,
       picture: '/images/money/money4.png',
-      name: '3000 евробаксов',
+      name: '3000 гемов',
       price: 1000
     },
   ]
@@ -45,28 +46,29 @@ export const Money = () => {
     <Box w="100%" bg="#180036">
       <VStack paddingY={100} spacing={61}>
         <HStack spacing={47}>
-        <Button borderRadius="15" bgColor="#69009B" py="12" px="14" onClick={() => { window.open('/cases', '_self') }}>
-              <VStack>
+        <Button borderRadius="15" bgColor="#69009B" py="12" px="14">
+              <Link to="/cases">
                 <Text color="#FCD9FF" fontFamily="Iosevka" fontWeight="normal" fontSize="28">Кейсы с говном</Text>
-              </VStack>
+              </Link>
             </Button>
-            <Button borderRadius="15" bgColor="#69009B" py="12" px="14" onClick={() => { window.open('/privileges', '_self') }}>
-              <VStack>
+            <Button borderRadius="15" bgColor="#69009B" py="12" px="14">
+              <Link to="/privileges">
                 <Text color="#FCD9FF" fontFamily="Iosevka" fontWeight="normal" fontSize="28">При(колы)вилегии</Text>
-              </VStack>
+              </Link>
             </Button>
             <Button borderRadius="15" backgroundColor="#180036" borderWidth={3} borderColor="#69009B" py="12" px="14">
-              <VStack>
+              {/* <VStack> */}
                 <Text color="#FCD9FF" fontFamily="Iosevka" fontWeight="normal" fontSize="28">Сюда донатить</Text>
-              </VStack>
+              {/* </VStack> */}
             </Button>
-            <Button borderRadius="15" bgColor="#69009B" py="12" px="14" onClick={() => { window.open('/bans', '_self') }}>
-              <VStack>
+            <Button borderRadius="15" bgColor="#69009B" py="12" px="14">
+              <Link to="/bans">
                 <Text color="#FCD9FF" fontFamily="Iosevka" fontWeight="normal" fontSize="28">Баны разбаны</Text>
-              </VStack>
+              </Link>
             </Button>
         </HStack>
-        <SimpleGrid columns={4} spacingY={61} spacingX={41}>
+        <ItemGrid items={items} />
+        {/* <SimpleGrid columns={4} spacingY={61} spacingX={41}>
         {items.map((item) => {
             return (<Button height={300} maxWidth={250} backgroundColor="#180036" borderRadius={15} borderWidth={3} borderColor="#69009B" py="12" px="14" alignItems="self-end">
               <VStack spacing={11}>
@@ -78,7 +80,7 @@ export const Money = () => {
               </VStack>
             </Button>)
           })}
-        </SimpleGrid>
+        </SimpleGrid> */}
       </VStack>
     </Box>
   )

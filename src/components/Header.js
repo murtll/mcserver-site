@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import {
   Box,
   Text,
-  Link,
   VStack,
   Flex,
   Button,
@@ -10,9 +9,10 @@ import {
   useColorMode,
   Spacer
 } from '@chakra-ui/react';
-import { FaDiscord } from 'react-icons/fa'
+import { FaDiscord, FaVk } from 'react-icons/fa'
 import MouseTooltip from 'react-sticky-mouse-tooltip';
 import '@fontsource/iosevka'
+import { Link } from 'react-router-dom'
 
 
 export const Header = () => {
@@ -22,7 +22,7 @@ export const Header = () => {
     const colorMode = useColorMode();
     colorMode.setColorMode('dark')
 
-    const serverIp = '132.226.206.139'
+    const serverIp = 'play.mcbrawl.ru'
 
     const copyIPToClipboard = () => {
         navigator.clipboard.writeText(serverIp + ':25565')
@@ -33,7 +33,7 @@ export const Header = () => {
     return (
         <Box bg="#3D005A" p="8">
         <Flex marginLeft={24}>
-            <Button boxShadow="dark-lg" borderRadius="15" bgColor="#69009B" py="12" px="8" onClick={copyIPToClipboard} onMouseEnter={() => setShow(true)} onMouseLeave={() => setShow(false)}>
+            <Button boxShadow="dark-lg" borderRadius="15" bgColor="#69009B" py="14" px="8" onClick={copyIPToClipboard} onMouseEnter={() => setShow(true)} onMouseLeave={() => setShow(false)}>
               <VStack>
                 <Text color="#FCD9FF" fontFamily="Iosevka" fontWeight="normal" fontSize="24">IP СЕРВЕРА</Text>
                 <Text color="#FFFFFF" fontFamily="Iosevka" fontWeight="normal" fontSize="30">{serverIp}</Text>
@@ -50,7 +50,8 @@ export const Header = () => {
           </MouseTooltip>
 
           <Spacer></Spacer>
-          <VStack spacing={0} _hover={{cursor: 'pointer'}} onClick={() => { window.open('/', '_self') }}>
+          <Link to="/">
+          <VStack spacing={0} _hover={{cursor: 'pointer'}}>
             <Flex>
               <Text 
               color="#FCD9FF" 
@@ -71,12 +72,19 @@ export const Header = () => {
             </Flex>
             <Text color="#FCD9FF" fontFamily="Iosevka" fontWeight="normal" fontSize="24" letterSpacing="widest">Minecraft servers</Text>
           </VStack>
+          </Link>
           <Spacer></Spacer>
           <Flex alignItems="center" marginRight={24}>
-              <HStack spacing={5} _hover={{cursor: 'pointer'}} onClick={() => { window.open('https://discord.com', '_blank') }}>
-                <FaDiscord size={60} color="#A000FF"/>
-                <Text color="#A000FF" fontFamily="Iosevka" fontWeight="normal" fontSize="24" letterSpacing="widest">Обновления</Text>
+            <VStack alignItems="start">
+            <HStack spacing={5} _hover={{cursor: 'pointer'}} onClick={() => { window.open('https://discord.com', '_blank') }}>
+                <FaDiscord size={40} color="#A000FF"/>
+                <Text color="#A000FF" fontFamily="Iosevka" fontWeight="normal" fontSize="20" letterSpacing="widest">Discord</Text>
               </HStack>
+              <HStack spacing={5} _hover={{cursor: 'pointer'}} onClick={() => { window.open('https://vk.com/mcbrawl', '_blank') }}>
+                <FaVk size={40} color="#A000FF"/>
+                <Text color="#A000FF" fontFamily="Iosevka" fontWeight="normal" fontSize="20" letterSpacing="widest">ВКонтакте</Text>
+              </HStack>
+            </VStack>
           </Flex>
         </Flex>
       </Box>

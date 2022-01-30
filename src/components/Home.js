@@ -7,6 +7,7 @@ import {
   HStack,
   Image} from '@chakra-ui/react';
 import '@fontsource/iosevka'
+import { Link } from 'react-router-dom';
 
 
 export const Home = () => {
@@ -20,25 +21,25 @@ export const Home = () => {
           <Image src='/images/ded.png' borderRadius="full" boxSize="sm"></Image>
         </HStack>
         <HStack spacing={47}>
-            <Button borderRadius="15" bgColor="#69009B" py="12" px="14" onClick={() => { window.open('/cases', '_self') }}>
-              <VStack>
+            <Button borderRadius="15" bgColor="#69009B" py="12" px="14">
+              <Link to="/cases">
                 <Text color="#FCD9FF" fontFamily="Iosevka" fontWeight="normal" fontSize="28">Кейсы с говном</Text>
-              </VStack>
+              </Link>
             </Button>
-            <Button borderRadius="15" bgColor="#69009B" py="12" px="14" onClick={() => { window.open('/privileges', '_self') }}>
-              <VStack>
+            <Button borderRadius="15" bgColor="#69009B" py="12" px="14">
+              <Link to="/privileges">
                 <Text color="#FCD9FF" fontFamily="Iosevka" fontWeight="normal" fontSize="28">При(колы)вилегии</Text>
-              </VStack>
+              </Link>
             </Button>
-            <Button borderRadius="15" bgColor="#69009B" py="12" px="14" onClick={() => { window.open('/money', '_self') }}>
-              <VStack>
+            <Button borderRadius="15" bgColor="#69009B" py="12" px="14">
+              <Link to="/money">
                 <Text color="#FCD9FF" fontFamily="Iosevka" fontWeight="normal" fontSize="28">Сюда донатить</Text>
-              </VStack>
+              </Link>
             </Button>
             <Button borderRadius="15" bgColor="#69009B" py="12" px="14" onClick={() => { window.open('/bans', '_self') }}>
-              <VStack>
+              <Link to="/bans">
                 <Text color="#FCD9FF" fontFamily="Iosevka" fontWeight="normal" fontSize="28">Баны разбаны</Text>
-              </VStack>
+              </Link>
             </Button>
         </HStack>
         {/* <SimpleGrid columns={2} spacingY={61} spacingX={41}>
