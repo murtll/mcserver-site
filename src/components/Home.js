@@ -8,6 +8,7 @@ import {
   Image} from '@chakra-ui/react';
 import '@fontsource/iosevka'
 import { Link } from 'react-router-dom';
+import { Categories } from './Categories';
 
 
 export const Home = () => {
@@ -20,7 +21,8 @@ export const Home = () => {
           </Text>
           <Image src='/images/ded.png' borderRadius="full" boxSize="sm"></Image>
         </HStack>
-        <HStack spacing={47}>
+        <Categories />
+        {/* <HStack spacing={47}>
             <Button borderRadius="15" bgColor="#69009B" py="12" px="14">
               <Link to="/cases">
                 <Text color="#FCD9FF" fontFamily="Iosevka" fontWeight="normal" fontSize="28">Кейсы с говном</Text>
@@ -41,7 +43,7 @@ export const Home = () => {
                 <Text color="#FCD9FF" fontFamily="Iosevka" fontWeight="normal" fontSize="28">Баны разбаны</Text>
               </Link>
             </Button>
-        </HStack>
+        </HStack> */}
         {/* <SimpleGrid columns={2} spacingY={61} spacingX={41}>
           {items.map((item) => {
             return (<Box height={300} maxWidth={250} backgroundColor="#180036" borderRadius={15} borderWidth={3} borderColor="#69009B" py="12" px="14">

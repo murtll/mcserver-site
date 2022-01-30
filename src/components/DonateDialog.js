@@ -3,7 +3,6 @@ import {
     ModalOverlay,
     ModalContent,
     ModalHeader,
-    ModalFooter,
     ModalBody,
     ModalCloseButton,
     Image,
@@ -22,12 +21,12 @@ export const DonateDialog = ({donateItem, isOpen, onClose}) => {
         <Modal onClose={onClose} isOpen={isOpen} isCentered>
         <ModalOverlay />
         <ModalContent bgColor="#180036" borderRadius={15} maxWidth={700} fontFamily="Iosevka">
-          <ModalHeader alignSelf="center">{donateItem.name}</ModalHeader>
+          <ModalHeader fontSize={24} alignSelf="center">{donateItem.name}</ModalHeader>
           <ModalCloseButton />
           <ModalBody margin={10}>
               <HStack spacing={31}>
                   <VStack spacing={21}>
-                    <Image src={donateItem.picture} maxHeight={300} />
+                    <Image src={donateItem.picture} maxHeight={300} maxWidth={300} />
                     <Text>{donateItem.description}</Text>
                   </VStack>
                 <form>

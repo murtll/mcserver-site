@@ -11,6 +11,7 @@ import {
 import '@fontsource/iosevka'
 import { Link } from 'react-router-dom'
 import { ItemGrid } from './ItemGrid';
+import { Categories } from './Categories';
 
 
 export const Bans = () => {
@@ -34,8 +35,9 @@ export const Bans = () => {
   return (
     <Box w="100%" bg="#180036">
       <VStack paddingY={100} spacing={61}>
-        <HStack spacing={47}>
-        <Button borderRadius="15" bgColor="#69009B" py="12" px="14">
+        <Categories />
+        {/* <HStack spacing={47}> */}
+        {/* <Button borderRadius="15" bgColor="#69009B" py="12" px="14">
               <Link to="/cases">
                 <Text color="#FCD9FF" fontFamily="Iosevka" fontWeight="normal" fontSize="28">Кейсы с говном</Text>
               </Link>
@@ -51,11 +53,9 @@ export const Bans = () => {
               </Link>
             </Button>
             <Button borderRadius="15" backgroundColor="#180036" borderWidth={3} borderColor="#69009B" py="12" px="14">
-              {/* <VStack> */}
                 <Text color="#FCD9FF" fontFamily="Iosevka" fontWeight="normal" fontSize="28">Баны разбаны</Text>
-              {/* </VStack> */}
             </Button>
-        </HStack>
+        </HStack> */}
         <ItemGrid items={items} />
         {/* <SimpleGrid columns={2} spacingY={61} spacingX={41}>
         {items.map((item) => {

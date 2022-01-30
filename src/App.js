@@ -1,7 +1,6 @@
 import React from 'react';
 import {
   ChakraProvider} from '@chakra-ui/react';
-// import { ColorModeSwitcher } from './ColorModeSwitcher';
 import { Header } from './components/Header'
 import { Cases } from './components/Cases'
 import { Privileges } from './components/Privileges'

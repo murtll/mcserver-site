@@ -1,19 +1,11 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
   Box,
-  Text,
-  VStack,
-  Button,
-  HStack,
-  Image,
-  Flex,
-  SimpleGrid,
-  useDisclosure
-} from '@chakra-ui/react';
+  Code,
+  VStack} from '@chakra-ui/react';
 import '@fontsource/iosevka'
-import { Link } from 'react-router-dom'
-import { DonateDialog } from './DonateDialog';
 import { ItemGrid } from './ItemGrid';
+import { Categories } from './Categories';
 
 export const Privileges = () => {
 
@@ -64,8 +56,14 @@ export const Privileges = () => {
       id: 4,
       picture: '/images/privileges/leon.png',
       name: 'Леон',
-      description: 'Это Леон, как Пабло, но еще круче',
-      price: 899
+      description: <ul>
+        <li>Префикс Леон в чате/табе/над головой</li>
+        <li>Набор Леон - <Code borderRadius={5}>/kit leon</Code></li>
+        <li>+35 дополнительных слотов на аукционе</li>
+        <li>+40 доступных точек дома</li>
+        <li>40 регионов для привата</li>
+      </ul>,
+      price: 1250
     },
     {
       id: 4,
@@ -76,50 +74,11 @@ export const Privileges = () => {
     }
   ]
 
-  // const { isOpen, onOpen, onClose } = useDisclosure()
-  // const [ currentItem, setCurrentItem ] = useState(items[0])
-
   return (
     <Box width="full" bg="#180036">
       <VStack paddingY={100} spacing={61}>
-        <HStack spacing={47}>
-        <Button borderRadius="15" bgColor="#69009B" py="12" px="14">
-              <Link to="/cases">
-                <Text color="#FCD9FF" fontFamily="Iosevka" fontWeight="normal" fontSize="28">Кейсы с говном</Text>
-              </Link>
-            </Button>
-            <Button borderRadius="15" backgroundColor="#180036" borderWidth={3} borderColor="#69009B" py="12" px="14">
-              {/* <Link to="/privileges"> */}
-                <Text color="#FCD9FF" fontFamily="Iosevka" fontWeight="normal" fontSize="28">При(колы)вилегии</Text>
-              {/* </Link> */}
-            </Button>
-            <Button borderRadius="15" bgColor="#69009B" py="12" px="14">
-              <Link to="/money">
-                <Text color="#FCD9FF" fontFamily="Iosevka" fontWeight="normal" fontSize="28">Сюда донатить</Text>
-              </Link>
-            </Button>
-            <Button borderRadius="15" bgColor="#69009B" py="12" px="14">
-              <Link to="/bans">
-                <Text color="#FCD9FF" fontFamily="Iosevka" fontWeight="normal" fontSize="28">Баны разбаны</Text>
-              </Link>
-            </Button>
-        </HStack>
+        <Categories/>
         <ItemGrid items={items} />
-        {/* <DonateDialog donateItem={currentItem} isOpen={isOpen} onClose={onClose}/>
-        <SimpleGrid columns={4} spacingY={61} spacingX={41}>
-          {items.map((item) => {
-            return (
-            <Button height={300} maxWidth={250} backgroundColor="#180036" borderRadius={15} borderWidth={3} borderColor="#69009B" py="12" px="14" alignItems="self-end" onClick={() => { setCurrentItem(item) ;onOpen() }}>
-              <VStack spacing={11}>
-                <Image maxHeight={150} src={item.picture}/>
-                <Text color="#FCD9FF" fontFamily="Iosevka" fontWeight="normal" fontSize="20" textAlign="center">{item.name}</Text>
-                <Box paddingX={12} paddingY={2} backgroundColor="#69009B" borderRadius={15} px="8">
-                  <Text color="#FCD9FF" fontFamily="Iosevka" fontWeight="normal" fontSize="20" textAlign="center">{item.price}₽</Text>
-                </Box>
-              </VStack>
-            </Button>)
-          })}
-        </SimpleGrid> */}
       </VStack>
     </Box>
   )

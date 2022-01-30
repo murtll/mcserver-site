@@ -8,6 +8,7 @@ import {
 import '@fontsource/iosevka'
 import { Link } from 'react-router-dom'
 import { ItemGrid } from './ItemGrid';
+import { Categories } from './Categories';
 
 export const Cases = () => {
 
@@ -46,11 +47,10 @@ export const Cases = () => {
   return (
     <Box w="100%" bg="#180036">
       <VStack paddingY={100} spacing={61}>
-        <HStack spacing={47}>
+        <Categories/>
+        {/* <HStack spacing={47}>
         <Button borderRadius="15" backgroundColor="#180036" borderWidth={3} borderColor="#69009B" py="12" px="14">
-              {/* <Link> */}
                 <Text color="#FCD9FF" fontFamily="Iosevka" fontWeight="normal" fontSize="28">Кейсы с говном</Text>
-              {/* </Link> */}
             </Button>
             <Button borderRadius="15" bgColor="#69009B" py="12" px="14">
               <Link to="/privileges">
@@ -67,7 +67,7 @@ export const Cases = () => {
                 <Text color="#FCD9FF" fontFamily="Iosevka" fontWeight="normal" fontSize="28">Баны разбаны</Text>
               </Link>
             </Button>
-        </HStack>
+        </HStack> */}
         <ItemGrid items={items} />
         {/* <SimpleGrid columns={4} spacingY={61} spacingX={41}>
         {items.map((item) => {
