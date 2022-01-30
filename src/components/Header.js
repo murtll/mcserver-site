@@ -12,6 +12,8 @@ import {
 } from '@chakra-ui/react';
 import { FaDiscord } from 'react-icons/fa'
 import MouseTooltip from 'react-sticky-mouse-tooltip';
+import '@fontsource/iosevka'
+
 
 export const Header = () => {
     const [ show, setShow ] = useState(false)
@@ -54,17 +56,17 @@ export const Header = () => {
               color="#FCD9FF" 
               fontFamily="Iosevka" 
               fontWeight="bold" 
-              fontSize="48"
+              fontSize="50"
               letterSpacing="widest">
-                ITMO.
+                BRAWL
               </Text>
               <Text 
               color="#FF4291" 
               fontFamily="Iosevka" 
               fontWeight="bold" 
-              fontSize="48" 
+              fontSize="50" 
               letterSpacing="widest">
-                SQUAD
+                CRAFT
               </Text>
             </Flex>
             <Text color="#FCD9FF" fontFamily="Iosevka" fontWeight="normal" fontSize="24" letterSpacing="widest">Minecraft servers</Text>
