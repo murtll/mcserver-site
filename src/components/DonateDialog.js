@@ -15,8 +15,12 @@ import {
     Input
   } from '@chakra-ui/react'
 import '@fontsource/iosevka'
+import parse from 'html-react-parser'
+import config from '../config'
 
 export const DonateDialog = ({donateItem, isOpen, onClose}) => {
+    const apiUrl = config.apiUrl
+
     return (
         <Modal onClose={onClose} isOpen={isOpen} isCentered>
         <ModalOverlay />
@@ -26,8 +30,8 @@ export const DonateDialog = ({donateItem, isOpen, onClose}) => {
           <ModalBody margin={10}>
               <HStack spacing={31}>
                   <VStack spacing={21}>
-                    <Image src={donateItem.picture} maxHeight={300} maxWidth={300} />
-                    <Text>{donateItem.description}</Text>
+                    <Image src={`${apiUrl}${donateItem.picture}`} maxHeight={300} maxWidth={300} />
+                    <Text>{() => {if (donateItem.description) return parse(donateItem.description)}}</Text>
                   </VStack>
                 <form>
                     <FormControl width="full" isRequired>

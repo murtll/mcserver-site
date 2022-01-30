@@ -1,28 +1,24 @@
 import { HStack, Button, Text } from "@chakra-ui/react"
 import { Link } from "react-router-dom"
+import config from "../config"
+import { useEffect, useState } from "react"
+import axios from "axios"
+import { cache } from "../utils/GlobalCache"
 
 export const Categories = () => {
 
-    const categories = [
-        {
-            name: 'Кейсы',
-            link: '/cases'
-        },
-        {
-            name: 'Привилегии',
-            link: '/privileges'
-        },
-        {
-            name: 'Гемы',
-            link: '/money'
-        },
-        {
-            name: 'Разбаны',
-            link: '/bans'
-        },
-    ]
-
-    return (
+    const [categories, setCategories] = useState(cache.categories)
+    const apiUrl = config.apiUrl
+  
+    useEffect(() => {
+      axios.get(`${apiUrl}/categories`).then((res) => {
+        console.log(res)
+        cache.categories = res.data
+        setCategories(res.data)
+      })
+    }, [setCategories, apiUrl])
+  
+    if (categories.length > 0) return (
         <HStack spacing={47}>
             {
                 categories.map((category) => {
@@ -42,4 +38,5 @@ export const Categories = () => {
             }
     </HStack>
     )
+    else return (<></>)
 }
