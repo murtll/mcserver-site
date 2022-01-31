@@ -8,11 +8,12 @@ import {
     Image,
     Button,
     Text,
-    HStack,
+    Flex,
     VStack,
     FormControl,
     FormLabel,
-    Input
+    Input,
+    Spacer
   } from '@chakra-ui/react'
 import '@fontsource/iosevka'
 import parse from 'html-react-parser'
@@ -22,19 +23,20 @@ export const DonateDialog = ({donateItem, isOpen, onClose}) => {
     const apiUrl = config.apiUrl
 
     return (
-        <Modal onClose={onClose} isOpen={isOpen} isCentered>
+        <Modal onClose={onClose} isOpen={isOpen} scrollBehavior='inside' isCentered>
         <ModalOverlay />
-        <ModalContent bgColor="#180036" borderRadius={15} maxWidth={700} fontFamily="Iosevka">
+        <ModalContent bgColor="#180036" borderRadius={15} maxWidth={{base: 400, md: 700}} fontFamily="Iosevka">
           <ModalHeader fontSize={24} alignSelf="center">{donateItem.name}</ModalHeader>
           <ModalCloseButton />
           <ModalBody margin={10}>
-              <HStack spacing={31}>
-                  <VStack spacing={21}>
-                    <Image src={`${apiUrl}${donateItem.picture}`} maxHeight={300} maxWidth={300} />
+              <Flex direction={{base: 'column', md: 'row'}} alignItems={{base: 'initial', md: 'start'}}>
+                  <VStack spacing={21} alignItems='center'>
+                    <Image alignSelf='center' src={`${apiUrl}${donateItem.picture}`} maxHeight={300} maxWidth={300} />
                     <Text>{donateItem.description ? parse(donateItem.description) : ''}</Text>
                   </VStack>
+                  <Spacer minWidth={10}></Spacer>
                 <form>
-                    <FormControl width="full" isRequired>
+                    <FormControl paddingTop={{base: 8, md: 0}} width="full" isRequired>
                         <FormLabel>Ник в игре</FormLabel>
                         <Input borderRadius={10} borderWidth={2} _placeholder={{ color: 'purple.400' }} type="text" placeholder="Nickname" />
                     </FormControl>
@@ -46,7 +48,7 @@ export const DonateDialog = ({donateItem, isOpen, onClose}) => {
                         Купить за {donateItem.price}₽
                     </Button>
                 </form>
-            </HStack>
+            </Flex>
           </ModalBody>
           {/* <ModalFooter>
             <Button>Оплатить</Button>

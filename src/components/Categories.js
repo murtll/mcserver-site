@@ -1,4 +1,4 @@
-import { HStack, Button, Text } from "@chakra-ui/react"
+import { HStack, Button, Text, Flex, Spacer } from "@chakra-ui/react"
 import { Link } from "react-router-dom"
 import config from "../config"
 import { useEffect, useState } from "react"
@@ -19,24 +19,27 @@ export const Categories = () => {
     }, [setCategories, apiUrl])
   
     if (categories.length > 0) return (
-        <HStack spacing={47}>
+        <Flex direction={{base: 'column', md: 'row'}} alignItems={{base: 'center'}}>
             {
                 categories.map((category) => {
-                    if (window.location.pathname === category.link) return (
+                    if (window.location.pathname === category.link) return ( <>
                         <Button borderRadius="15" backgroundColor="#180036" borderWidth={3} borderColor="#69009B" py="12" px="14">
                             <Text color="#FCD9FF" fontFamily="Iosevka" fontWeight="normal" fontSize="28">{category.name}</Text>
-                        </Button>          
+                        </Button>
+                        <Spacer minHeight={10} minWidth={47} /></>
                     )
-                    else return (
+                    else return (<>
                         <Link to={category.link}>
                             <Button borderRadius="15" bgColor="#69009B" py="12" px="14">
                                 <Text color="#FCD9FF" fontFamily="Iosevka" fontWeight="normal" fontSize="28">{category.name}</Text>
                             </Button>
                         </Link>
+                        <Spacer minHeight={10} minWidth={47} />
+                        </>
                     )
                 })
             }
-    </HStack>
+    </Flex>
     )
     else return (<></>)
 }

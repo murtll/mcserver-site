@@ -22,7 +22,7 @@ export const ItemGrid = ({items}) => {
     return (
         <>
         <DonateDialog donateItem={currentItem} isOpen={isOpen} onClose={onClose}/>
-        <SimpleGrid columns={4} spacingY={61} spacingX={41}>
+        <SimpleGrid columns={{base: 1, md: 4}} spacingY={61} spacingX={41}>
           {items.map((item) => {
             return (
             <Button height={300} maxWidth={250} backgroundColor="#180036" borderRadius={15} borderWidth={3} borderColor="#69009B" py="12" px="14" alignItems="self-end" onClick={() => { setCurrentItem(item) ;onOpen() }}>

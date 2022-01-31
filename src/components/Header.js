@@ -31,9 +31,9 @@ export const Header = () => {
     }
 
     return (
-        <Box bg="#3D005A" p="8">
-        <Flex marginLeft={24}>
-            <Button boxShadow="dark-lg" borderRadius="15" bgColor="#69009B" py="14" px="8" onClick={copyIPToClipboard} onMouseEnter={() => setShow(true)} onMouseLeave={() => setShow(false)}>
+        // <Flex bg="#3D005A" p="8">
+        <Flex paddingLeft={{base: 0, md: 24}} bg="#3D005A" paddingY={8} direction={{base: 'column', md: 'row'}}>
+            <Button alignSelf="center" maxWidth={[270, 300, 400]} boxShadow="dark-lg" borderRadius="15" bgColor="#69009B" paddingY={14} paddingX={8} onClick={copyIPToClipboard} onMouseEnter={() => setShow(true)} onMouseLeave={() => setShow(false)}>
               <VStack>
                 <Text color="#FCD9FF" fontFamily="Iosevka" fontWeight="normal" fontSize="24">IP СЕРВЕРА</Text>
                 <Text color="#FFFFFF" fontFamily="Iosevka" fontWeight="normal" fontSize="30">{serverIp}</Text>
@@ -51,7 +51,7 @@ export const Header = () => {
 
           <Spacer></Spacer>
           <Link to="/">
-          <VStack spacing={0} _hover={{cursor: 'pointer'}}>
+          <VStack padding={{base: 10, md: 0}} spacing={0} _hover={{cursor: 'pointer'}}>
             <Flex>
               <Text 
               color="#FCD9FF" 
@@ -74,19 +74,20 @@ export const Header = () => {
           </VStack>
           </Link>
           <Spacer></Spacer>
-          <Flex alignItems="center" marginRight={24}>
-            <VStack alignItems="start">
-            <HStack spacing={5} _hover={{cursor: 'pointer'}} onClick={() => { window.open('https://discord.com', '_blank') }}>
+
+          <Flex marginBottom={{base: 12, md: 0}} marginTop={{base: 0, md: 4}} marginRight={{base: 0, md: 24}} alignSelf={{base: 'center', md: 'start'}} alignItems={{base: 'center', md: 'start'}} direction={{base: 'row', md: 'column'}}>
+            {/* <VStack alignItems={{base: "center", md: "start"}}> */}
+            <HStack marginRight={{base: 5, md: 0}} spacing={{base: 2, md: 5}} _hover={{cursor: 'pointer'}} onClick={() => { window.open('https://discord.com', '_blank') }}>
                 <FaDiscord size={40} color="#A000FF"/>
                 <Text color="#A000FF" fontFamily="Iosevka" fontWeight="normal" fontSize="20" letterSpacing="widest">Discord</Text>
               </HStack>
-              <HStack spacing={5} _hover={{cursor: 'pointer'}} onClick={() => { window.open('https://vk.com/mcbrawl', '_blank') }}>
+              <HStack spacing={{base: 2, md: 5}} _hover={{cursor: 'pointer'}} onClick={() => { window.open('https://vk.com/mcbrawl', '_blank') }}>
                 <FaVk size={40} color="#A000FF"/>
                 <Text color="#A000FF" fontFamily="Iosevka" fontWeight="normal" fontSize="20" letterSpacing="widest">ВКонтакте</Text>
               </HStack>
-            </VStack>
+            {/* </VStack> */}
           </Flex>
         </Flex>
-      </Box>
+      // </Box>
     )
 }

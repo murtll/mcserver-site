@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  ChakraProvider} from '@chakra-ui/react';
+  ChakraProvider, extendTheme, theme} from '@chakra-ui/react';
 import { Header } from './components/Header'
 import { Cases } from './components/Cases'
 import { Privileges } from './components/Privileges'
@@ -8,11 +8,28 @@ import { Money } from './components/Money'
 import { Home } from './components/Home'
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { Bans } from './components/Bans';
+import { mode } from "@chakra-ui/theme-tools"
+
 
 function App() {
 
+  const customTheme = extendTheme({
+    ...theme,
+    config: {
+      initialColorMode: "dark",
+      useSystemColorMode: false,
+    },
+    styles: {
+      global: (props) => ({
+        body: {
+          bg: mode('#180036', '#180036')(props)
+        }
+      })
+    }
+  })
+
   return (
-    <ChakraProvider>
+    <ChakraProvider resetCSS theme={customTheme}>
       <BrowserRouter>
       <Header/>
         <Routes>
