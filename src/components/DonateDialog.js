@@ -31,7 +31,7 @@ export const DonateDialog = ({donateItem, isOpen, onClose}) => {
           <ModalBody margin={10}>
               <Flex direction={{base: 'column', md: 'row'}} alignItems={{base: 'initial', md: 'start'}}>
                   <VStack spacing={21} alignItems='center'>
-                    <Image alignSelf='center' src={`${apiUrl}${donateItem.picture}`} maxHeight={300} maxWidth={300} />
+                    <Image alignSelf='center' src={`${apiUrl}${donateItem.picture}`} maxHeight={{ base:200, md: 300 }} maxWidth={{ base:200, md: 300 }} />
                     <Text>{donateItem.description ? parse(donateItem.description) : ''}</Text>
                   </VStack>
                   <Spacer minWidth={10}></Spacer>

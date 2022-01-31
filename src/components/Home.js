@@ -15,14 +15,16 @@ import { Categories } from './Categories';
 export const Home = () => {
   return (
     <Box w="100%" bg="#180036">
-      <VStack paddingY={100} spacing={61}>
-        <Flex maxWidth={900} direction={{base: 'column', md: 'row'}}>
-          <Text color="#FCD9FF" fontFamily="Iosevka" fontWeight="normal" fontSize="24" alignSelf='center' textAlign={{base: 'center', md: 'start'}} paddingX={{base: 12, md: 0}}>
+      <VStack paddingY={{base: 0, lg: 100}} spacing={61}>
+        <Flex alignItems={{base: "center", lg: 'start'}} maxWidth={1900} direction={{base: 'column-reverse', lg: 'row'}}>
+          <Text position={{base: '', lg: "absolute"}} letterSpacing="widest" color="#FCD9FF" opacity={{base: 1, lg: 0.8}} fontFamily="Iosevka" fontWeight={{ base: 'normal', lg: 'bold' }} fontStyle='italic' fontSize={{ base: 24, xl: 28 }} alignSelf={{base: 'center', lg: 'center'}} textAlign={{base: 'center', lg: 'start'}} paddingX={50} paddingY={{base: 0, lg: 170}} maxWidth={{ base: 700, lg: 600 }}>
             Всем привет играйте на нашем серваке и донатьте деньги если не будете донатить будем банить и требовать деньги за разбан все всем пока.
+            <br/><br/>
+            - Большие Админы
           </Text>
-          <Image paddingTop={{base: 12, md: 0}} alignSelf={{base: 'center', md: 'end'}} src='/images/ded.png' borderRadius="full" boxSize="sm"></Image>
+          <Image paddingTop={{base: 12, lg: 0}} paddingLeft={{base: 0, lg: 500}} alignSelf={{base: 'center', lg: 'flex-end'}} src='/images/ded.png'></Image>
         </Flex>
-        <Categories />
+       <Categories />
       </VStack>
     </Box>
   )

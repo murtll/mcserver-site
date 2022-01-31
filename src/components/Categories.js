@@ -23,18 +23,18 @@ export const Categories = () => {
             {
                 categories.map((category) => {
                     if (window.location.pathname === category.link) return ( <>
-                        <Button borderRadius="15" backgroundColor="#180036" borderWidth={3} borderColor="#69009B" py="12" px="14">
-                            <Text color="#FCD9FF" fontFamily="Iosevka" fontWeight="normal" fontSize="28">{category.name}</Text>
+                        <Button borderRadius="15" backgroundColor="#180036" borderWidth={3} borderColor="#69009B" py={{base: 12, md: 8, lg: 12}} px={{base: 14, md: 10, lg: 14}}>
+                            <Text color="#FCD9FF" fontFamily="Iosevka" fontWeight="normal" fontSize={{base: 24, md: 20, lg: 24}}>{category.name}</Text>
                         </Button>
-                        <Spacer minHeight={10} minWidth={47} /></>
+                        <Spacer minHeight={10} minWidth={{base: 47, md: 15, lg: 47}} /></>
                     )
                     else return (<>
                         <Link to={category.link}>
-                            <Button borderRadius="15" bgColor="#69009B" py="12" px="14">
-                                <Text color="#FCD9FF" fontFamily="Iosevka" fontWeight="normal" fontSize="28">{category.name}</Text>
+                            <Button borderRadius="15" bgColor="#69009B" py={{base: 12, md: 8, lg: 12}} px={{base: 14, md: 10, lg: 14}}>
+                                <Text color="#FCD9FF" fontFamily="Iosevka" fontWeight="normal" fontSize={{base: 24, md: 20, lg: 24}}>{category.name}</Text>
                             </Button>
                         </Link>
-                        <Spacer minHeight={10} minWidth={47} />
+                        <Spacer minHeight={10} minWidth={{base: 47, md: 15, lg: 47}} />
                         </>
                     )
                 })

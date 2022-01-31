@@ -28,6 +28,8 @@ function App() {
     }
   })
 
+  console.log(theme)
+
   return (
     <ChakraProvider resetCSS theme={customTheme}>
       <BrowserRouter>

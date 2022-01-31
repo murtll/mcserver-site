@@ -32,7 +32,7 @@ export const Header = () => {
 
     return (
         // <Flex bg="#3D005A" p="8">
-        <Flex paddingLeft={{base: 0, md: 24}} bg="#3D005A" paddingY={8} direction={{base: 'column', md: 'row'}}>
+        <Flex paddingBottom={{base: 0, md: 8}} paddingTop={{base: 8, md: 8}} paddingX={{base: 0, md: 0, lg: 24}} bg="#3D005A" direction={{base: 'column', md: 'row'}}>
             <Button alignSelf="center" maxWidth={[270, 300, 400]} boxShadow="dark-lg" borderRadius="15" bgColor="#69009B" paddingY={14} paddingX={8} onClick={copyIPToClipboard} onMouseEnter={() => setShow(true)} onMouseLeave={() => setShow(false)}>
               <VStack>
                 <Text color="#FCD9FF" fontFamily="Iosevka" fontWeight="normal" fontSize="24">IP СЕРВЕРА</Text>
@@ -57,7 +57,7 @@ export const Header = () => {
               color="#FCD9FF" 
               fontFamily="Iosevka" 
               fontWeight="bold" 
-              fontSize="50"
+              fontSize={{ base: 50, xl: 60 }}
               letterSpacing="widest">
                 BRAWL
               </Text>
@@ -65,7 +65,7 @@ export const Header = () => {
               color="#FF4291" 
               fontFamily="Iosevka" 
               fontWeight="bold" 
-              fontSize="50" 
+              fontSize={{ base: 50, xl: 60 }}
               letterSpacing="widest">
                 CRAFT
               </Text>
@@ -75,7 +75,7 @@ export const Header = () => {
           </Link>
           <Spacer></Spacer>
 
-          <Flex marginBottom={{base: 12, md: 0}} marginTop={{base: 0, md: 4}} marginRight={{base: 0, md: 24}} alignSelf={{base: 'center', md: 'start'}} alignItems={{base: 'center', md: 'start'}} direction={{base: 'row', md: 'column'}}>
+          <Flex marginBottom={{base: 12, md: 0}} marginTop={{base: 0, md: 4}} marginRight={{base: 0, md: 0, lg: 24}} alignSelf={{base: 'center', md: 'start'}} alignItems={{base: 'center', md: 'start'}} direction={{base: 'row', md: 'column'}}>
             {/* <VStack alignItems={{base: "center", md: "start"}}> */}
             <HStack marginRight={{base: 5, md: 0}} spacing={{base: 2, md: 5}} _hover={{cursor: 'pointer'}} onClick={() => { window.open('https://discord.com', '_blank') }}>
                 <FaDiscord size={40} color="#A000FF"/>
