@@ -1,5 +1,5 @@
 const config = {
-    apiUrl: 'http://mcserver-backend:3001'
+    apiUrl: 'https://mcbrawl.ru:3002'
 }
 
 export default config

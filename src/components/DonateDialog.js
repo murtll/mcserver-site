@@ -31,7 +31,7 @@ export const DonateDialog = ({donateItem, isOpen, onClose}) => {
               <HStack spacing={31}>
                   <VStack spacing={21}>
                     <Image src={`${apiUrl}${donateItem.picture}`} maxHeight={300} maxWidth={300} />
-                    <Text>{() => {if (donateItem.description) return parse(donateItem.description)}}</Text>
+                    <Text>{donateItem.description ? parse(donateItem.description) : ''}</Text>
                   </VStack>
                 <form>
                     <FormControl width="full" isRequired>
