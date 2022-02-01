@@ -1,4 +1,4 @@
-import { HStack, Button, Text, Flex, Spacer } from "@chakra-ui/react"
+import { Button, Text, Flex, Spacer } from "@chakra-ui/react"
 import { Link } from "react-router-dom"
 import config from "../config"
 import { useEffect, useState } from "react"

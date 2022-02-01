@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Box,
   Text,
@@ -13,7 +13,7 @@ import { FaDiscord, FaVk } from 'react-icons/fa'
 import MouseTooltip from 'react-sticky-mouse-tooltip';
 import '@fontsource/iosevka'
 import { Link } from 'react-router-dom'
-
+import WebFont from 'webfontloader';
 
 export const Header = () => {
     const [ show, setShow ] = useState(false)
@@ -29,6 +29,14 @@ export const Header = () => {
         setHoverText('Скопировано!')
         setTimeout(() => {setHoverText('Нажми, чтобы скопировать IP')}, 1000)
     }
+
+    useEffect(() => {
+      WebFont.load({
+        google: {
+          families: ['Love Ya Like A Sister']
+        }
+      })
+    }, [])
 
     return (
         // <Flex bg="#3D005A" p="8">
@@ -55,7 +63,7 @@ export const Header = () => {
             <Flex>
               <Text 
               color="#FCD9FF" 
-              fontFamily="Iosevka" 
+              fontFamily="Love Ya Like A Sister" 
               fontWeight="bold" 
               fontSize={{ base: 50, xl: 60 }}
               letterSpacing="widest">
@@ -63,7 +71,7 @@ export const Header = () => {
               </Text>
               <Text 
               color="#FF4291" 
-              fontFamily="Iosevka" 
+              fontFamily="Love Ya Like A Sister" 
               fontWeight="bold" 
               fontSize={{ base: 50, xl: 60 }}
               letterSpacing="widest">

@@ -1,15 +1,16 @@
 import React from 'react';
 import {
   ChakraProvider, extendTheme, theme} from '@chakra-ui/react';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { mode } from "@chakra-ui/theme-tools"
+
+import { Bans } from './components/Bans';
 import { Header } from './components/Header'
 import { Cases } from './components/Cases'
 import { Privileges } from './components/Privileges'
 import { Money } from './components/Money'
 import { Home } from './components/Home'
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import { Bans } from './components/Bans';
-import { mode } from "@chakra-ui/theme-tools"
-
+import { Footer } from './components/Footer'
 
 function App() {
 
@@ -42,6 +43,7 @@ function App() {
           <Route path="/bans" element={<Bans/>}></Route>
         </Routes>
       </BrowserRouter>
+      <Footer />
     </ChakraProvider>
   );
 }
