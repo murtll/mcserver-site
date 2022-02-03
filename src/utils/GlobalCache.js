@@ -2,6 +2,7 @@ export const cache = {
     categories: [],
     cases: [],
     privileges: [],
-    donates: [],
-    bans: []
+    money: [],
+    bans: [],
+    items: []
 }

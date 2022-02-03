@@ -3,9 +3,9 @@ import '@fontsource/iosevka'
 
 export const Footer = () => {
     return (
-        <Flex w='full' bg="#2D115A" paddingX={100} paddingY={35} alignItems='center' direction='column' fontFamily='Iosevka'>
+        <Flex w='full' bg="#2D115A" paddingX={100} paddingY={35} alignItems='center' direction='column' fontFamily='Iosevka' textAlign='center'>
             <Image src='/images/payments.png' maxWidth={{base: 300, md: 500}} marginBottom={30}></Image>
-            <Text textAlign='center'>
+            <Text>
                 Copyright © BrawlCraft 2022. Все права защищены. Сервер BrawlCraft никак не относится к Mojang, AB.
             </Text>
             <Flex marginTop={15} direction={{base: 'column', md: 'row'}} alignItems='center'>
