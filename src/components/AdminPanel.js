@@ -19,13 +19,17 @@ import {
     ModalBody,
     ModalCloseButton,
     useDisclosure,
+    Menu, 
+    MenuButton,
+    MenuList,
+    MenuItem,
 } from "@chakra-ui/react"
 import { useState, useEffect } from "react"
 import config from '../config'
 import { cache } from '../utils/GlobalCache'
 import { GoTrashcan, GoPencil, GoPlus, } from 'react-icons/go'
 import axios from "axios"
-import { FaPlus } from "react-icons/fa"
+import { FaPlus, FaChevronDown } from "react-icons/fa"
 import '@fontsource/iosevka'
 import parse from 'html-react-parser'
 
@@ -185,11 +189,58 @@ const EditDialog = ({item, isOpen, onClose, reload}) => {
     const [editedItem, setEditedItem] = useState()
     const [loading, setLoading] = useState('initial')
 
-    var adminKey = null
+    const [imageList, setImageList] = useState(cache.imageList)
+    const [uploadingImage, setUploadingImage] = useState('initial')
+    const [adminKey, setAdminKey] = useState()
+    const [newImage, setNewImage] = useState()
+
 
     useEffect(() => {
         setEditedItem(item)
     }, [item])
+
+    const loadImages = () => {
+        axios.get(`${apiUrl}/admin/images`).then((res) => {
+            console.log(res)
+            cache.imageList = res.data
+            setImageList(res.data)
+          })
+    }
+
+    const uploadNewImage = (e) => {
+        e.preventDefault()
+        setUploadingImage('loading')
+        const formData = new FormData();
+        console.log(newImage);
+        formData.append('picture', newImage)
+        formData.append('category_id', item.category_id)
+        const config = {
+            headers: {
+                'content-type': 'multipart/form-data',
+                'authorization': adminKey
+            }
+        }
+        axios.post(`${apiUrl}/admin/image`, formData, config)
+                .then((res) => {
+                    console.log(res.data);
+                    loadImages()
+                    setEditedItem({...editedItem, picture: res.data.picture})
+                    setUploadingImage('ok')
+                    setNewImage(null)
+                    setTimeout(() => {
+                        setUploadingImage('initial')
+                    }, 1000)
+                })
+                .catch((err) => {
+                    setUploadingImage('error')
+                    setTimeout(() => {
+                        setUploadingImage('initial')
+                    }, 1000)
+                    console.log(err);
+                })
+    }
+
+    useEffect(loadImages, [apiUrl])
 
     const sendItem = async () => {
         setLoading('loading')
@@ -214,10 +265,8 @@ const EditDialog = ({item, isOpen, onClose, reload}) => {
         }
     }
 
-// todo a lot of shit
-
     if (item && editedItem) return (
-        <Modal onClose={() => {setEditedItem(item); onClose()}} isOpen={isOpen} scrollBehavior='inside' isCentered>
+        <Modal onClose={() => {setAdminKey(null); setEditedItem(item); onClose()}} isOpen={isOpen} scrollBehavior='inside' isCentered>
         <ModalOverlay />
         <ModalContent bgColor="#180036" borderRadius={15} maxWidth={{base: 'max-content'}} fontFamily="Iosevka" marginX={10}>
           <ModalHeader fontSize={24} alignSelf="center">{editedItem.name}</ModalHeader>
@@ -229,7 +278,7 @@ const EditDialog = ({item, isOpen, onClose, reload}) => {
                           Object.keys(item)
                           .filter((prop) => prop !== 'id' && prop !== 'category_id')
                           .map((prop) => {
-                              return (
+                              if (prop !== 'picture') return (
                                 <FormControl marginTop={6} width="full">
                                     <FormLabel>{`${prop[0].toUpperCase()}${prop.substring(1)}`}</FormLabel>
                                 {<Input borderRadius={10} borderWidth={2} _placeholder={{ color: 'purple.400' }} type="text"
@@ -238,14 +287,59 @@ const EditDialog = ({item, isOpen, onClose, reload}) => {
                                     />}
                                 </FormControl>
                               )
+                              else return (
+                                <>
+                                <FormControl marginTop={6} width="full" isRequired>
+                                    <FormLabel>{`${prop[0].toUpperCase()}${prop.substring(1)}`}</FormLabel>
+                                    <Menu width='full'>
+                                        <MenuButton width='full' as={Button} rightIcon={<FaChevronDown />}>
+                                            {editedItem.picture === '' ? 'Выбрать из существующих' : editedItem.picture}
+                                        </MenuButton>
+                                        <MenuList bg='#2b1446'>
+                                            {
+                                                imageList.map((img) => {
+                                                    return (
+                                                        <MenuItem minH='48px' onClick={() => setEditedItem({...editedItem, picture: img})}>
+                                                            <Image
+                                                                boxSize='2rem'
+                                                                borderRadius='full'
+                                                                src={`${apiUrl}${img}`}
+                                                                alt={img}
+                                                                mr='12px'
+                                                            />
+                                                            <Text>{img}</Text>
+                                                        </MenuItem>
+                                                    )
+                                                })
+                                            }
+                                        </MenuList>
+                                    </Menu>
+                                    <Text textAlign='center' marginTop={15}>или</Text>
+                                    <Flex borderWidth={2} borderRadius={10} paddingX={5} paddingBottom={4} width='full' marginTop={15} direction='column' alignItems='center'>
+                                        <form onSubmit={uploadNewImage}>
+                                            <Flex marginTop={15} direction='row' alignItems='center'>
+                                                <input type="file" onChange={(e) => setNewImage(e.target.files[0])} />
+                                                <Button width={150} type="submit" isLoading={uploadingImage === "loading"} loadingText="Загрузка...">{uploadingImage === 'ok' ? 'Загружено!' : uploadingImage === 'error' ? 'Ошибка' : 'Загрузить'}</Button>
+                                            </Flex>
+                                        </form>
+                                        { newImage ? <FormControl marginTop={6} width="full" isRequired>
+                                            <FormLabel>Ключ администратора</FormLabel>
+                                            <Input value={adminKey} borderRadius={10} borderWidth={2} _placeholder={{ color: 'purple.400' }} type="password"
+                                            onChange={(event) => {setAdminKey(event.target.value)}}
+                                            />
+                                        </FormControl> : <></>}
+                                    </Flex>
+                                </FormControl>
+                                </>
+                              )
                           })
                       }
-                    <FormControl marginTop={6} width="full" isRequired>
+                    { !newImage ? <FormControl marginTop={6} width="full" isRequired>
                         <FormLabel>Ключ администратора</FormLabel>
-                        <Input borderRadius={10} borderWidth={2} _placeholder={{ color: 'purple.400' }} type="password"
-                        onChange={(event) => {adminKey = event.target.value}}
+                        <Input value={adminKey} borderRadius={10} borderWidth={2} _placeholder={{ color: 'purple.400' }} type="password"
+                        onChange={(event) => {setAdminKey(event.target.value)}}
                         />
-                    </FormControl>
+                    </FormControl> : <></>}
                   </Flex>
 
                   <Flex direction={{base: 'column', md: 'row'}} alignItems={{base: 'initial', md: 'start'}}>
@@ -292,7 +386,11 @@ const AddDialog = ({isOpen, onClose, reload, category}) => {
 
     const apiUrl = config.apiUrl
     const [editedItem, setEditedItem] = useState(defaultItem)
+    const [imageList, setImageList] = useState(cache.imageList)
     const [loading, setLoading] = useState('initial')
+    const [uploadingImage, setUploadingImage] = useState('initial')
+    const [adminKey, setAdminKey] = useState()
+    const [newImage, setNewImage] = useState()
 
     useEffect(() => {
         setEditedItem({
@@ -301,7 +399,48 @@ const AddDialog = ({isOpen, onClose, reload, category}) => {
         })
     }, [category])
 
-    var adminKey = null
+    const loadImages = () => {
+        axios.get(`${apiUrl}/admin/images`).then((res) => {
+            console.log(res)
+            cache.imageList = res.data
+            setImageList(res.data)
+          })
+    }
+
+    const uploadNewImage = (e) => {
+        e.preventDefault()
+        setUploadingImage('loading')
+        const formData = new FormData();
+        console.log(newImage);
+        formData.append('picture', newImage)
+        formData.append('category', category)
+        const config = {
+            headers: {
+                'content-type': 'multipart/form-data',
+                'authorization': adminKey
+            }
+        }
+        axios.post(`${apiUrl}/admin/image`, formData, config)
+                .then((res) => {
+                    console.log(res.data);
+                    loadImages()
+                    setEditedItem({...editedItem, picture: res.data.picture})
+                    setUploadingImage('ok')
+                    setNewImage(null)
+                    setTimeout(() => {
+                        setUploadingImage('initial')
+                    }, 1000)
+                })
+                .catch((err) => {
+                    setUploadingImage('error')
+                    setTimeout(() => {
+                        setUploadingImage('initial')
+                    }, 1000)
+                    console.log(err);
+                })
+    }
+
+    useEffect(loadImages, [apiUrl])
 
     const sendItem = async () => {
         setLoading('loading')
@@ -327,7 +466,7 @@ const AddDialog = ({isOpen, onClose, reload, category}) => {
     }
 
     if (editedItem) return (
-        <Modal onClose={() => {setEditedItem(defaultItem); onClose()}} isOpen={isOpen} scrollBehavior='inside' isCentered>
+        <Modal onClose={() => {setAdminKey(null); setEditedItem(defaultItem); onClose()}} isOpen={isOpen} scrollBehavior='inside' isCentered>
         <ModalOverlay />
         <ModalContent bgColor="#180036" borderRadius={15} maxWidth={{base: 400, md: 'max-content'}} fontFamily="Iosevka">
           <ModalHeader fontSize={24} alignSelf="center">{editedItem.name}</ModalHeader>
@@ -339,6 +478,7 @@ const AddDialog = ({isOpen, onClose, reload, category}) => {
                           Object.keys(defaultItem)
                           .filter((prop) => prop !== 'id' && prop !== 'category_id')
                           .map((prop) => {
+                              if (prop !== 'picture')
                               return (
                                 <FormControl marginTop={6} width="full" isRequired>
                                     <FormLabel>{`${prop[0].toUpperCase()}${prop.substring(1)}`}</FormLabel>
@@ -349,14 +489,59 @@ const AddDialog = ({isOpen, onClose, reload, category}) => {
                                     />
                                 </FormControl>
                               )
+                              else return (
+                                <>
+                                <FormControl marginTop={6} width="full" isRequired>
+                                    <FormLabel>{`${prop[0].toUpperCase()}${prop.substring(1)}`}</FormLabel>
+                                    <Menu width='full'>
+                                        <MenuButton width='full' as={Button} rightIcon={<FaChevronDown />}>
+                                            {editedItem.picture === '' ? 'Выбрать из существующих' : editedItem.picture}
+                                        </MenuButton>
+                                        <MenuList bg='#2b1446'>
+                                            {
+                                                imageList.map((img) => {
+                                                    return (
+                                                        <MenuItem minH='48px' onClick={() => setEditedItem({...editedItem, picture: img})}>
+                                                            <Image
+                                                                boxSize='2rem'
+                                                                borderRadius='full'
+                                                                src={`${apiUrl}${img}`}
+                                                                alt={img}
+                                                                mr='12px'
+                                                            />
+                                                            <Text>{img}</Text>
+                                                        </MenuItem>
+                                                    )
+                                                })
+                                            }
+                                        </MenuList>
+                                    </Menu>
+                                    <Text textAlign='center' marginTop={15}>или</Text>
+                                    <Flex borderWidth={2} borderRadius={10} paddingX={5} paddingBottom={4} width='full' marginTop={15} direction='column' alignItems='center'>
+                                        <form onSubmit={uploadNewImage}>
+                                            <Flex marginTop={15} direction='row' alignItems='center'>
+                                                <input type="file" onChange={(e) => setNewImage(e.target.files[0])} />
+                                                <Button width={150} type="submit" isLoading={uploadingImage === "loading"} loadingText="Загрузка...">{uploadingImage === 'ok' ? 'Загружено!' : uploadingImage === 'error' ? 'Ошибка' : 'Загрузить'}</Button>
+                                            </Flex>
+                                        </form>
+                                        { newImage ? <FormControl marginTop={6} width="full" isRequired>
+                                            <FormLabel>Ключ администратора</FormLabel>
+                                            <Input borderRadius={10} borderWidth={2} _placeholder={{ color: 'purple.400' }} type="password"
+                                            onChange={(event) => {setAdminKey(event.target.value)}}
+                                            />
+                                        </FormControl> : <></>}
+                                    </Flex>
+                                </FormControl>
+                                </>
+                              )
                           })
                       }
-                    <FormControl marginTop={6} width="full" isRequired>
+                    { !newImage ? <FormControl marginTop={6} width="full" isRequired>
                         <FormLabel>Ключ администратора</FormLabel>
                         <Input borderRadius={10} borderWidth={2} _placeholder={{ color: 'purple.400' }} type="password"
-                        onChange={(event) => {adminKey = event.target.value}}
+                        onChange={(event) => {setAdminKey(event.target.value)}}
                         />
-                    </FormControl>
+                    </FormControl> : <></>}
                   </Flex>
 
                   <Flex direction={{base: 'column', md: 'row'}} alignItems={{base: 'initial', md: 'start'}}>

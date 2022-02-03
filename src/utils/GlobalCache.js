@@ -4,5 +4,6 @@ export const cache = {
     privileges: [],
     money: [],
     bans: [],
+    imageList: [],
     items: []
 }
