@@ -23,9 +23,9 @@ export const DonateDialog = ({donateItem, isOpen, onClose}) => {
     const apiUrl = config.apiUrl
 
     return (
-        <Modal onClose={onClose} isOpen={isOpen} scrollBehavior='inside' isCentered>
-        <ModalOverlay />
-        <ModalContent bgColor="#180036" borderRadius={15} maxWidth={{base: 400, md: 700}} fontFamily="Iosevka">
+        <Modal onClose={onClose} isOpen={isOpen} scrollBehavior={{base: 'outside', md: 'inside'}} isCentered={window.innerHeight > 800}>
+        <ModalOverlay bgColor='#18003690' />
+        <ModalContent bgColor="#311056" borderRadius={15} maxWidth={{base: 400, md: 700}} fontFamily="Iosevka">
           <ModalHeader fontSize={24} alignSelf="center">{donateItem.name}</ModalHeader>
           <ModalCloseButton />
           <ModalBody margin={10}>

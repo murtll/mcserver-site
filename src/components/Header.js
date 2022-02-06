@@ -40,11 +40,11 @@ export const Header = () => {
 
     return (
         // <Flex bg="#3D005A" p="8">
-        <Flex paddingBottom={{base: 0, md: 8}} paddingTop={{base: 8, md: 8}} paddingX={{base: 0, md: 0, lg: 24}} bg="#3D005A" direction={{base: 'column', md: 'row'}}>
-            <Button alignSelf="center" maxWidth={[270, 300, 400]} boxShadow="dark-lg" borderRadius="15" bgColor="#69009B" paddingY={14} paddingX={8} onClick={copyIPToClipboard} onMouseEnter={() => setShow(true)} onMouseLeave={() => setShow(false)}>
+        <Flex top={0} width='full' shadow='md' borderBottomRadius={50} paddingBottom={{base: 0, md: 8}} paddingTop={{base: 8, md: 8}} paddingX={{base: 0, md: 0, lg: 24}} bg="#3D005A72" direction={{base: 'column', md: 'row'}}>
+            <Button alignSelf="center" maxWidth={[270, 300, 400]} boxShadow="dark-lg" variant='outline' borderRadius="15" borderWidth={3} paddingY={14} paddingX={8} onClick={copyIPToClipboard} onMouseEnter={() => setShow(true)} onMouseLeave={() => setShow(false)}>
               <VStack>
                 <Text color="#FCD9FF" fontFamily="Iosevka" fontWeight="normal" fontSize="24">IP СЕРВЕРА</Text>
-                <Text color="#FFFFFF" fontFamily="Iosevka" fontWeight="normal" fontSize="30">{serverIp}</Text>
+                <Text color="#FFFFFF" fontFamily="Iosevka" fontWeight="bold" fontSize="30">{serverIp}</Text>
               </VStack>
             </Button>
 

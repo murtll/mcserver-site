@@ -30,8 +30,8 @@ export const CategoryPage = () => {
     }
 
     return (
-        <Box width="full" bg="#180036">
-        <VStack paddingY={100} spacing={61}>
+        <Box width="full">
+        <VStack marginY={50} spacing={61}>
             <Categories/>
             {renderGrid()}
         </VStack>

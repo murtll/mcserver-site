@@ -25,7 +25,7 @@ export const ItemGrid = ({items}) => {
         <SimpleGrid columns={{base: 1, md: 2, lg: 4}} spacingY={61} spacingX={41}>
           {items.map((item) => {
             return (
-            <Button height={300} maxWidth={250} backgroundColor="#180036" borderRadius={15} borderWidth={3} borderColor="#69009B" py="12" px="14" alignItems="self-end" onClick={() => { setCurrentItem(item); onOpen() }}>
+            <Button shadow='dark-lg' height={300} maxWidth={250} backgroundColor="#18003652" borderRadius={15} borderWidth={2} borderColor="#69009B" py="12" px="14" alignItems="self-end" onClick={() => { setCurrentItem(item); onOpen() }}>
               <VStack spacing={11}>
                 <Image maxHeight={150} src={`${apiUrl}${item.picture}`}/>
                 <Text color="#FCD9FF" fontFamily="Iosevka" fontWeight="normal" fontSize="20" textAlign="center">{item.name}</Text>
