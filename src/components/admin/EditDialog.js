@@ -31,7 +31,7 @@ export const EditDialog = ({item, isOpen, onClose, reload}) => {
     const [editedItem, setEditedItem] = useState()
     const [loading, setLoading] = useState('initial')
 
-    const [imageList, setImageList] = useState(cache.imageList)
+    const [imageList, setImageList] = useState(cache.imageList || [])
     const [uploadingImage, setUploadingImage] = useState('initial')
     const [adminKey, setAdminKey] = useState()
     const [newImage, setNewImage] = useState()

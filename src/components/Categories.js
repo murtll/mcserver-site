@@ -21,7 +21,7 @@ import { FaChartBar, FaChevronDown } from 'react-icons/fa'
 
 export const Categories = () => {
 
-    const [categories, setCategories] = useState(cache.categories)
+    const [categories, setCategories] = useState(cache.categories || [])
     const apiUrl = config.apiUrl
     const [mobileWidth, setMobileWidth] = useState(window.matchMedia('(max-width: 767px)').matches)
     const [windowWidth, setWindowWidth] = useState(window.innerWidth)
@@ -29,7 +29,7 @@ export const Categories = () => {
   
     useEffect(() => {
       axios.get(`${apiUrl}/categories`).then((res) => {
-        console.log(res)
+        // console.log(res)
         cache.categories = res.data
         setCategories(res.data)
       })
@@ -44,7 +44,7 @@ export const Categories = () => {
 
     if (categories.length > 0) {
         if (mobileWidth) {
-            console.log(categories);
+            // console.log(categories);
             return (
                 <Flex width='full' fontFamily='Iosevka' fontSize={20}>
                     <Menu>

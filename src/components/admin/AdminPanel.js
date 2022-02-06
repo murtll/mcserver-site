@@ -19,7 +19,7 @@ import { DeleteCategoryDialog } from './DeleteCategoryDialog'
 
 export const AdminPanel = () => {
     const [currentCategory, setCurrentCategory] = useState({link: '/cases'})
-    const [categories, setCategories] = useState(cache.categories)
+    const [categories, setCategories] = useState(cache.categories || [])
     const apiUrl = config.apiUrl
 
     const editClosure = useDisclosure()
@@ -28,7 +28,6 @@ export const AdminPanel = () => {
 
     const loadCategories = () => {
         axios.get(`${apiUrl}/categories`).then((res) => {
-            console.log(res)
             cache.categories = res.data
             setCategories(res.data)
             // setCurrentCategory(categories[0])

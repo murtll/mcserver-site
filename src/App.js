@@ -27,8 +27,6 @@ function App() {
     }
   })
 
-  console.log(theme)
-
   return (
     <ChakraProvider resetCSS theme={customTheme}>
       <div style={{ backgroundImage: 'url("/images/background.png")', backgroundAttachment: 'fixed' }}>

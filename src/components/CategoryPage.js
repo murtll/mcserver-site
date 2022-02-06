@@ -12,17 +12,19 @@ import { useParams } from 'react-router-dom'
 
 export const CategoryPage = () => {
 
-    const [items, setItems] = useState(cache.privileges)
-    const apiUrl = config.apiUrl
     const { category } = useParams()
+    const [items, setItems] = useState(cache[category] ? cache[category] : [])
+    const apiUrl = config.apiUrl
 
     useEffect(() => {
+        setItems(cache[category] || [])
+
         axios.get(`${apiUrl}/${category}`).then((res) => {
-        console.log(res)
+        // console.log(res)
         cache[category] = res.data
         setItems(res.data)
         })
-    }, [setItems, apiUrl, category])
+    }, [category])
 
     const renderGrid = () => {
         if (items.length > 0) return (<ItemGrid items={items} />)

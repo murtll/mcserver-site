@@ -32,11 +32,9 @@ export const AdminItemGrid = ({ currentCategory }) => {
     const apiUrl = config.apiUrl
 
     const loadItems = () => {
-        console.log(currentCategory);
         setItems(cache[currentCategory.link] ? cache[currentCategory.link] : [])
 
         axios.get(`${apiUrl}${currentCategory.link}`).then((res) => {
-          console.log(res)
           cache[currentCategory.link] = res.data
           setItems(res.data)
         })

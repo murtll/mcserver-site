@@ -36,7 +36,7 @@ export const AddDialog = ({isOpen, onClose, reload, category}) => {
 
     const apiUrl = config.apiUrl
     const [editedItem, setEditedItem] = useState(defaultItem)
-    const [imageList, setImageList] = useState(cache.imageList)
+    const [imageList, setImageList] = useState(cache.imageList || [])
     const [loading, setLoading] = useState('initial')
     const [uploadingImage, setUploadingImage] = useState('initial')
     const [adminKey, setAdminKey] = useState()
