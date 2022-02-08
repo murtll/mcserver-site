@@ -1,5 +1,7 @@
 import { 
     Flex,
+    Code,
+    Textarea,
     FormControl,
     FormLabel,
     Input,
@@ -23,6 +25,8 @@ import axios from "axios"
 import '@fontsource/iosevka'
 import parse from 'html-react-parser'
 import { Select } from "chakra-react-select"
+
+// TODO change description input field to textarea
 
 export const AddDialog = ({isOpen, onClose, reload, category}) => {
 
@@ -120,28 +124,17 @@ export const AddDialog = ({isOpen, onClose, reload, category}) => {
     if (editedItem) return (
         <Modal onClose={() => {setAdminKey(null); setEditedItem(defaultItem); onClose()}} isOpen={isOpen} scrollBehavior='inside' isCentered>
         <ModalOverlay />
-        <ModalContent bgColor="#180036" borderRadius={15} maxWidth={{base: 400, md: 'max-content'}} fontFamily="Iosevka">
+        <ModalContent bgColor="#180036" borderRadius={15} maxWidth={{base: 'max-content'}} marginX={10} fontFamily="Iosevka">
           <ModalHeader fontSize={24} alignSelf="center">{editedItem.name}</ModalHeader>
           <ModalCloseButton />
           <ModalBody margin={10}>
-              <Flex direction='row'>
-                  <Flex marginRight={20} paddingRight={20} direction='column' borderRightWidth={1} borderRightColor='whitesmoke'>
+              <Flex direction={{base: 'column', md: 'row'}} width='max-content'>
+                  <Flex width='full' marginRight={{base: 5, lg: 20}} paddingRight={{base: 5, lg: 20}} marginBottom={{base: 10, lg: 5}} paddingBottom={{base: 10, lg: 5}} direction='column' borderRightWidth={{base: 0, lg: 1}} borderBottomWidth={{base: 1, lg: 0}} borderColor='whitesmoke' >
                       {
                           Object.keys(defaultItem)
                           .filter((prop) => prop !== 'id' && prop !== 'category_id')
                           .map((prop) => {
-                              if (prop !== 'picture')
-                              return (
-                                <FormControl marginTop={6} width="full" isRequired>
-                                    <FormLabel>{`${prop[0].toUpperCase()}${prop.substring(1)}`}</FormLabel>
-                                    <Input borderRadius={10} borderWidth={2} _placeholder={{ color: 'purple.400' }} type="text"
-                                    value={editedItem[prop]}
-                                    isDisabled={prop === 'category'}
-                                    onChange={(event) => setEditedItem({...editedItem, [prop]: event.target.value})}
-                                    />
-                                </FormControl>
-                              )
-                              else return (
+                              if (prop === 'picture') return (
                                 <>
                                 <FormControl marginTop={6} width="full" isRequired>
                                     <FormLabel>{`${prop[0].toUpperCase()}${prop.substring(1)}`}</FormLabel>
@@ -158,7 +151,15 @@ export const AddDialog = ({isOpen, onClose, reload, category}) => {
                                             label: `${folder.folder[0].toUpperCase()}${folder.folder.substring(1)}`, 
                                             options: folder.images.map((image) => {
                                                 return {
-                                                    label: image.substring(image.lastIndexOf('/') + 1),
+                                                    label: <Flex>
+                                                    		<Image
+                                                                boxSize='2rem'
+                                                                borderRadius='full'
+                                                                src={`${apiUrl}${image}`}
+                                                                mr='12px'
+                                                            />
+                                                    		<Text>{image.substring(image.lastIndexOf('/') + 1)}</Text>
+                                                    	</Flex>,
                                                     value: image
                                                 }
                                             }) } } )}
@@ -169,8 +170,9 @@ export const AddDialog = ({isOpen, onClose, reload, category}) => {
                                     <Text textAlign='center' marginTop={15}>или</Text>
                                     <Flex borderWidth={2} borderRadius={10} paddingX={5} paddingBottom={4} width='full' marginTop={15} direction='column' alignItems='center'>
                                         <form onSubmit={uploadNewImage}>
-                                            <Flex marginTop={15} direction='row' alignItems='center'>
+                                            <Flex marginTop={15} direction={{base: 'column', md: 'row'}} alignItems='center'>
                                                 <input type="file" onChange={(e) => setNewImage(e.target.files[0])} />
+                                                <Spacer minHeight={3}/>
                                                 <Button width={150} type="submit" isLoading={uploadingImage === "loading"} loadingText="Загрузка...">{uploadingImage === 'ok' ? 'Загружено!' : uploadingImage === 'error' ? 'Ошибка' : 'Загрузить'}</Button>
                                             </Flex>
                                         </form>
@@ -183,6 +185,25 @@ export const AddDialog = ({isOpen, onClose, reload, category}) => {
                                     </Flex>
                                 </FormControl>
                                 </>
+                              )
+                              if (prop === 'description') return (
+                                <FormControl marginTop={6} width="full" isRequired>
+                                    <FormLabel>{`${prop[0].toUpperCase()}${prop.substring(1)}`}</FormLabel>
+                                    <Textarea borderRadius={10} borderWidth={2} _placeholder={{ color: 'purple.400' }} type="text"
+                                    value={editedItem[prop]}
+                                    onChange={(event) => setEditedItem({...editedItem, [prop]: event.target.value})}
+                                    />
+                                </FormControl>
+                              )
+                              return (
+                                <FormControl marginTop={6} width="full" isRequired>
+                                    <FormLabel>{`${prop[0].toUpperCase()}${prop.substring(1)}`}</FormLabel>
+                                    <Input borderRadius={10} borderWidth={2} _placeholder={{ color: 'purple.400' }} type="text"
+                                    value={editedItem[prop]}
+                                    isDisabled={prop === 'category'}
+                                    onChange={(event) => setEditedItem({...editedItem, [prop]: event.target.value})}
+                                    />
+                                </FormControl>
                               )
                           })
                       }

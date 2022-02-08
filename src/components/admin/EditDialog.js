@@ -109,6 +109,16 @@ export const EditDialog = ({item, isOpen, onClose, reload}) => {
         }
     }
 
+    const tryToParse = (html) => {
+    	if (!html) return ''
+    	try {
+    		return parse(html)
+    	} catch (e) {
+    		console.log(e)
+    		return html
+    	}
+    }
+
     if (item && editedItem) return (
         <Modal onClose={() => {setAdminKey(null); setEditedItem(item); onClose()}} isOpen={isOpen} scrollBehavior='inside' isCentered>
         <ModalOverlay />
@@ -140,7 +150,15 @@ export const EditDialog = ({item, isOpen, onClose, reload}) => {
                                             label: `${folder.folder[0].toUpperCase()}${folder.folder.substring(1)}`, 
                                             options: folder.images.map((image) => {
                                                 return {
-                                                    label: image.substring(image.lastIndexOf('/') + 1),
+                                                    label: <Flex>
+                                                    		<Image
+                                                                boxSize='2rem'
+                                                                borderRadius='full'
+                                                                src={`${apiUrl}${image}`}
+                                                                mr='12px'
+                                                            />
+                                                    		<Text>{image.substring(image.lastIndexOf('/') + 1)}</Text>
+                                                    	</Flex>,
                                                     value: image
                                                 }
                                             }) } } )}
@@ -151,8 +169,9 @@ export const EditDialog = ({item, isOpen, onClose, reload}) => {
                                     <Text textAlign='center' marginTop={15}>или</Text>
                                     <Flex borderWidth={2} borderRadius={10} paddingX={5} paddingBottom={4} width='full' marginTop={15} direction='column' alignItems='center'>
                                         <form onSubmit={uploadNewImage}>
-                                            <Flex marginTop={15} direction='row' alignItems='center'>
+                                            <Flex marginTop={15} direction={{base: 'column', md: 'row'}} alignItems='center'>
                                                 <input type="file" onChange={(e) => setNewImage(e.target.files[0])} />
+                                                <Spacer minHeight={3}/>
                                                 <Button width={150} type="submit" isLoading={uploadingImage === "loading"} loadingText="Загрузка...">{uploadingImage === 'ok' ? 'Загружено!' : uploadingImage === 'error' ? 'Ошибка' : 'Загрузить'}</Button>
                                             </Flex>
                                         </form>
@@ -201,7 +220,7 @@ export const EditDialog = ({item, isOpen, onClose, reload}) => {
                   <Flex direction={{base: 'column', md: 'row'}} alignItems={{base: 'initial', md: 'start'}}>
                   <VStack spacing={21} alignItems='center'>
                     <Image alignSelf='center' src={`${apiUrl}${editedItem.picture}`} maxHeight={{ base:200, md: 300 }} maxWidth={{ base:200, md: 300 }} />
-                    <Text>{editedItem.description ? parse(editedItem.description) : ''}</Text>
+                    <Text>{tryToParse(editedItem.description)}</Text>
                   </VStack>
                   <Spacer minWidth={10}></Spacer>
                 <Flex direction='column'>
