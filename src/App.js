@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  ChakraProvider, extendTheme, Flex, Spacer, Stack, theme} from '@chakra-ui/react';
+  ChakraProvider, extendTheme, theme} from '@chakra-ui/react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { mode } from "@chakra-ui/theme-tools"
 

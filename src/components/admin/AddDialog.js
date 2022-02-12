@@ -35,7 +35,8 @@ export const AddDialog = ({isOpen, onClose, reload, category}) => {
         description: '',
         picture: '',
         category: category,
-        price: 0
+        price: 0,
+        command: ''
     }
 
     const apiUrl = config.apiUrl
