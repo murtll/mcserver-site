@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Text,
   VStack,
@@ -6,15 +6,29 @@ import {
   Image} from '@chakra-ui/react';
 import '@fontsource/iosevka'
 import { Categories } from './Categories';
+import Fade from "react-reveal/Fade"
 
 
 export const Home = () => {
+
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth)
+
+  useEffect(() => {
+      window.addEventListener('resize', () => {
+          setWindowWidth(window.innerWidth)
+      })
+  }, [])
+
+
   return (
     <Flex w="100%" alignItems='center' direction='column'>
-      <VStack marginTop={{base: 50, md: 50}} marginBottom={{base: 50, md: 50}} spacing={{ base: 0, md: 41 }}>
-        <Categories />
-        <Flex alignItems={{base: "center", lg: 'start'}} maxWidth={1900} direction={{base: 'column-reverse', lg: 'row'}}>
-          <Text borderRadius={30} shadow='dark-lg' position={{base: '', lg: "absolute"}} letterSpacing="wider" color="#FCD9FF" opacity={{base: 1, lg: 0.8}} fontFamily="Iosevka" fontWeight={{ base: 'normal', lg: 'bold' }} fontStyle='italic' fontSize={{ base: 24, xl: 28 }}  textAlign={{base: 'center', md: 'start'}} paddingX={{base: 5, md: 35, xl: 50}} paddingY={{base: 10, md: 35, '2xl': 50}} marginX={{base: 5, md: 35}} marginTop={{base: 0, '2xl': 25}} maxWidth={{ base: 700, lg: 500, xl: 550, '2xl': 600 }}>
+      <VStack transition='ease 1000ms' marginTop={{base: 50, md: 50}} marginBottom={{base: 50, md: 100, '2xl': 50}} spacing={{ base: 0, md: 41 }}>
+        <Fade>
+          <Categories />
+        </Fade>
+        <Flex transition='ease 1000ms' alignItems={{base: "center", lg: 'start'}} maxWidth={1900} direction={{base: 'column-reverse', lg: 'row'}}>
+          <Fade cascade right>
+          <Text transition='ease 1000ms' borderRadius={30} shadow='dark-lg' position={{base: '', lg: "absolute"}} letterSpacing="wider" color="#FCD9FF" opacity={{base: 1, lg: 0.8}} fontFamily="Iosevka" fontWeight={{ base: 'normal', lg: 'bold' }} fontStyle='italic' fontSize={{ base: 24, xl: 28 }}  textAlign={{base: 'center', md: 'start'}} paddingX={{base: 5, md: 35, xl: 50}} paddingY={{base: 10, md: 35, '2xl': 50}} marginX={{base: 5, md: 35}} marginTop={{base: 0, '2xl': 25}} maxWidth={{ base: 700, lg: 500, xl: windowWidth * 0.4 > 550 ? 550: '40%', '2xl': windowWidth * 0.4 > 600 ? 600: '40%' }}>
             Hello gamer!
             <br/>
             Мы рады видеть нового бравлера в нашем уютном уголке.
@@ -24,7 +38,8 @@ export const Home = () => {
             <br/><br/>
             - Большие Админы
           </Text>
-          <Image paddingTop={{base: 12, '2xl': 0}} paddingLeft={{base: 0, lg: 500, xl: 550, '2xl': 600}} alignSelf={{base: 'center', lg: 'flex-end'}} src='/images/ded.png'></Image>
+          <Image transition='ease 1000ms' paddingTop={{base: 12, '2xl': 0}} paddingLeft={{base: 0, lg: 450, xl: 500, '2xl': 500}} alignSelf={{base: 'center', lg: 'flex-end'}} src='/images/ded.png'></Image>
+          </Fade>
         </Flex>
       </VStack>
     </Flex>

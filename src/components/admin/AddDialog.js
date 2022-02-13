@@ -1,6 +1,5 @@
 import { 
     Flex,
-    Code,
     Textarea,
     FormControl,
     FormLabel,
@@ -23,8 +22,8 @@ import config from '../../config'
 import { cache } from '../../utils/GlobalCache'
 import axios from "axios"
 import '@fontsource/iosevka'
-import parse from 'html-react-parser'
 import { Select } from "chakra-react-select"
+import { Markup } from "interweave"
 
 // TODO change description input field to textarea
 
@@ -191,8 +190,8 @@ export const AddDialog = ({isOpen, onClose, reload, category}) => {
                                 <FormControl marginTop={6} width="full" isRequired>
                                     <FormLabel>{`${prop[0].toUpperCase()}${prop.substring(1)}`}</FormLabel>
                                     <Textarea borderRadius={10} borderWidth={2} _placeholder={{ color: 'purple.400' }} type="text"
-                                    value={editedItem[prop]}
-                                    onChange={(event) => setEditedItem({...editedItem, [prop]: event.target.value})}
+                                    value={editedItem[prop].replaceAll('<br>', '\n').replaceAll("\\'", "'")}
+                                    onChange={(event) => setEditedItem({...editedItem, [prop]: event.target.value.replaceAll('\n', '<br>').replaceAll("'", "\\'")})}
                                     />
                                 </FormControl>
                               )
@@ -219,7 +218,9 @@ export const AddDialog = ({isOpen, onClose, reload, category}) => {
                   <Flex direction={{base: 'column', md: 'row'}} alignItems={{base: 'initial', md: 'start'}}>
                   <VStack spacing={21} alignItems='center'>
                     <Image alignSelf='center' src={`${apiUrl}${editedItem.picture}`} maxHeight={{ base:200, md: 300 }} maxWidth={{ base:200, md: 300 }} />
-                    <Text>{editedItem.description ? parse(editedItem.description) : ''}</Text>
+                    <Text>
+                        <Markup content={editedItem.description}/>    
+                    </Text>
                   </VStack>
                   <Spacer minWidth={10}></Spacer>
                 <Flex direction='column'>

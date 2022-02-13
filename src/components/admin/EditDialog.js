@@ -22,7 +22,9 @@ import config from '../../config'
 import { cache } from '../../utils/GlobalCache'
 import axios from "axios"
 import '@fontsource/iosevka'
-import parse from 'html-react-parser'
+// import parse from 'html-react-parser'
+import { Markup } from 'interweave';
+
 import { Select } from "chakra-react-select";
 
 
@@ -109,15 +111,18 @@ export const EditDialog = ({item, isOpen, onClose, reload}) => {
         }
     }
 
-    const tryToParse = (html) => {
-    	if (!html) return ''
-    	try {
-    		return parse(html)
-    	} catch (e) {
-    		console.log(e)
-    		return html
-    	}
-    }
+    // const tryToParse = (html) => {
+    	// if (!html) return ''
+    	// try {
+            // console.log('trying');
+    		// const res = parse(html)
+            // console.log('ok');
+            // return res
+    	// } catch (e) {
+    		// console.log(e)
+    		// return html
+    	// }
+    // }
 
     if (item && editedItem) return (
         <Modal onClose={() => {setAdminKey(null); setEditedItem(item); onClose()}} isOpen={isOpen} scrollBehavior='inside' isCentered>
@@ -190,8 +195,8 @@ export const EditDialog = ({item, isOpen, onClose, reload}) => {
                                 <FormControl marginTop={6} width="full">
                                     <FormLabel>{`${prop[0].toUpperCase()}${prop.substring(1)}`}</FormLabel>
                                     <Textarea height='max-content' borderRadius={10} borderWidth={2} _placeholder={{ color: 'purple.400' }} type="text"
-                                    value={editedItem[prop].replaceAll('<br>', '\n')}
-                                    onChange={(event) => setEditedItem({...editedItem, [prop]: event.target.value.replaceAll('\n', '<br>')})}
+                                    value={editedItem[prop].replaceAll('<br>', '\n').replaceAll("\\'", "'")}
+                                    onChange={(event) => setEditedItem({...editedItem, [prop]: event.target.value.replaceAll('\n', '<br>').replaceAll("'", "\\'")})}
                                     />
                                 </FormControl>
                               )
@@ -220,7 +225,10 @@ export const EditDialog = ({item, isOpen, onClose, reload}) => {
                   <Flex direction={{base: 'column', md: 'row'}} alignItems={{base: 'initial', md: 'start'}}>
                   <VStack spacing={21} alignItems='center'>
                     <Image alignSelf='center' src={`${apiUrl}${editedItem.picture}`} maxHeight={{ base:200, md: 300 }} maxWidth={{ base:200, md: 300 }} />
-                    <Text>{tryToParse(editedItem.description)}</Text>
+                    <Text>
+                        {/* {tryToParse(editedItem.description)} */}
+                        <Markup content={editedItem.description} />
+                    </Text>
                   </VStack>
                   <Spacer minWidth={10}></Spacer>
                 <Flex direction='column'>

@@ -7,17 +7,14 @@ import {
     MenuButton,
     MenuList,
     MenuItem,
-    MenuItemOption,
-    MenuGroup,
-    MenuOptionGroup,
-    MenuDivider 
+    Skeleton
 } from "@chakra-ui/react"
 import { Link } from "react-router-dom"
 import config from "../config"
 import { useEffect, useState } from "react"
 import axios from "axios"
 import { cache } from "../utils/GlobalCache"
-import { FaChartBar, FaChevronDown } from 'react-icons/fa'
+import { FaChevronDown } from 'react-icons/fa'
 
 export const Categories = () => {
 
@@ -42,9 +39,8 @@ export const Categories = () => {
         })
     }, [])
 
-    if (categories.length > 0) {
         if (mobileWidth) {
-            // console.log(categories);
+            if (categories.length > 0)
             return (
                 <Flex width='full' fontFamily='Iosevka' fontSize={20}>
                     <Menu>
@@ -70,13 +66,16 @@ export const Categories = () => {
                 </Menu>
                 </Flex>
             )
+            else return (
+                <Skeleton shadow='dark-lg' height={70} width='90%' borderRadius={15} startColor='purple.400' endColor='purple.900' opacity={0.3}/>
+            )
         } else {
-            return (
-                <Flex direction={{base: 'column', md: 'row'}} alignItems={{base: 'center'}}>
+            if (categories.length > 0) return (
+                <Flex direction={{base: 'column', md: 'row'}} alignItems={{base: 'center'}} transition='ease 1000ms'>
                     {
                         categories.map((category) => {
                             if (window.location.pathname === category.link) return ( <>
-                                <Button key={category.id} shadow='dark-lg' borderRadius="15" variant='outline' borderWidth={3} borderColor="#69009B" py={{base: 12, md: 8, lg: 12}} px={{base: 14, md: 10, lg: 14}}>
+                                <Button transition='ease 1000ms' key={category.id} shadow='dark-lg' borderRadius="15" variant='outline' borderWidth={3} borderColor="#69009B" py={{base: 12, md: 8, lg: 12}} px={{base: 14, md: 10, lg: 14}}>
                                     <Text color="#FCD9FF" fontFamily="Iosevka" fontWeight="normal" fontSize={{base: 24, md: 20, lg: 24}}>{category.name}</Text>
                                 </Button>
                                 {category !== categories[categories.length - 1] ? <Spacer minHeight={10} minWidth={{base: 47, md: 15, lg: 47}} /> : <></> }
@@ -84,7 +83,7 @@ export const Categories = () => {
                             )
                             else return (<>
                                 <Link to={category.link} key={category.id}>
-                                    <Button shadow='dark-lg' borderRadius="15" bgColor="#69009B" py={{base: 12, md: 8, lg: 12}} px={{base: 14, md: 10, lg: 14}}>
+                                    <Button transition='ease 1000ms' shadow='dark-lg' borderRadius="15" bgColor="#69009B92" py={{base: 12, md: 8, lg: 12}} px={{base: 14, md: 10, lg: 14}}>
                                         <Text color="#FCD9FF" fontFamily="Iosevka" fontWeight="normal" fontSize={{base: 24, md: 20, lg: 24}}>{category.name}</Text>
                                     </Button>
                                 </Link>
@@ -95,7 +94,17 @@ export const Categories = () => {
                     }
             </Flex>
             )
+            else
+            return (
+                <Flex direction={{base: 'column', md: 'row'}} alignItems={{base: 'center'}}>
+                    <Skeleton shadow='dark-lg' height={100} width={200} borderRadius={15} startColor='#18003682' endColor='#180036dd' opacity={0.5}/>
+                    <Spacer minHeight={10} minWidth={{base: 47, md: 15, lg: 47}} />                
+                    <Skeleton shadow='dark-lg' height={100} width={200} borderRadius={15} startColor='#18003682' endColor='#180036dd' opacity={0.5}/>
+                    <Spacer minHeight={10} minWidth={{base: 47, md: 15, lg: 47}} />
+                    <Skeleton shadow='dark-lg' height={100} width={200} borderRadius={15} startColor='#18003682' endColor='#180036dd' opacity={0.5}/>
+                    <Spacer minHeight={10} minWidth={{base: 47, md: 15, lg: 47}} />                
+                    <Skeleton shadow='dark-lg' height={100} width={200} borderRadius={15} startColor='#18003682' endColor='#180036dd' opacity={0.5}/>                
+                </Flex>
+            )
         }
-    } 
-    else return (<></>)
-}
+    }

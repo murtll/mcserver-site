@@ -16,8 +16,12 @@ import {
     Spacer
   } from '@chakra-ui/react'
 import '@fontsource/iosevka'
-import parse from 'html-react-parser'
+import { Markup } from 'interweave'
+import { FaInfoCircle } from 'react-icons/fa'
+// import parse from 'html-react-parser'
 import config from '../config'
+
+
 
 export const DonateDialog = ({donateItem, isOpen, onClose}) => {
     const apiUrl = config.apiUrl
@@ -29,10 +33,13 @@ export const DonateDialog = ({donateItem, isOpen, onClose}) => {
           <ModalHeader fontSize={24} alignSelf="center">{donateItem.name}</ModalHeader>
           <ModalCloseButton />
           <ModalBody margin={10}>
-              <Flex direction={{base: 'column', md: 'row'}} alignItems={{base: 'initial', md: 'start'}}>
+            <Flex direction='column'>
+              <Flex transition='ease 1000ms' direction={{base: 'column', md: 'row'}} alignItems={{base: 'initial', md: 'start'}}>
                   <VStack spacing={21} alignItems='center'>
                     <Image alignSelf='center' src={`${apiUrl}${donateItem.picture}`} maxHeight={{ base:200, md: 300 }} maxWidth={{ base:200, md: 300 }} />
-                    <Text>{donateItem.description ? parse(donateItem.description) : ''}</Text>
+                    <Text>
+                      <Markup content={donateItem.description} />
+                    </Text>
                   </VStack>
                   <Spacer minWidth={10}></Spacer>
                 <form>
@@ -44,15 +51,18 @@ export const DonateDialog = ({donateItem, isOpen, onClose}) => {
                         <FormLabel>Email</FormLabel>
                         <Input borderRadius={10} borderWidth={2} _placeholder={{ color: 'purple.400' }} type="email" placeholder="example@example.com" />
                     </FormControl>
-                    <Button width="full" backgroundColor="#69009B" borderRadius={15} px="8" mt={10} type="submit">
+                    <Button width="full" backgroundColor="#99107B" borderRadius={15} px="8" mt={10} type="submit">
                         Купить за {donateItem.price}₽
                     </Button>
                 </form>
             </Flex>
+
+            <Flex direction='row' alignItems='center' justify='center' padding={3} marginTop={8} backgroundColor='#31406652' borderRadius={15}>
+              <FaInfoCircle color='#9555b5' size={25}/>
+              <Text fontSize={13} textAlign='center' textColor='#9555b5' marginLeft={4}>Купленный товар будет начислен на ваш аккаунт автоматически после оплаты</Text>
+            </Flex>
+            </Flex>
           </ModalBody>
-          {/* <ModalFooter>
-            <Button>Оплатить</Button>
-          </ModalFooter> */}
         </ModalContent>
         </Modal>
     )

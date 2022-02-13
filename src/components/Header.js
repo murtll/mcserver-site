@@ -40,11 +40,11 @@ export const Header = () => {
 
     return (
         // <Flex bg="#3D005A" p="8">
-        <Flex top={0} width='full' shadow='md' borderBottomRadius={50} paddingBottom={{base: 0, md: 8}} paddingTop={{base: 8, md: 8}} paddingX={{base: 0, md: 0, lg: 24}} bg="#3D005A72" direction={{base: 'column', md: 'row'}}>
-            <Button alignSelf="center" maxWidth={[270, 300, 400]} boxShadow="dark-lg" variant='outline' borderRadius="15" borderWidth={3} paddingY={14} paddingX={8} onClick={copyIPToClipboard} onMouseEnter={() => setShow(true)} onMouseLeave={() => setShow(false)}>
+        <Flex transition='ease 1000ms' top={0} width='full' shadow='md' borderBottomRadius={50} paddingBottom={{base: 0, md: 8}} paddingTop={{base: 8, md: 8}} paddingX={{base: 0, md: 12, lg: 24}} bg="#3D005A72" direction={{base: 'column', md: 'row'}}>
+            <Button alignSelf="center" maxWidth={{base: 270, sm: 300, md: 200, lg: 300}} boxShadow="dark-lg" variant='outline' borderRadius="15" borderWidth={3} paddingY={14} paddingX={8} onClick={copyIPToClipboard} onMouseEnter={() => setShow(true)} onMouseLeave={() => setShow(false)}>
               <VStack>
-                <Text color="#FCD9FF" fontFamily="Iosevka" fontWeight="normal" fontSize="24">IP СЕРВЕРА</Text>
-                <Text color="#FFFFFF" fontFamily="Iosevka" fontWeight="bold" fontSize="30">{serverIp}</Text>
+                <Text color="#FCD9FF" fontFamily="Iosevka" fontWeight="normal" fontSize={{base: 24, md: 18, lg: 22, xl: 24}}>IP СЕРВЕРА</Text>
+                <Text color="#FFFFFF" fontFamily="Iosevka" fontWeight="bold" fontSize={{base: 30, md: 22, lg: 26, xl: 30}}>{serverIp}</Text>
               </VStack>
             </Button>
 
@@ -61,7 +61,8 @@ export const Header = () => {
           <Link to="/">
           <VStack padding={{base: 10, md: 0}} spacing={0} _hover={{cursor: 'pointer'}}>
             <Flex>
-              <Text 
+              <Text
+              transition='ease 1000ms' 
               color="#FCD9FF" 
               fontFamily="Love Ya Like A Sister" 
               fontWeight="bold" 
@@ -70,6 +71,7 @@ export const Header = () => {
                 BRAWL
               </Text>
               <Text 
+              transition='ease 1000ms'
               color="#FF4291" 
               fontFamily="Love Ya Like A Sister" 
               fontWeight="bold" 
@@ -78,14 +80,14 @@ export const Header = () => {
                 CRAFT
               </Text>
             </Flex>
-            <Text color="#FCD9FF" fontFamily="Iosevka" fontWeight="normal" fontSize="24" letterSpacing="widest">Minecraft servers</Text>
+            <Text lineHeight={1} color="#FCD9FF" fontFamily="Iosevka" fontWeight="normal" fontSize="24" letterSpacing="widest">Minecraft servers</Text>
           </VStack>
           </Link>
           <Spacer></Spacer>
 
-          <Flex marginBottom={{base: 12, md: 0}} marginTop={{base: 0, md: 4}} marginRight={{base: 0, md: 0, lg: 24}} alignSelf={{base: 'center', md: 'start'}} alignItems={{base: 'center', md: 'start'}} direction={{base: 'row', md: 'column'}}>
+          <Flex transition='ease 1000ms' marginBottom={{base: 12, md: 0}} marginTop={{base: 0, md: 4}} marginRight={{base: 0, md: 0, lg: 24}} alignSelf={{base: 'center', md: 'start'}} alignItems={{base: 'center', md: 'start'}} direction={{base: 'row', md: 'column'}}>
             {/* <VStack alignItems={{base: "center", md: "start"}}> */}
-            <HStack marginRight={{base: 5, md: 0}} spacing={{base: 2, md: 5}} _hover={{cursor: 'pointer'}} onClick={() => { window.open('https://discord.com', '_blank') }}>
+            <HStack marginRight={{base: 5, md: 0}} spacing={{base: 2, md: 5}} _hover={{cursor: 'pointer'}} onClick={() => { window.open('https://discord.gg/Ncbp76WUZ8', '_blank') }}>
                 <FaDiscord size={40} color="#A000FF"/>
                 <Text color="#A000FF" fontFamily="Iosevka" fontWeight="normal" fontSize="20" letterSpacing="widest">Discord</Text>
               </HStack>
