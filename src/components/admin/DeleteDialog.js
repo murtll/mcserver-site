@@ -20,7 +20,8 @@ import { useState } from "react"
 import config from '../../config'
 import axios from "axios"
 import '@fontsource/iosevka'
-import parse from 'html-react-parser'
+import { Markup } from "interweave"
+// import parse from 'html-react-parser'
 
 export const DeleteDialog = ({item, isOpen, onClose, reload}) => {
 
@@ -63,7 +64,9 @@ export const DeleteDialog = ({item, isOpen, onClose, reload}) => {
             <Flex direction={{base: 'column', md: 'row'}} alignItems={{base: 'initial', md: 'start'}}>
                 <VStack spacing={21} alignItems='center'>
                     <Image alignSelf='center' src={`${apiUrl}${item.picture}`} maxHeight={{ base:200, md: 300 }} maxWidth={{ base:200, md: 300 }} />
-                    <Text>{item.description ? parse(item.description) : ''}</Text>
+                    <Text>
+                        <Markup content={item.description}/>
+                    </Text>
                 </VStack>
                 <Spacer minWidth={10}></Spacer>
                 <Flex direction='column'>
