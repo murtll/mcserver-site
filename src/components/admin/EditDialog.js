@@ -195,7 +195,7 @@ export const EditDialog = ({item, isOpen, onClose, reload}) => {
                                 <FormControl marginTop={6} width="full">
                                     <FormLabel>{`${prop[0].toUpperCase()}${prop.substring(1)}`}</FormLabel>
                                     <Textarea height='max-content' borderRadius={10} borderWidth={2} _placeholder={{ color: 'purple.400' }} type="text"
-                                    value={editedItem[prop].replaceAll('<br>', '\n').replaceAll("\\'", "'")}
+                                    value={ editedItem[prop] ? editedItem[prop].replaceAll('<br>', '\n').replaceAll("\\'", "'") : ''}
                                     onChange={(event) => setEditedItem({...editedItem, [prop]: event.target.value.replaceAll('\n', '<br>').replaceAll("'", "\\'")})}
                                     />
                                 </FormControl>
@@ -205,7 +205,7 @@ export const EditDialog = ({item, isOpen, onClose, reload}) => {
                                 <FormControl marginTop={6} width="full">
                                     <FormLabel>{`${prop[0].toUpperCase()}${prop.substring(1)}`}</FormLabel>
                                 {<Input borderRadius={10} borderWidth={2} _placeholder={{ color: 'purple.400' }} type="text"
-                                    value={editedItem[prop]}
+                                    value={editedItem[prop] || ''}
                                     onChange={(event) => setEditedItem({...editedItem, [prop]: event.target.value})}
                                     />}
                                 </FormControl>

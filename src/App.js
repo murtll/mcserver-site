@@ -24,6 +24,7 @@ function App() {
     styles: {
       global: (props) => ({
         body: {
+          backgroundImage: 'url("/images/background.png")',
           bg: mode('#180036', '#180036')(props)
         }
       })
@@ -34,10 +35,10 @@ function App() {
   const [ footerShown, setFooterShown ] = useState(false)
 
   const showDonates = () => {
-    if (window.scrollY > 300) {
+    if (window.scrollY > 200) {
       !donatesShown && setDonatesShown(true)
     }
-    if (window.scrollY > 500) {
+    if (window.scrollY > 300) {
       !footerShown && setFooterShown(true)
     }
     if (footerShown && donatesShown) {
@@ -52,7 +53,6 @@ function App() {
 
   return (
     <ChakraProvider resetCSS theme={customTheme}>
-      <div style={{ backgroundImage: 'url("/images/background.png")', backgroundAttachment: 'fixed' }}>
       <BrowserRouter>
         <Fade top>
           <Header/>
@@ -70,7 +70,6 @@ function App() {
         <Fade bottom when={footerShown}>
           <Footer /> 
         </Fade>
-      </div>
     </ChakraProvider>
   );
 }

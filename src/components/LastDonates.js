@@ -107,7 +107,7 @@ export const LastDonates = () => {
         })
     }, [])
 
-     if (donates && donates.length > 0) return (
+     if (donates && donates.length >= 5) return (
         <Flex width='full' alignItems='center' direction='column' marginBottom={20} fontFamily='Iosevka' textAlign='center'>
             <Text fontSize={24} color="#FCD9FF" fontWeight='bold'>Последние донаты</Text>
                 <Slideshow donates={donates} />
