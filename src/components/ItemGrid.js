@@ -15,38 +15,74 @@ import config from '../config';
 import Fade from 'react-reveal/Fade'
 import { cache } from '../utils/GlobalCache';
 import axios from 'axios';
+import { Link, useNavigate } from 'react-router-dom';
 
 export const ItemGrid = ( { category } ) => {
 
     const { isOpen, onOpen, onClose } = useDisclosure()
     const [ currentItem, setCurrentItem ] = useState()
     const [ items, setItems ] = useState([])
-    // const [items, setItems] = useState(cache[category] || [])
+    const navigate = useNavigate()
+
+    const skeletons = [0, 0, 0, 0]
 
     const apiUrl = config.apiUrl
 
     useEffect(() => {
+        console.log(items);
 
-        // console.log(cache[category]);
+        const params = new URLSearchParams(window.location.search)
+        const itemId = params.get('id')
+        const from = params.get('from')
 
-        setItems([])
-        // setItems(cache[category] || [])
+        if (from === 'self' && items.length > 0) {
+          if (isOpen) return 
 
-        axios.get(`${apiUrl}/${category}`).then((res) => {
-          cache[category] = res.data
-          setItems(res.data)
-          setCurrentItem(res.data[0])
-        })
-    }, [apiUrl, category])
+          const thatItem = itemId ? items.find((item) => item.id == itemId) : undefined
+          if (thatItem) {
+            setCurrentItem(thatItem)
+            onOpen()
+          }     
+        } else {
+          setItems([])
+
+          axios.get(`${apiUrl}/${category}`).then((res) => {
+            cache[category] = res.data
+            setItems(res.data)
+
+            const thatItem = res.data.find((item) => item.id == itemId)
+
+            if (thatItem) {
+              setCurrentItem(thatItem)
+              window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+              });
+
+              setTimeout(onOpen, 500)
+            } else {
+              setCurrentItem(res.data[0])
+            }
+          })
+        }
+    }, [category, window.location.search])
   
-    if (items.length > 0 && currentItem) return (
+    return (
         <>
-        <DonateDialog donateItem={currentItem} isOpen={isOpen} onClose={onClose}/>
-        <SimpleGrid transition='ease 1000ms' columns={{base: 1, md: 2, lg: 3, xl: items.length > 4 ? 4 : items.length}} spacingY={61} spacingX={41}>
-        <Fade>
-          {items.map((item) => {
+        { currentItem ? <DonateDialog category={category} donateItem={currentItem} isOpen={isOpen} onClose={() => {onClose(); navigate(`/${category}?from=self`)}} /> : <></> }
+        <SimpleGrid columns={{base: 1, md: 2, lg: 3, xl: (items.length > 4 || items.length === 0) ? 4 : items.length }}
+        justifyItems='center'
+         >
+          { items.length > 0 ? items.map((item) => {
             return (
-            <Button shadow='dark-lg' height={300} maxWidth={250} backgroundColor="#18003652" borderRadius={15} borderWidth={2} borderColor="#69009B" py="12" px="14" alignItems="self-end" onClick={() => { setCurrentItem(item); onOpen() }}>
+              <Fade>
+          <Button as={Link} to={`/${category}?id=${item.id}&from=self`} transition='ease 400ms' key={item.id} _hover={{ marginY: 2, shadow: '0px 20px 20px 5px #00000052', maxWidth: 260, marginX: '11px' }} 
+          shadow='dark-lg' height={300} maxWidth={250} backgroundColor="#18003652" borderRadius={15} borderWidth={2} borderColor="#69009B"
+          marginX={21} 
+          marginY={31} 
+          paddingY={12} paddingX={14} alignItems="self-end"
+          onClick={() => { setCurrentItem(item); onOpen() }}
+          >
               <VStack spacing={11}>
                 <Image maxHeight={150} src={`${apiUrl}${item.picture}`}/>
                 <Text color="#FCD9FF" fontFamily="Iosevka" fontWeight="normal" fontSize="20" textAlign="center">{item.name}</Text>
@@ -54,21 +90,16 @@ export const ItemGrid = ( { category } ) => {
                   <Text color="#FCD9FF" fontFamily="Iosevka" fontWeight="normal" fontSize="20" textAlign="center">{item.price}₽</Text>
                 </Box>
               </VStack>
-            </Button>)
-          })}
-          </Fade>
+            </Button>
+            </Fade>
+            )
+          }) :
+            skeletons.map((_) => {
+              return (<Skeleton marginX={21} marginY={31} shadow='dark-lg' height={300} width={250} borderRadius={15} startColor='#18003682' endColor='#180036dd' opacity={ cache[category] ? 0 : 0.4 }/>)
+            })
+          }        
+
         </SimpleGrid>
         </>
     )
-    else
-    if (!cache[category]) 
-    return (
-      <SimpleGrid columns={{base: 1, md: 2, lg: 3, xl: 4}} spacingY={61} spacingX={41}>
-        <Skeleton shadow='dark-lg' height={300} width={250} borderRadius={15} startColor='#18003682' endColor='#180036dd' opacity={0.5}/>
-        <Skeleton shadow='dark-lg' height={300} width={250} borderRadius={15} startColor='#18003682' endColor='#180036dd' opacity={0.5}/>
-        <Skeleton shadow='dark-lg' height={300} width={250} borderRadius={15} startColor='#18003682' endColor='#180036dd' opacity={0.5}/>
-        <Skeleton shadow='dark-lg' height={300} width={250} borderRadius={15} startColor='#18003682' endColor='#180036dd' opacity={0.5}/>
-      </SimpleGrid>
-  )
-  else return ( <Box height={300}/> )
 }

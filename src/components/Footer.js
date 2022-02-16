@@ -8,7 +8,7 @@ export const Footer = () => {
             <Text>
                 Copyright © BrawlCraft 2022. Все права защищены. Сервер BrawlCraft никак не относится к Mojang, AB.
             </Text>
-            <Flex direction={{base: 'column', md: 'row'}} marginTop={2}>
+            <Flex direction={{base: 'column', '2xl': 'row'}} marginTop={2}>
             <Text>
                 Самозанятый: Юсипов Артем Александрович
             </Text>
@@ -17,6 +17,13 @@ export const Footer = () => {
                 {'Email: '}
                 <Link href='mailto:support@mcbrawl.ru'>
                     support@mcbrawl.ru
+                </Link>
+            </Text>
+            <Spacer width={5}/>
+            <Text>
+                {'Телефон: '}
+                <Link href='tel:+79955946134'>
+                +79955946134
                 </Link>
             </Text>
             <Spacer width={5}/>

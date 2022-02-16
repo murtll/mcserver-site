@@ -7,8 +7,8 @@ RUN yarn
 
 COPY . .
 
-RUN yarn build
+RUN yarn build && yarn global add serve
 
 EXPOSE 3000
 
-CMD ["yarn", "start"]
+CMD ["yarn", "prod"]
