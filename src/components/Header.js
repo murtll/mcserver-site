@@ -6,7 +6,7 @@ import {
   Flex,
   Button,
   HStack,
-  useColorMode,
+  // useColorMode,
   Spacer
 } from '@chakra-ui/react';
 import { FaDiscord, FaVk } from 'react-icons/fa'
@@ -19,8 +19,8 @@ export const Header = () => {
     const [ show, setShow ] = useState(false)
     const [ hoverText, setHoverText ] = useState('Нажми, чтобы скопировать IP')
 
-    const colorMode = useColorMode();
-    colorMode.setColorMode('dark')
+    // const colorMode = useColorMode();
+    // colorMode.setColorMode('dark')
 
     const serverIp = 'play.mcbrawl.ru'
 
@@ -52,7 +52,7 @@ export const Header = () => {
           visible={show}
           offsetX={20}
           offsetY={-40}>
-            <Box bg="purple.900" opacity={0.9} padding={2} borderRadius={15}>
+            <Box transition='ease 400ms' shadow='dark-lg' bg="purple.900" opacity={0.9} paddingY={2} paddingX={4} borderRadius={15}>
               <Text color="#FCD9FF" fontFamily="Iosevka" fontWeight="normal" fontSize="18">{hoverText}</Text>
             </Box>
           </MouseTooltip>

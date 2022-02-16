@@ -35,7 +35,10 @@ export const ItemGrid = ( { category } ) => {
         const itemId = params.get('id')
         const from = params.get('from')
 
-        if (from === 'self' && items.length > 0) {
+        if (!itemId && isOpen) {
+          onClose()
+          navigate(`/${category}`)
+        } else if (from === 'self' && items.length > 0) {
           if (isOpen) return 
 
           const thatItem = itemId ? items.find((item) => item.id == itemId) : undefined

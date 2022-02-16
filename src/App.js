@@ -24,9 +24,11 @@ function App() {
     styles: {
       global: (props) => ({
         body: {
-          backgroundImage: 'url("/images/background.png")',
-          bg: mode('#180036', '#180036')(props),
-		  backgroundAttachment: 'fixed'
+          // transition: 'ease 1000ms',
+          bgGradient: 'linear(to-bl, #48048c, #3b005c)',
+          backgroundImage: 'url("/images/background.webp")',
+          bg: mode('#3b005c', '#3b005c')(props),
+		      backgroundAttachment: 'fixed'
         }
       })
     }
