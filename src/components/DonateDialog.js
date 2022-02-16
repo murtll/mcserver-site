@@ -65,7 +65,7 @@ export const DonateDialog = ({donateItem, isOpen, onClose, category}) => {
                     <input type="hidden" name="ik_am" value={donateItem.price}/>
                     <input type="hidden" name="ik_cur" value="rub"/>
                     <input type="hidden" name="ik_desc" value={donateItem.name}/>
-                    <input type='hidden' name='ik_suc_u' value={`http://localhost:3000/${category}`} />
+                    <input type='hidden' name='ik_suc_u' value={`https://mcbrawl.ru/${category}`} />
                     <input type='hidden' name='ik_suc_m' value='get' />
                     <input type='hidden' name='ik_ia_u' value={`${apiUrl}/mcserver/process-payment`} />
                     <input type='hidden' name='ik_ia_m' value='post' />
