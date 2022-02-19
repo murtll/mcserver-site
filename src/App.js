@@ -25,10 +25,11 @@ function App() {
       global: (props) => ({
         body: {
           // transition: 'ease 1000ms',
-          bgGradient: 'linear(to-bl, #48048c, #3b005c)',
+          bgGradient: 'linear(to-tl, #48048c, #3b005c)',
           backgroundImage: 'url("/images/background.webp")',
           bg: mode('#3b005c', '#3b005c')(props),
-		      backgroundAttachment: 'fixed'
+		  backgroundAttachment: 'fixed',
+		  backgroundSize: 'cover'
         }
       })
     }
@@ -55,7 +56,6 @@ function App() {
     window.addEventListener('resize', showDonates)
     showDonates()
   }, [])
-
 
   return (
     <ChakraProvider resetCSS theme={customTheme}>
