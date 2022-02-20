@@ -13,19 +13,45 @@ import {
     FormControl,
     FormLabel,
     Input,
+    useRadio,
+    useRadioGroup,
+    Box,
+    HStack,
     Spacer
   } from '@chakra-ui/react'
 import '@fontsource/iosevka'
+import axios from 'axios'
 import { Markup } from 'interweave'
+import { useState } from 'react'
 import { FaInfoCircle } from 'react-icons/fa'
-// import parse from 'html-react-parser'
+import Fade from 'react-reveal/Fade'
 import config from '../config'
-// import crypto from 'crypto'
-// import { useRef } from 'react'
 
 export const DonateDialog = ({donateItem, isOpen, onClose, category}) => {
     const apiUrl = config.apiUrl
-    // const initialRef = useRef()
+    const [ loading, setLoading ] = useState('initial')
+    const [ requestData, setRequestData ] = useState({
+      itemId: donateItem.id,
+      price: donateItem.price,
+      successRedirect: `https://mcbrawl.ru/${category}`
+    })
+
+    const requestPayment = (e) => {
+      e.preventDefault()
+      console.log(requestData)
+      setLoading('loading')
+      axios.post(`${apiUrl}/mcserver/kassa-redirect`, JSON.stringify(requestData), { headers: { 'Content-Type': 'application/json' } })
+          .then((res) => {
+            setLoading('ok')
+            console.log(res.data.redirectUrl)
+            window.location.href = res.data.redirectUrl
+            // window.open(res.data.redirectUrl, '_blank')
+          })
+          .catch((error) => {
+            setLoading('error')
+            setTimeout(() => setLoading('initial'), 2000)
+          })
+    }
 
     return (
         <Modal onClose={onClose} isOpen={isOpen} scrollBehavior={{base: 'outside', md: 'inside'}} 
@@ -48,30 +74,29 @@ export const DonateDialog = ({donateItem, isOpen, onClose, category}) => {
                     </Text>
                   </VStack>
                   <Spacer minWidth={10}></Spacer>
-                <form name="payment" method="post" action="https://sci.interkassa.com/" accept-charset="UTF-8">
+                <form name="payment" onSubmit={requestPayment} accept-charset="UTF-8">
                     <FormControl paddingTop={{base: 8, md: 0}} width="full" isRequired>
                         <FormLabel>Ник в игре</FormLabel>
-                        <Input name='ik_x_username' borderRadius={10} borderWidth={2} _placeholder={{ color: 'purple.400' }} type="text" placeholder="Nickname" />
+                        <Input onChange={(username) => {setRequestData({...requestData, username: username.target.value})}} borderRadius={10} borderWidth={2} _placeholder={{ color: 'purple.400' }} type="text" placeholder="Nickname" />
                     </FormControl>
                     <FormControl marginTop={6} width="full" isRequired>
                         <FormLabel>Email</FormLabel>
-                        <Input name='ik_cli' borderRadius={10} borderWidth={2} _placeholder={{ color: 'purple.400' }} type="email" placeholder="example@example.com" />
+                        <Input onChange={(email) => {setRequestData({...requestData, email: email.target.value})}} borderRadius={10} borderWidth={2} _placeholder={{ color: 'purple.400' }} type="email" placeholder="example@example.com" />
                     </FormControl>
-                    <Button width="full" backgroundColor="#99107B" borderRadius={15} px="8" mt={10} type="submit">
+                    
+                    <FormControl marginTop={6} width="full" isRequired>
+                      <FormLabel>Платежная система</FormLabel>
+                      <PaySystemPicker onChange={(kassa) => {setRequestData({...requestData, kassa: kassa.target ? kassa.target.value: '' })}}/>
+                    </FormControl>
+
+                    <Fade when={loading === 'error'} collapse>
+                      <Flex backgroundColor='#67345642' paddingX={4} paddingY={2} borderRadius={10} marginTop={3}>
+                        <Text color='red.400'>Ошибка!</Text>
+                      </Flex>
+                    </Fade>
+                    <Button transition='ease 500ms' isLoading={loading === "loading"} loadingText="Отправка..." width="full" backgroundColor="#99107B" borderRadius={15} px="8" marginTop={4} type="submit">
                         Купить за {donateItem.price}₽
                     </Button>
-                    <input type='hidden' name='ik_co_id' value='620be9b760703a40c27176e2' />
-                    <input type="hidden" name="ik_pm_no" value="ID_4233"/>
-                    <input type="hidden" name="ik_am" value={donateItem.price}/>
-                    <input type="hidden" name="ik_cur" value="rub"/>
-                    <input type="hidden" name="ik_desc" value={donateItem.name}/>
-                    <input type='hidden' name='ik_suc_u' value={`https://mcbrawl.ru/${category}`} />
-                    <input type='hidden' name='ik_suc_m' value='get' />
-                    <input type='hidden' name='ik_ia_u' value={`${apiUrl}/mcserver/process-payment`} />
-                    <input type='hidden' name='ik_ia_m' value='post' />
-                    <input type='hidden' name='ik_x_donate' value={donateItem.id} />
-                    <input type='hidden' name='ik_products' value={[donateItem]} />
-                    {/* <input type='hidden' name='ik_sign' value={ crypto.sign('sha256', data, 'KQtTLnKZ30hTTGcK')} /> */}
                 </form>
             </Flex>
 
@@ -84,4 +109,83 @@ export const DonateDialog = ({donateItem, isOpen, onClose, category}) => {
         </ModalContent>
         </Modal>
     )
+}
+
+const RadioCard = (props) => {
+  const { getInputProps, getCheckboxProps } = useRadio(props)
+
+  const input = getInputProps()
+  const checkbox = getCheckboxProps()
+
+  return (
+    <Box as='label'>
+      <input {...input} />
+      <Box
+      width='full'
+        {...checkbox}
+        cursor='pointer'
+        borderWidth='1px'
+        borderRadius='md'
+        shadow='md'
+        marginBottom={2}
+        _hover={{
+          bg: '#79107B22',
+          // color: 'white',
+          // borderColor: 'teal.600',
+        }}
+        _checked={{
+          bg: '#59107B92',
+          // color: 'white',
+          // borderColor: 'teal.600',
+        }}
+        // _focus={{
+        //   boxShadow: 'outline',
+        // }}
+        px={5}
+        py={3}
+      >
+        {props.children}
+      </Box>
+    </Box>
+  )
+}
+
+const PaySystemPicker = (props) => {
+  const { getRootProps, getRadioProps } = useRadioGroup({
+    name: 'kassa',
+    // defaultValue: 'interkassa',
+    onChange: props.onChange,
+  })
+
+  const group = getRootProps()
+
+  const kasses = [
+    {
+      name: 'interkassa',
+      img: '/images/interkassa-mini.webp'
+    },
+    {
+      name: 'freekassa',
+      img: '/images/freekassa-mini.webp'
+    }
+  ]
+
+  return (
+    <Flex direction='column' width='full' {...group} {...props}>
+      {
+        kasses.map((kassa) => {
+          const radio = getRadioProps({value: kassa.name})
+
+          return <RadioCard key={kassa.name} {...radio}>
+            <HStack alignItems='center' justify='start'>
+              <Image height={25} src={kassa.img} />
+              <Text fontSize={13} fontWeight='bold'>
+                {`${kassa.name[0].toUpperCase()}${kassa.name.substring(1)}`}
+              </Text>
+            </HStack>
+          </RadioCard>
+        })
+      }
+    </Flex>
+  )
 }
