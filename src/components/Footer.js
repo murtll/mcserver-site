@@ -33,8 +33,8 @@ export const Footer = () => {
             </Flex>
             <Flex marginTop={15} direction={{base: 'column', xl: 'row'}} alignItems='center'>
                 <Link href='/public_offer.pdf' isExternal>Публичная оферта</Link>
-                {/* <Text marginX={2}>·</Text>
-                <Link href='#'>Политика обработки персональных данных</Link> */}
+                <Text marginX={2}>·</Text>
+                <Link href='/privacy.pdf' isExternal>Политика конфиденциальности</Link>
             </Flex>
         </Flex>
     )
