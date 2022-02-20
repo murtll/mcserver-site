@@ -22,7 +22,7 @@ import {
 import '@fontsource/iosevka'
 import axios from 'axios'
 import { Markup } from 'interweave'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { FaInfoCircle } from 'react-icons/fa'
 import Fade from 'react-reveal/Fade'
 import config from '../config'
@@ -35,6 +35,14 @@ export const DonateDialog = ({donateItem, isOpen, onClose, category}) => {
       price: donateItem.price,
       successRedirect: `https://mcbrawl.ru/${category}`
     })
+
+    useEffect(() => {
+      setRequestData({
+        itemId: donateItem.id,
+        price: donateItem.price,
+        successRedirect: `https://mcbrawl.ru/${category}`  
+      })
+    }, [donateItem])
 
     const requestPayment = (e) => {
       e.preventDefault()
