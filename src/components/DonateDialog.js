@@ -24,6 +24,7 @@ import axios from 'axios'
 import { Markup } from 'interweave'
 import { useEffect, useState } from 'react'
 import { FaInfoCircle } from 'react-icons/fa'
+import { GoAlert } from 'react-icons/go'
 import Fade from 'react-reveal/Fade'
 import config from '../config'
 
@@ -108,10 +109,16 @@ export const DonateDialog = ({donateItem, isOpen, onClose, category}) => {
                 </form>
             </Flex>
 
-            <Flex direction={{base: 'column', md: 'row'}} alignItems='center' justify='center' padding={3} marginTop={8} backgroundColor='#31406652' borderRadius={15}>
-              <FaInfoCircle color='#9555b5' size={25}/>
-              <Text fontSize={13} textAlign='center' textColor='#9555b5' marginLeft={4}>Купленный товар будет начислен на ваш аккаунт автоматически после оплаты</Text>
+            <Flex direction={{base: 'column', md: 'row'}} alignItems='center' justify='start' paddingY={3} paddingX={8} marginTop={8} backgroundColor='#31406652' borderRadius={15}>
+              <FaInfoCircle color='#9555b5' size={21}/>
+              <Text fontSize={13} textAlign='left' textColor='#9555b5' marginLeft={4}>Купленный товар будет начислен на ваш аккаунт автоматически после оплаты</Text>
             </Flex>
+
+            <Flex direction={{base: 'column', md: 'row'}} alignItems='center' justify='start' paddingY={3} paddingX={8} marginTop={3} backgroundColor='#cddc3922' borderRadius={15}>
+              <GoAlert color='#fcdc0072' size={21}/>
+              <Text fontSize={13} textAlign='left' textColor='#fcdc0092' marginLeft={4}>При запросе возврата денежных средств при отказе от покупки, возврат не осуществляется.</Text>
+            </Flex>
+
             </Flex>
           </ModalBody>
         </ModalContent>

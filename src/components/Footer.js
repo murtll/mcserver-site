@@ -3,7 +3,7 @@ import '@fontsource/iosevka'
 
 export const Footer = () => {
     return (
-        <Flex width='100%' bg="#2D115A72" paddingX={{base: 8, md: 100}} paddingY={50} alignItems='center' direction='column' borderTopRadius={50} fontFamily='Iosevka' fontSize={{base: 15, md: 18}} textAlign='center'>
+        <Flex width='100%' bg="#2D115A72" paddingX={{base: 8, md: 100}} paddingY={50} alignItems='center' direction='column' borderTopRadius={50} textColor='#bb90aa' fontFamily='Iosevka' fontSize={{base: 12, md: 15}} textAlign='center'>
             <Image src='/images/payments.webp' maxWidth={{base: 300, md: 500}} marginBottom={30}></Image>
             <Text>
                 Copyright © BrawlCraft 2022. Все права защищены. Сервер BrawlCraft никак не относится к Mojang, AB.
@@ -35,6 +35,9 @@ export const Footer = () => {
                 <Link href='/public_offer.pdf' isExternal>Публичная оферта</Link>
                 <Text marginX={2}>·</Text>
                 <Link href='/privacy.pdf' isExternal>Политика конфиденциальности</Link>
+                <Text marginX={2}>·</Text>
+
+            <Link href='/paying_security_policy.pdf' isExternal>Политика безопасности PСI DSS при оплате картой</Link>
             </Flex>
         </Flex>
     )
