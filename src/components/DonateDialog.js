@@ -64,7 +64,7 @@ export const DonateDialog = ({donateItem, isOpen, onClose, category}) => {
 
     return (
         <Modal onClose={onClose} isOpen={isOpen} scrollBehavior={{base: 'outside', md: 'inside'}} 
-        isCentered={window.innerHeight > 900 && (donateItem.description ? donateItem.description.length < 200: true)}
+        isCentered={window.innerHeight > 1000 && (donateItem.description ? donateItem.description.length < 200: true)}
         // initialFocusRef={initialRef}
         >
         <ModalOverlay bgColor='#18003690' />
@@ -73,16 +73,17 @@ export const DonateDialog = ({donateItem, isOpen, onClose, category}) => {
           <ModalCloseButton />
           <ModalBody margin={10}>
             <Flex direction='column'>
-              <Flex transition='ease 1000ms' direction={{base: 'column', md: 'row'}} alignItems={{base: 'initial', md: 'start'}}>
-                  <VStack spacing={21} alignItems='center'>
+              <Flex transition='ease 1000ms' direction={{base: 'column', md: 'row'}} align={{base: 'initial', md: 'start'}} justify='space-around'>
+                  <Flex direction='column' align='center' justify='center' >
                     <Image
                     //  ref={initialRef} 
-                     alignSelf='center' src={`${apiUrl}${donateItem.picture}`} maxHeight={{ base:200, md: 300 }} maxWidth={{ base:200, md: 300 }} />
+                     alignSelf='center' src={`${apiUrl}${donateItem.picture}`} maxHeight={{ base:200, md: 300 }} maxWidth={{ base:200, md: 300 }} margin={3}/>
+	    	    <Spacer minHeight={21}/>
                     <Text>
                       <Markup content={donateItem.description} />
                     </Text>
-                  </VStack>
-                  <Spacer minWidth={10}></Spacer>
+                  </Flex>
+                  <Spacer maxWidth={10} minWidth={10}></Spacer>
                 <form name="payment" onSubmit={requestPayment} accept-charset="UTF-8">
                     <FormControl paddingTop={{base: 8, md: 0}} width="full" isRequired>
                         <FormLabel>Ник в игре</FormLabel>
@@ -109,14 +110,14 @@ export const DonateDialog = ({donateItem, isOpen, onClose, category}) => {
                 </form>
             </Flex>
 
-            <Flex direction={{base: 'column', md: 'row'}} alignItems='center' justify='start' paddingY={3} paddingX={8} marginTop={8} backgroundColor='#31406652' borderRadius={15}>
+            <Flex direction={{base: 'column', md: 'row'}} alignItems='center' justify='start' paddingY={3} marginTop={8} paddingX={{ base: 3, md: 8 }} backgroundColor='#31406652' borderRadius={15}>
               <FaInfoCircle color='#9555b5' size={21}/>
-              <Text fontSize={13} textAlign='left' textColor='#9555b5' marginLeft={4}>Купленный товар будет начислен на ваш аккаунт автоматически после оплаты</Text>
+              <Text fontSize={13} textAlign={{ base: 'center', md: 'left' }} textColor='#9555b5' marginLeft={{base: 0, md: 4}}>Купленный товар будет начислен на ваш аккаунт автоматически после оплаты</Text>
             </Flex>
 
-            <Flex direction={{base: 'column', md: 'row'}} alignItems='center' justify='start' paddingY={3} paddingX={8} marginTop={3} backgroundColor='#cddc3922' borderRadius={15}>
+            <Flex direction={{base: 'column', md: 'row'}} alignItems='center' justify='start' paddingY={3} paddingX={{ base: 3, md: 8 }} marginTop={3} backgroundColor='#cddc3922' borderRadius={15}>
               <GoAlert color='#fcdc0072' size={21}/>
-              <Text fontSize={13} textAlign='left' textColor='#fcdc0092' marginLeft={4}>При запросе возврата денежных средств при отказе от покупки, возврат не осуществляется.</Text>
+              <Text fontSize={13} textAlign={{ base: 'center', md: 'left' }} textColor='#fcdc0092' marginLeft={{base: 0, md: 4}}>При запросе возврата денежных средств при отказе от покупки, возврат не осуществляется.</Text>
             </Flex>
 
             </Flex>
