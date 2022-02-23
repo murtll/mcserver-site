@@ -17,7 +17,12 @@ import {
     useRadioGroup,
     Box,
     HStack,
-    Spacer
+    Spacer,
+    NumberInput,
+    NumberInputField,
+    NumberInputStepper,
+    NumberIncrementStepper,
+    NumberDecrementStepper,
   } from '@chakra-ui/react'
 import '@fontsource/iosevka'
 import axios from 'axios'
@@ -34,6 +39,7 @@ export const DonateDialog = ({donateItem, isOpen, onClose, category}) => {
     const [ requestData, setRequestData ] = useState({
       itemId: donateItem.id,
       price: donateItem.price,
+      number: 1,
       successRedirect: `https://mcbrawl.ru/${category}`
     })
 
@@ -41,6 +47,7 @@ export const DonateDialog = ({donateItem, isOpen, onClose, category}) => {
       setRequestData({
         itemId: donateItem.id,
         price: donateItem.price,
+        number: 1,
         successRedirect: `https://mcbrawl.ru/${category}`  
       })
     }, [donateItem])
@@ -61,6 +68,9 @@ export const DonateDialog = ({donateItem, isOpen, onClose, category}) => {
             setTimeout(() => setLoading('initial'), 2000)
           })
     }
+
+    const calculateSale = (number) => Math.round(50 / (Math.pow(Math.E, 3 - (number / Math.pow(Math.PI, 2))) + 1))
+    const calculatePrice = (price, number) => number > 1 ? number * Math.round(price * ((100 - calculateSale(number)) / 100)) : price
 
     return (
         <Modal onClose={onClose} isOpen={isOpen} scrollBehavior={{base: 'outside', md: 'inside'}} 
@@ -84,7 +94,7 @@ export const DonateDialog = ({donateItem, isOpen, onClose, category}) => {
                     </Text>
                   </Flex>
                   <Spacer maxWidth={10} minWidth={10}></Spacer>
-                <form name="payment" onSubmit={requestPayment} accept-charset="UTF-8">
+                <form name="payment" onSubmit={requestPayment}>
                     <FormControl paddingTop={{base: 8, md: 0}} width="full" isRequired>
                         <FormLabel>Ник в игре</FormLabel>
                         <Input onChange={(username) => {setRequestData({...requestData, username: username.target.value})}} borderRadius={10} borderWidth={2} _placeholder={{ color: 'purple.400' }} type="text" placeholder="Nickname" />
@@ -93,7 +103,24 @@ export const DonateDialog = ({donateItem, isOpen, onClose, category}) => {
                         <FormLabel>Email</FormLabel>
                         <Input onChange={(email) => {setRequestData({...requestData, email: email.target.value})}} borderRadius={10} borderWidth={2} _placeholder={{ color: 'purple.400' }} type="email" placeholder="example@example.com" />
                     </FormControl>
-                    
+
+		{donateItem.max_number > donateItem.min_number ?
+                    <FormControl marginTop={6} width="full" isRequired>
+                        <FormLabel>Количество</FormLabel>
+                        <NumberInput defaultValue={requestData.number} min={donateItem.min_number} max={donateItem.max_number} onChange={(number) => {setRequestData({...requestData, number: number})}}>
+                          <NumberInputField />
+                          <NumberInputStepper>
+                            <NumberIncrementStepper />
+                            <NumberDecrementStepper />
+                          </NumberInputStepper>
+                        </NumberInput>      
+                        <Fade when={requestData.number > 1} top collapse duration={400}>                  
+                          <Text marginTop={1}>Выгода - {calculateSale(requestData.number)}%</Text>
+                        </Fade>
+{ /*<Input defaultValue={requestData.number} onChange={(number) => {setRequestData({...requestData, number: number.target.value})}} borderRadius={10} borderWidth={2} _placeholder={{ color: 'purple.400' }} type='number' min={1} max={100}/> */ }
+                    </FormControl>
+                    : <></>}
+
                     <FormControl marginTop={6} width="full" isRequired>
                       <FormLabel>Платежная система</FormLabel>
                       <PaySystemPicker onChange={(kassa) => {setRequestData({...requestData, kassa: kassa.target ? kassa.target.value: '' })}}/>
@@ -105,7 +132,7 @@ export const DonateDialog = ({donateItem, isOpen, onClose, category}) => {
                       </Flex>
                     </Fade>
                     <Button transition='ease 500ms' isLoading={loading === "loading"} loadingText="Отправка..." width="full" backgroundColor="#99107B" borderRadius={15} px="8" marginTop={4} type="submit">
-                        Купить за {donateItem.price}₽
+                        Купить за {calculatePrice(requestData.price, requestData.number)}₽
                     </Button>
                 </form>
             </Flex>
