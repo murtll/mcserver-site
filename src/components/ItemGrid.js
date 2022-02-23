@@ -80,7 +80,7 @@ export const ItemGrid = ( { category } ) => {
           { items.length > 0 ? items.map((item) => {
             return (
               <Fade key={item.id} >
-	  <Flex align='start' justify='start' height={341}
+	  <Flex align='center' justify='center' height={341}
 	       width={291}
 	       //_hover={{ height: 321 }} 
                //paddingX={21} 
