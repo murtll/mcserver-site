@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import {
-  ChakraProvider, extendTheme, theme, Spacer} from '@chakra-ui/react';
+  ChakraProvider, extendTheme, theme, Spacer, Flex} from '@chakra-ui/react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { mode } from "@chakra-ui/theme-tools"
 
@@ -12,6 +12,7 @@ import { CategoryPage } from './components/CategoryPage'
 import { LastDonates } from './components/LastDonates';
 
 import Fade from 'react-reveal/Fade';
+import { Chart } from './components/Chart';
 
 function App() {
 
@@ -68,9 +69,12 @@ function App() {
           <Route exact path="/admin" element={<AdminPanel/>}/>
           <Route path="/:category" element={<CategoryPage />} />
         </Routes>
+      {/*<Flex justify='space-around' direction='row'> */}
         <Fade bottom when={donatesShown}>
+          {/*<Chart />*/}
           <LastDonates />
         </Fade>
+      {/*</Flex> */}
       </BrowserRouter>
         <Spacer height={85} />
         <Fade bottom when={footerShown} duration={700}>

@@ -1,4 +1,4 @@
-import { Flex, Image, Box, Text } from '@chakra-ui/react'
+import { Flex, Image, Box, Text, Spacer } from '@chakra-ui/react'
 import { Link } from 'react-router-dom'
 import axios from 'axios'
 import { useEffect, useState, useRef } from 'react'
@@ -59,8 +59,8 @@ const Slideshow = ({ donates }) => {
       <Flex
         maxWidth={windowWidth > 1000 ? 1000 : windowWidth > 900 ? 750 : windowWidth > 600 ? 560 : windowWidth > 500 ? 370 : 190}
         direction='row'
-        transition='ease 1000ms'
-        transform={`translate3d(${-index * koeff}%, 0, 0)`}
+          transition='ease 1000ms'
+        transform={`translate3d(-${index * koeff}%, 0, 0)`}
         whiteSpace='nowrap'
         // onDrag={(e) => {
         //   console.log(e.clientX);
@@ -77,18 +77,46 @@ const Slideshow = ({ donates }) => {
             transition='ease 200ms'
             _hover={{ marginY: 1 }}
           >
+              { donate.amount > 1 ?
               <Link to={`${donate.link}?id=${donate.itemId}`}>
               <Flex 
-              boxShadow='lg' _hover={{ boxShadow: '2xl', 
-                                       cursor: 'pointer' }} 
+              position='absolute'
+              boxShadow='lg' _hover={{ boxShadow: '2xl', cursor: 'pointer' }} 
+              backgroundColor='#bb88bb22' 
+              direction='column' justify='flex-end' alignItems='center'
+              height={200} width={150} borderColor='purple' borderWidth={2} borderRadius={10} paddingBottom={3} paddingX={5}>
+
+                <Text fontSize={16} marginTop={1} textShadow='0px 0px 5px white'>x{donate.amount}</Text>
+                <Spacer />
+                <Image maxHeight={70} src={`${config.apiUrl}${donate.picture}`}/>
+                <Text color="#FCD9FF" fontSize={15} marginTop={1}>{donate.name}</Text>
+                <Text fontSize={15} paddingX={2} borderRadius={5} backgroundColor='purple' marginTop={1}>{donate.price}₽</Text>
+                <Text fontWeight='bold' color="#ccccdd" fontSize={15} marginTop={1}>{donate.donaterUsername}</Text>
+              </Flex>
+
+              <Flex
+              clipPath='polygon(93% 0, 140% 10%, 100% 93%)'
+              zIndex={-1}
+              transformOrigin='left bottom'
+              transform='rotate(3deg)'
+              boxShadow='lg' _hover={{ boxShadow: '2xl', cursor: 'pointer' }} 
               backgroundColor='#bb88bb22' direction='column' justify='flex-end' alignItems='center'
               height={200} width={150} borderColor='purple' borderWidth={2} borderRadius={10} paddingBottom={3} paddingX={5}>
-                            <Image maxHeight={70} src={`${config.apiUrl}${donate.picture}`}/>
-                            <Text color="#FCD9FF" fontSize={15} marginTop={1}>{donate.name}</Text>
-                            <Text fontSize={15} paddingX={2} borderRadius={5} backgroundColor='purple' marginTop={1}>{donate.price}₽</Text>
-                            <Text fontWeight='bold' color="#ccccdd" fontSize={15} marginTop={1}>{donate.donaterUsername}</Text>
               </Flex>
-            </Link>
+            </Link> 
+            :
+            <Link to={`${donate.link}?id=${donate.itemId}`}>
+              <Flex 
+              boxShadow='lg' _hover={{ boxShadow: '2xl', cursor: 'pointer' }} 
+              backgroundColor='#bb88bb22' direction='column' justify='flex-end' alignItems='center'
+              height={200} width={150} borderColor='purple' borderWidth={2} borderRadius={10} paddingBottom={3} paddingX={5}>
+                <Image maxHeight={70} src={`${config.apiUrl}${donate.picture}`}/>
+                <Text color="#FCD9FF" fontSize={15} marginTop={1}>{donate.name}</Text>
+                <Text fontSize={15} paddingX={2} borderRadius={5} backgroundColor='purple' marginTop={1}>{donate.price}₽</Text>
+                <Text fontWeight='bold' color="#ccccdd" fontSize={15} marginTop={1}>{donate.donaterUsername}</Text>
+              </Flex>
+            </Link> 
+            }
           </Flex>
         ))}
       </Flex>

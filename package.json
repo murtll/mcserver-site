@@ -21,6 +21,7 @@
     "react-router-dom": "^6.2.1",
     "react-scripts": "5.0.0",
     "react-sticky-mouse-tooltip": "^0.0.1",
+    "recharts": "^2.1.9",
     "web-vitals": "^0.2.2",
     "webfontloader": "^1.6.28"
   },

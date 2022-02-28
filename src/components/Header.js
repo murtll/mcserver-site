@@ -15,6 +15,8 @@ import '@fontsource/iosevka'
 import { Link } from 'react-router-dom'
 import WebFont from 'webfontloader';
 
+import { ServerInfo } from './ServerInfo'
+
 export const Header = () => {
     const [ show, setShow ] = useState(false)
     const [ hoverText, setHoverText ] = useState('Нажми, чтобы скопировать IP')
@@ -39,12 +41,37 @@ export const Header = () => {
     }, [])
 
     return (
-        // <Flex bg="#3D005A" p="8">
-        <Flex transition='ease 1000ms' top={0} width='full' shadow='md' borderBottomRadius={50} paddingBottom={{base: 0, md: 8}} paddingTop={{base: 8, md: 8}} paddingX={{base: 0, md: 12, lg: 24}} bg="#3D005A72" direction={{base: 'column', md: 'row'}}>
-            <Button alignSelf="center" maxWidth={{base: 270, sm: 300, md: 200, lg: 300}} boxShadow="dark-lg" variant='outline' borderRadius="15" borderWidth={3} paddingY={14} paddingX={8} onClick={copyIPToClipboard} onMouseEnter={() => setShow(true)} onMouseLeave={() => setShow(false)}>
+        <Flex 
+          transition='ease 400ms' 
+          top={0} 
+          width='full' 
+          align={{base: 'center', md: 'start'}}
+          justify='center'
+          shadow='md' 
+          borderBottomRadius={50} 
+          paddingBottom={{base: 0, md: 3}} 
+          paddingTop={{base: 8, md: 8}} 
+          paddingX={{base: 0, md: 12, lg: 20}} 
+          bg="#3D005A72" 
+          direction={{base: 'column', md: 'row'}}>
+
+            <Button 
+              // alignSelf="center" 
+              maxWidth={{base: 270, sm: 300, md: 200, lg: 300}} 
+              boxShadow="dark-lg" 
+              variant='outline' 
+              borderRadius="15" 
+              borderWidth={3} 
+              paddingY={14} 
+              paddingX={8} 
+              marginTop={1}
+              onClick={copyIPToClipboard} 
+              onMouseEnter={() => setShow(true)} 
+              onMouseLeave={() => setShow(false)}>
               <VStack>
-                <Text color="#FCD9FF" fontFamily="Iosevka" fontWeight="normal" fontSize={{base: 24, md: 18, lg: 22, xl: 24}}>IP СЕРВЕРА</Text>
-                <Text color="#FFFFFF" fontFamily="Iosevka" fontWeight="bold" fontSize={{base: 30, md: 22, lg: 26, xl: 30}}>{serverIp}</Text>
+                <Text transition='ease 400ms' color="#FCD9FF" fontFamily="Iosevka" fontWeight="normal" fontSize={{base: 20, md: 14, lg: 18, xl: 20}}>IP СЕРВЕРА</Text>
+                <Text transition='ease 400ms' color="#FFFFFF" fontFamily="Iosevka" fontWeight="bold" fontSize={{base: 24, md: 16, lg: 20, xl: 24}}>{serverIp}</Text>
+                <Text transition='ease 400ms' color="#cCa9cc" fontFamily="Iosevka" fontWeight="normal" fontSize={{base: 14, md: 8, lg: 12, xl: 14}}>Версия 1.12-1.18</Text>
               </VStack>
             </Button>
 
@@ -62,7 +89,7 @@ export const Header = () => {
           <VStack padding={{base: 10, md: 0}} spacing={0} _hover={{cursor: 'pointer'}}>
             <Flex>
               <Text
-              transition='ease 1000ms' 
+              transition='ease 400ms' 
               color="#FCD9FF" 
               fontFamily="Love Ya Like A Sister" 
               fontWeight="bold" 
@@ -71,7 +98,7 @@ export const Header = () => {
                 BRAWL
               </Text>
               <Text 
-              transition='ease 1000ms'
+              transition='ease 400ms'
               color="#FF4291" 
               fontFamily="Love Ya Like A Sister" 
               fontWeight="bold" 
@@ -83,21 +110,52 @@ export const Header = () => {
             <Text lineHeight={1} color="#FCD9FF" fontFamily="Iosevka" fontWeight="normal" fontSize="24" letterSpacing="widest">Minecraft servers</Text>
           </VStack>
           </Link>
+
+          
           <Spacer></Spacer>
 
-          <Flex transition='ease 1000ms' marginBottom={{base: 12, md: 0}} marginTop={{base: 0, md: 4}} marginRight={{base: 0, md: 0, lg: 24}} alignSelf={{base: 'center', md: 'start'}} alignItems={{base: 'center', md: 'start'}} direction={{base: 'row', md: 'column'}}>
-            {/* <VStack alignItems={{base: "center", md: "start"}}> */}
+          <Flex transition='ease 400ms'
+            align={{base: 'center', md: 'start'}}
+            direction='column'
+            marginBottom={{base: 6, md: 3}}
+            marginLeft={{base: 0, '2xl': 8}}
+            marginRight={{base: 0,xl: 24, '2xl': 12}}
+            >
+
+          <Flex transition='ease 400ms'
+            // marginBottom={{base: 12, md: 0}}
+            // marginTop={{base: 0, md: 41}}
+            // marginLeft={{base: 0, lg: 24}}
+            alignSelf={{base: 'center', md: 'start'}} 
+            align={{base: 'center', md: 'start'}}
+            direction={{base: 'row', md: 'column'}}>
+
             <HStack marginRight={{base: 5, md: 0}} spacing={{base: 2, md: 5}} _hover={{cursor: 'pointer'}} onClick={() => { window.open('https://discord.gg/Ncbp76WUZ8', '_blank') }}>
-                <FaDiscord size={40} color="#A000FF"/>
+                <FaDiscord size={35} color="#A000FF"/>
                 <Text color="#A000FF" fontFamily="Iosevka" fontWeight="normal" fontSize="20" letterSpacing="widest">Discord</Text>
               </HStack>
               <HStack spacing={{base: 2, md: 5}} _hover={{cursor: 'pointer'}} onClick={() => { window.open('https://vk.com/mcbrawl', '_blank') }}>
-                <FaVk size={40} color="#A000FF"/>
+                <FaVk size={35} color="#A000FF"/>
                 <Text color="#A000FF" fontFamily="Iosevka" fontWeight="normal" fontSize="20" letterSpacing="widest">ВКонтакте</Text>
               </HStack>
-            {/* </VStack> */}
+          </Flex>
+
+
+          <ServerInfo 
+            transition='ease 400ms' 
+            marginTop={3}
+            direction='row' 
+            align='center' 
+            justify='center' 
+            paddingTop={2} 
+            paddingBottom={2} 
+            paddingX={8} 
+            borderRadius={15} 
+            borderWidth={2} 
+            // backgroundColor='#3A005B32'
+            borderColor='#69009B'/>
+
           </Flex>
         </Flex>
-      // </Box>
     )
 }
