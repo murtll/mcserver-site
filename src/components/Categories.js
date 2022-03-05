@@ -47,7 +47,7 @@ export const Categories = () => {
                     <MenuButton as={Button} variant='outline' shadow='2xl' borderWidth={3} borderRadius={15} borderColor="#69009B" rightIcon={<FaChevronDown />} width='full' marginX={25} paddingY={8}>
                         <Text fontSize={20}>{(categories.find((category) => category.link === window.location.pathname) || { name: 'Категории' }).name}</Text>
                     </MenuButton>
-                    <MenuList minWidth={windowWidth - 60} 
+                    <MenuList minWidth={windowWidth - 50} 
                     // bg='#2b1446'
                     bg='#3d0061'
                     borderWidth={0}

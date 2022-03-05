@@ -11,17 +11,17 @@ import './Slideshow.css'
 const Slideshow = ({ donates }) => {
   const [index, setIndex] = useState(0)
   const [windowWidth, setWindowWidth] = useState(window.innerWidth)
-  const [koeff, setKoeff] = useState(windowWidth > 1000 ? 0 : windowWidth > 900 ? 27 : windowWidth > 600 ? 35 : windowWidth > 500 ? 52 : 100)
-  const [minus, setMinus] = useState(windowWidth > 1000 ? 5 : windowWidth > 900 ? 4 : windowWidth > 600 ? 3 : windowWidth > 500 ? 2 : 1)
-  const [slice, setSlice] = useState(windowWidth > 1000 ? 4 : windowWidth > 900 ? 3 : windowWidth > 600 ? 2 : windowWidth > 500 ? 1 : 0)
+  const [koeff, setKoeff] = useState(windowWidth > 1800 ? 0 : windowWidth > 1400 ? 27 : windowWidth > 1100 ? 35 : windowWidth > 500 ? 52 : 100)
+  const [minus, setMinus] = useState(windowWidth > 1800 ? 5 : windowWidth > 1400 ? 4 : windowWidth > 1100 ? 3 : windowWidth > 500 ? 2 : 1)
+  const [slice, setSlice] = useState(windowWidth > 1800 ? 4 : windowWidth > 1400 ? 3 : windowWidth > 1100 ? 2 : windowWidth > 500 ? 1 : 0)
   const timeoutRef = useRef(null)
 
   useEffect(() => {
       window.addEventListener('resize', () => {
           setWindowWidth(window.innerWidth)
-          setKoeff(window.innerWidth > 1000 ? 0 : window.innerWidth > 900 ? 27 : window.innerWidth > 600 ? 35 : window.innerWidth > 500 ? 52 : 100)
-          setMinus(window.innerWidth > 1000 ? 5 : window.innerWidth > 900 ? 4 : window.innerWidth > 600 ? 3 : window.innerWidth > 500 ? 2 : 1)
-          setSlice(window.innerWidth > 1000 ? 4 : window.innerWidth > 900 ? 3 : window.innerWidth > 600 ? 2 : window.innerWidth > 500 ? 1 : 0)
+          setKoeff(window.innerWidth > 1800 ? 0 : window.innerWidth > 1400 ? 27 : window.innerWidth > 1100 ? 35 : window.innerWidth > 500 ? 52 : 100)
+          setMinus(window.innerWidth > 1800 ? 5 : window.innerWidth > 1400 ? 4 : window.innerWidth > 1100 ? 3 : window.innerWidth > 500 ? 2 : 1)
+          setSlice(window.innerWidth > 1800 ? 4 : window.innerWidth > 1400 ? 3 : window.innerWidth > 1100 ? 2 : window.innerWidth > 500 ? 1 : 0)
       })
   }, [])
 
@@ -57,7 +57,7 @@ const Slideshow = ({ donates }) => {
         marginTop={5} borderColor='purple' borderWidth={1} borderRadius={15} paddingY={5} paddingX={5}
     >
       <Flex
-        maxWidth={windowWidth > 1000 ? 1000 : windowWidth > 900 ? 750 : windowWidth > 600 ? 560 : windowWidth > 500 ? 370 : 190}
+        maxWidth={windowWidth > 1800 ? 1000 : windowWidth > 1400 ? 750 : windowWidth > 1100 ? 560 : windowWidth > 500 ? 370 : 190}
         direction='row'
           transition='ease 1000ms'
         transform={`translate3d(-${index * koeff}%, 0, 0)`}

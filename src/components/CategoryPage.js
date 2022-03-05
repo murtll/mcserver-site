@@ -12,7 +12,7 @@ export const CategoryPage = () => {
     const { category } = useParams()
 
     return (
-        <Box width="full">
+        <Box width="full" paddingBottom={20}>
         <VStack marginY={50} spacing={61}>
             <Categories/>
             <ItemGrid category={category}/>

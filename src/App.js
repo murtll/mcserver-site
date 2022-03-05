@@ -38,21 +38,30 @@ function App() {
 
   const [ donatesShown, setDonatesShown ] = useState(false)
   const [ footerShown, setFooterShown ] = useState(false)
+  
+  var prevScroll = 0
 
   const showDonates = () => {
-    if (window.scrollY + window.innerHeight > 1200) {
-      !donatesShown && setDonatesShown(true)
+    const newScroll = window.scrollY + window.innerHeight
+    if (prevScroll < newScroll && newScroll > 1200) {
+      setDonatesShown(true)
+    } 
+    if (prevScroll > newScroll && prevScroll < 1400) {
+      setDonatesShown(false)
     }
+    prevScroll = newScroll
+
     if (window.scrollY + window.innerHeight > 1300) {
       !footerShown && setFooterShown(true)
     }
-    if (footerShown && donatesShown) {
-      window.removeEventListener('scroll', showDonates);
-      window.removeEventListener('resize', showDonates);
-    }
+    //if (footerShown && donatesShown) {
+      //window.removeEventListener('scroll', showDonates);
+      //window.removeEventListener('resize', showDonates);
+    //}
   }
 
   useEffect(() => {
+    prevScroll = window.scrollY + window.innerHeight
     window.addEventListener('scroll', showDonates)
     window.addEventListener('resize', showDonates)
     showDonates()
@@ -69,12 +78,14 @@ function App() {
           <Route exact path="/admin" element={<AdminPanel/>}/>
           <Route path="/:category" element={<CategoryPage />} />
         </Routes>
-      {/*<Flex justify='space-around' direction='row'> */}
+      <Flex marginTop={20} marginX={20} justify='space-around' direction={{base: 'column', md: 'row-reverse'}}> 
         <Fade bottom when={donatesShown}>
-          {/*<Chart />*/}
           <LastDonates />
         </Fade>
-      {/*</Flex> */}
+        <Fade bottom when={donatesShown}>
+          <Chart />
+        </Fade>
+      </Flex>
       </BrowserRouter>
         <Spacer height={85} />
         <Fade bottom when={footerShown} duration={700}>

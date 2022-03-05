@@ -21,19 +21,32 @@ export const ServerInfo = (props) => {
         axios.get(`https://api.minetools.eu/query/play.mcbrawl.ru/25565`).then((res) => {
             cache.playerCount = res.data.Players
             setPlayerCount(res.data.Players)
+          })
+	    .catch((err) => {
+		console.log(err)
+	    })
+    }
+
+    const getPlayerCountAndUpdate = () => {
+        axios.get(`https://api.minetools.eu/query/play.mcbrawl.ru/25565`).then((res) => {
+            cache.playerCount = res.data.Players
+            setPlayerCount(res.data.Players)
 
             // to auto update
             setTimeout(getPlayerCount,
                 30000)
           })
+	    .catch((err) => {
+		console.log(err)
+	    })
     }
 
     useEffect(() => {
-        getPlayerCount()
+        getPlayerCountAndUpdate()
     }, [])
 
     return (
-        <Flex height='min-content' width='min-content' {...props}>
+        <Flex onClick={getPlayerCount} height='min-content' width='min-content' {...props}>
                 <Text color="#FCD9FF" fontFamily="Iosevka" fontWeight="normal" fontSize={20}>Онлайн:</Text>
                 {playerCount === null ? 
                     <Skeleton marginLeft={2} height={25} width={15} borderRadius={15} startColor='purple.400' endColor='purple.900' opacity={0.3}/> : 

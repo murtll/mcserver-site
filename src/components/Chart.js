@@ -1,57 +1,78 @@
 import { Flex, Text } from "@chakra-ui/react"
 import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts"
 import '@fontsource/iosevka'
-
-const data = [
-  {
-    time: new Date(1646003842).toISOString(),
-    number: 1
-  },
-  {
-    time: new Date(1646003843).toISOString(),
-    number: 0
-  },
-  {
-    time: new Date(1646003844).toISOString(),
-    number: 2
-  },
-  {
-    time: new Date(1646003845).toISOString(),
-    number: 3
-  },
-  {
-    time: new Date(1646003846).toISOString(),
-    number: 1
-  },
-  {
-    time: new Date(1646003847).toISOString(),
-    number: 1
-  },
-]
-
+import { cache } from '../utils/GlobalCache'
+import axios from 'axios'
+import { useState, useEffect } from 'react'
+import config from '../config'
 
 export const Chart = () => {
+
+	const [chartData, setChartData] = useState(cache.chartData || null)
+
+	useEffect(() => {
+		axios.get(`${config.apiUrl}/serverinfo/graphinfo`)
+			.then((res) => {
+				const preparedData = { max: res.data.max, data: res.data.data.map((e) => { return { number: e.number, time: new Date(e.time) } }) }
+				cache.chartData = preparedData
+				setChartData(preparedData)
+			})
+			.catch((err) => {
+				console.log(err)
+			})
+	}, [])
+
 	return (
-    <Flex fontFamily='Iosevka' direction='column' align='center' justify='center'>
-    <Text>Количество игроков</Text>
-    <ResponsiveContainer width={400} height={400}>
-      <AreaChart data={data}>
+   <Flex fontFamily='Iosevka' direction='column' align='center' justify='center'>
+	<Text fontSize={24} color="#FCD9FF" fontWeight='bold' >Количество игроков</Text>
+    <Flex shadow='inset 0px 0px 30px 10px #00000052' transition='ease 1000ms'
+          marginTop={5} marginRight={{ base: 0, sm: 2, lg: 5, xl: 10 }} borderColor='purple' borderWidth={1} borderRadius={15} paddingY={5} paddingRight={10} width={{ base: 300, sm: 350, md: 400, xl: 500, '2xl': 600 }}>
+
+    <ResponsiveContainer width='100%' height={265}>
+      <AreaChart data={chartData ? chartData.data : []}
+          margin={{
+	    top: 10,
+            right: 10,
+            left: 5,
+            bottom: 5,
+          }} >
 
         <defs>
           <linearGradient id='area-color' x1='0' y1='0' x2='0' y2='1'>
-            <stop offset='0%' stopColor='purple' stopOpacity={0.8} />
-            <stop offset='80%' stopColor='purple' stopOpacity={0.1} />
+            <stop offset='5%' stopColor='#bb88bb' stopOpacity={0.8} />
+            <stop offset='75%' stopColor='#bb88bb' stopOpacity={0.1} />
           </linearGradient>
         </defs>
 
-        <Area dataKey='number' stroke='purple' fill='url(#area-color)' />
-        <XAxis dataKey='time' axisLine={false} tickLine={false} />
-        <YAxis  dataKey='number' axisLine={false} tickLine={false} tickCount={4} />
-        <Tooltip />
+        <Area 
+		type='monotone' 
+		dataKey='number' 
+		stroke='purple' 
+		fill='url(#area-color)' 
+		dot={{ stroke: 'purple', r: 3 }} 
+		activeDot={{ stroke: 'white', r: 5 }} />
+        <XAxis dataKey='time' axisLine={false} tickLine={false} tickFormatter={(date) => chartData ? `${date.getHours()}:00` : '' } tickMargin={5} tickCount={5}/>
+        <YAxis allowDecimals={false} dataKey='number' axisLine={false} tickLine={false} tickCount={5} tickMargin={5}/>
+        <Tooltip content={<CustomTooltip />}
+		cursor={false} offset={10} allowEscapeViewBox={{x: true, y: true}} animationDuration={400} animationEasing='ease-in-out' 
+		/>
         <CartesianGrid opacity={0.1} vertical={false} />
 
       </AreaChart>
     </ResponsiveContainer>
     </Flex>
+   </Flex>
   )
+}
+
+const CustomTooltip = ({ active, payload, label }) => {
+	if (active) {
+		return (
+			<Flex paddingY={1} paddingX={3} direction='column' backgroundColor='purple' borderRadius={10}>
+				<Text fontSize={14} fontWeight='bold'>{`${label.toLocaleDateString('ru')} ${label.getHours()}:00`}</Text>
+				<Text fontSize={15}>{`Игроков: ${payload[0].value}`}</Text>
+			</Flex>
+		)
+	}
+	return (<></>)
 }
