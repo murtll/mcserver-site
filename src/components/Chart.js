@@ -24,9 +24,9 @@ export const Chart = () => {
 
 	return (
    <Flex fontFamily='Iosevka' direction='column' align='center' justify='center'>
-	<Text fontSize={24} color="#FCD9FF" fontWeight='bold' >Количество игроков</Text>
+	<Text fontSize={24} color="#FCD9FF" fontWeight='bold' textAlign='center'>Количество игроков</Text>
     <Flex shadow='inset 0px 0px 30px 10px #00000052' transition='ease 1000ms'
-          marginTop={5} marginRight={{ base: 0, sm: 2, lg: 5, xl: 10 }} borderColor='purple' borderWidth={1} borderRadius={15} paddingY={5} paddingRight={10} width={{ base: 300, sm: 350, md: 400, xl: 500, '2xl': 600 }}>
+          marginTop={5} marginRight={{ base: 0, sm: 2, lg: 5, xl: 10 }} borderColor='purple' borderWidth={1} borderRadius={15} paddingY={5} paddingRight={10} width={{ base: 240, sm: 420, md: 400, xl: 500, '2xl': 650 }}>
 
     <ResponsiveContainer width='100%' height={265}>
       <AreaChart data={chartData ? chartData.data : []}
@@ -47,12 +47,12 @@ export const Chart = () => {
         <Area 
 		type='monotone' 
 		dataKey='number' 
-		stroke='purple' 
+		stroke='#a33cb0' 
 		fill='url(#area-color)' 
 		dot={{ stroke: 'purple', r: 3 }} 
 		activeDot={{ stroke: 'white', r: 5 }} />
         <XAxis dataKey='time' axisLine={false} tickLine={false} tickFormatter={(date) => chartData ? `${date.getHours()}:00` : '' } tickMargin={5} tickCount={5}/>
-        <YAxis allowDecimals={false} dataKey='number' axisLine={false} tickLine={false} tickCount={5} tickMargin={5}/>
+        <YAxis allowDecimals={false} dataKey='number' axisLine={false} tickLine={false} tickCount={5} tickMargin={0}/>
         <Tooltip content={<CustomTooltip />}
 		cursor={false} offset={10} allowEscapeViewBox={{x: true, y: true}} animationDuration={400} animationEasing='ease-in-out' 
 		/>

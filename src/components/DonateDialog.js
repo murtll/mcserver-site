@@ -40,6 +40,7 @@ export const DonateDialog = ({donateItem, isOpen, onClose, category}) => {
       itemId: donateItem.id,
       price: donateItem.price,
       number: 1,
+      kassa: 'freekassa',
       successRedirect: `https://mcbrawl.ru/${category}`
     })
 
@@ -48,6 +49,7 @@ export const DonateDialog = ({donateItem, isOpen, onClose, category}) => {
         itemId: donateItem.id,
         price: donateItem.price,
         number: 1,
+        kassa: 'freekassa',
         successRedirect: `https://mcbrawl.ru/${category}`  
       })
     }, [donateItem])
@@ -121,10 +123,10 @@ export const DonateDialog = ({donateItem, isOpen, onClose, category}) => {
                     </FormControl>
                     : <></>}
 
-                    <FormControl marginTop={6} width="full" isRequired>
+                    {/* <FormControl marginTop={6} width="full" isRequired>
                       <FormLabel>Платежная система</FormLabel>
                       <PaySystemPicker onChange={(kassa) => {setRequestData({...requestData, kassa: kassa.target ? kassa.target.value: '' })}}/>
-                    </FormControl>
+                    </FormControl> */}
 
                     <Fade when={loading === 'error'} collapse>
                       <Flex backgroundColor='#67345642' paddingX={4} paddingY={2} borderRadius={10} marginTop={3}>

@@ -88,22 +88,22 @@ export const ItemGrid = ( { category } ) => {
 	       >
           <Button as={Link} to={`/${category}?id=${item.id}&from=self`} transition='ease 400ms' key={item.id} 
 	  _hover={{ marginTop: 4, shadow: '0px 20px 20px 5px #00000052', maxWidth: 260 }} 
-          shadow='dark-lg' height={300} maxWidth={250} backgroundColor="#18003652" borderRadius={15} borderWidth={2} borderColor="#69009B"
+          shadow='dark-lg' height={300} width='full' maxWidth={250} backgroundColor="#18003652" borderRadius={15} borderWidth={2} borderColor="#69009B"
           paddingY={12} paddingX={14} alignItems="self-end"
 	  marginTop={10}
           //onClick={() => { setCurrentItem(item); onOpen() }}
           >
               <VStack spacing={11}>
-		<Flex alignItems='center' justify='center' height={150}>
+		            <Flex alignItems='center' justify='center' height={150}>
                   <Image maxHeight={150} src={`${apiUrl}${item.picture}`}/>
-		</Flex>
+		            </Flex>
                 <Text color="#FCD9FF" fontFamily="Iosevka" fontWeight="normal" fontSize="20" textAlign="center">{item.name}</Text>
                 <Box paddingX={12} paddingY={2} backgroundColor="#69009B" borderRadius={15} px="8">
                   <Text color="#FCD9FF" fontFamily="Iosevka" fontWeight="normal" fontSize="20" textAlign="center">{item.price}₽</Text>
                 </Box>
               </VStack>
             </Button>
-	    </Flex>
+	          </Flex>
             </Fade>
             )
           }) :

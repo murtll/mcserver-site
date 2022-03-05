@@ -54,10 +54,11 @@ function App() {
     if (window.scrollY + window.innerHeight > 1300) {
       !footerShown && setFooterShown(true)
     }
-    //if (footerShown && donatesShown) {
-      //window.removeEventListener('scroll', showDonates);
-      //window.removeEventListener('resize', showDonates);
-    //}
+    
+    if (footerShown && donatesShown) {
+      window.removeEventListener('scroll', showDonates);
+      window.removeEventListener('resize', showDonates);
+    }
   }
 
   useEffect(() => {
@@ -78,7 +79,7 @@ function App() {
           <Route exact path="/admin" element={<AdminPanel/>}/>
           <Route path="/:category" element={<CategoryPage />} />
         </Routes>
-      <Flex marginTop={20} marginX={20} justify='space-around' direction={{base: 'column', md: 'row-reverse'}}> 
+      <Flex marginTop={20} marginX={20} justify='center' direction={{base: 'column', md: 'row-reverse'}}> 
         <Fade bottom when={donatesShown}>
           <LastDonates />
         </Fade>
