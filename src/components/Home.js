@@ -43,7 +43,7 @@ export const Home = () => {
             </Fade>
           </Flex>
           {/* <Image transition='ease 1000ms' marginTop={{base: 12, xl: 20}} marginLeft={{base: 0, lg: 450, xl: 500, '2xl': 500}} maxWidth={{base: 'full', lg: '70%'}} alignSelf={{base: 'center', lg: 'flex-end'}} src='/images/ded.webp'></Image> */}
-          <Image transition='ease 1000ms' marginTop={{base: 12, '2xl': 0}} marginLeft={{base: 0, lg: 450, xl: 500, '2xl': 500}} maxWidth={{base: 'full', lg: '70%'}} alignSelf={{base: 'center', lg: 'flex-end'}} src='/images/ded.webp'></Image>
+          <Image alt='BrawlCraftMinecraftServer.png' transition='ease 1000ms' marginTop={{base: 12, '2xl': 0}} marginLeft={{base: 0, lg: 450, xl: 500, '2xl': 500}} maxWidth={{base: 'full', lg: '70%'}} alignSelf={{base: 'center', lg: 'flex-end'}} src='/images/ded.webp'></Image>
           </Fade>
         </Flex>
       </VStack>

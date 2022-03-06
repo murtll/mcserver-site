@@ -87,7 +87,7 @@ export const DonateDialog = ({donateItem, isOpen, onClose, category}) => {
             <Flex direction='column'>
               <Flex transition='ease 1000ms' direction={{base: 'column', md: 'row'}} align={{base: 'initial', md: 'start'}} justify='space-around'>
                   <Flex direction='column' align='center' justify='center' >
-                    <Image
+                    <Image alt='Donate.png'
                     //  ref={initialRef} 
                      alignSelf='center' src={`${apiUrl}${donateItem.picture}`} maxHeight={{ base:200, md: 300 }} maxWidth={{ base:200, md: 300 }} margin={3}/>
 	    	    <Spacer minHeight={21}/>

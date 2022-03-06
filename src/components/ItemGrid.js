@@ -95,7 +95,7 @@ export const ItemGrid = ( { category } ) => {
           >
               <VStack spacing={11}>
 		            <Flex alignItems='center' justify='center' height={150}>
-                  <Image maxHeight={150} src={`${apiUrl}${item.picture}`}/>
+                  <Image alt='Donate.png' maxHeight={150} src={`${apiUrl}${item.picture}`}/>
 		            </Flex>
                 <Text color="#FCD9FF" fontFamily="Iosevka" fontWeight="normal" fontSize="20" textAlign="center">{item.name}</Text>
                 <Box paddingX={12} paddingY={2} backgroundColor="#69009B" borderRadius={15} px="8">

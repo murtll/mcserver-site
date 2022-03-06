@@ -4,7 +4,7 @@ import '@fontsource/iosevka'
 export const Footer = () => {
     return (
         <Flex width='100%' bg="#2D115A72" paddingX={{base: 8, md: 100}} paddingY={50} alignItems='center' direction='column' borderTopRadius={50} textColor='#bb90aa' fontFamily='Iosevka' fontSize={{base: 12, md: 15}} textAlign='center'>
-            <Image src='/images/payments.webp' maxWidth={{base: 300, md: 500}} marginBottom={30}></Image>
+            <Image alt='PaymentSystems.png' src='/images/payments.webp' maxWidth={{base: 300, md: 500}} marginBottom={30}></Image>
             <Text>
                 Copyright © BrawlCraft 2022. Все права защищены. Сервер BrawlCraft никак не относится к Mojang, AB.
             </Text>
