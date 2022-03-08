@@ -30,8 +30,6 @@ export const ItemGrid = ( { category } ) => {
     const apiUrl = config.apiUrl
 
     useEffect(() => {
-        console.log(items);
-
         const params = new URLSearchParams(window.location.search)
         const itemId = params.get('id')
         const from = params.get('from')

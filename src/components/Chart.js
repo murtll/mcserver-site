@@ -69,7 +69,7 @@ const CustomTooltip = ({ active, payload, label }) => {
 	if (active) {
 		return (
 			<Flex paddingY={1} paddingX={3} direction='column' backgroundColor='purple' borderRadius={10}>
-				<Text fontSize={14} fontWeight='bold'>{`${label.toLocaleDateString('ru')} ${label.getHours()}:00`}</Text>
+				<Text fontSize={14} fontWeight='bold'>{label ? `${label.toLocaleDateString('ru')} ${label.getHours()}:00` : ''}</Text>
 				<Text fontSize={15}>{`Игроков: ${payload[0].value}`}</Text>
 			</Flex>
 		)

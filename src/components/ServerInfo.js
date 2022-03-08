@@ -18,7 +18,7 @@ export const ServerInfo = (props) => {
 
 
     const getPlayerCount = () => {
-        setPlayerCount(null)
+        // setPlayerCount(null)
         axios.get(`https://api.minetools.eu/query/play.mcbrawl.ru/25565`).then((res) => {
             cache.playerCount = res.data.Players
             setPlayerCount(res.data.Players)

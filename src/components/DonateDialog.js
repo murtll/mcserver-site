@@ -39,7 +39,7 @@ export const DonateDialog = ({donateItem, isOpen, onClose, category}) => {
     const [ requestData, setRequestData ] = useState({
       itemId: donateItem.id,
       price: donateItem.price,
-      number: 1,
+      number: donateItem.min_number,
       kassa: 'freekassa',
       successRedirect: `https://mcbrawl.ru/${category}`
     })
@@ -48,7 +48,7 @@ export const DonateDialog = ({donateItem, isOpen, onClose, category}) => {
       setRequestData({
         itemId: donateItem.id,
         price: donateItem.price,
-        number: 1,
+        number: donateItem.min_number,
         kassa: 'freekassa',
         successRedirect: `https://mcbrawl.ru/${category}`  
       })
@@ -116,8 +116,8 @@ export const DonateDialog = ({donateItem, isOpen, onClose, category}) => {
                             <NumberDecrementStepper />
                           </NumberInputStepper>
                         </NumberInput>      
-                        <Fade when={requestData.number > 1} top collapse duration={400}>                  
-                          <Text marginTop={1}>Выгода - {calculateSale(requestData.number)}%</Text>
+                        <Fade when={calculatePrice(donateItem.price, requestData.number) < donateItem.price * requestData.number} top collapse duration={400}>                  
+                          <Text marginTop={1} fontSize={14} color='#9990aa'>Выгода - {calculateSale(requestData.number)}%</Text>
                         </Fade>
 { /*<Input defaultValue={requestData.number} onChange={(number) => {setRequestData({...requestData, number: number.target.value})}} borderRadius={10} borderWidth={2} _placeholder={{ color: 'purple.400' }} type='number' min={1} max={100}/> */ }
                     </FormControl>

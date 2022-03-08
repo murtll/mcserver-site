@@ -13,6 +13,7 @@ import { LastDonates } from './components/LastDonates';
 
 import Fade from 'react-reveal/Fade';
 import { Chart } from './components/Chart';
+import { Developers } from './components/Developers';
 
 function App() {
 
@@ -43,15 +44,17 @@ function App() {
 
   const showDonates = () => {
     const newScroll = window.scrollY + window.innerHeight
-    if (prevScroll < newScroll && newScroll > 1200) {
-      setDonatesShown(true)
+    if (
+      // prevScroll < newScroll && 
+      newScroll > 1200) {
+      !donatesShown && setDonatesShown(true)
     } 
-    if (prevScroll > newScroll && prevScroll < 1400) {
-      setDonatesShown(false)
-    }
-    prevScroll = newScroll
+    // if (prevScroll > newScroll && prevScroll < 1400) {
+    //   setDonatesShown(false)
+    // }
+    // prevScroll = newScroll
 
-    if (window.scrollY + window.innerHeight > 1300) {
+    if (newScroll > 1300) {
       !footerShown && setFooterShown(true)
     }
     
@@ -77,6 +80,7 @@ function App() {
         <Routes>
           <Route exact path="/" element={<Home/>}/>
           <Route exact path="/admin" element={<AdminPanel/>}/>
+          <Route exact path="/developers" element={<Developers/>}/>
           <Route path="/:category" element={<CategoryPage />} />
         </Routes>
       <Flex marginTop={20} marginX={20} justify='center' direction={{base: 'column', md: 'row-reverse'}}> 
@@ -87,11 +91,11 @@ function App() {
           <Chart />
         </Fade>
       </Flex>
-      </BrowserRouter>
         <Spacer height={85} />
         <Fade bottom when={footerShown} duration={700}>
           <Footer /> 
         </Fade>
+      </BrowserRouter>
     </ChakraProvider>
   );
 }
