@@ -42,7 +42,7 @@ const devs = [
 
 export const Developers = () => {
     return (
-        <Flex width='full' justify='center' marginTop={20} marginBottom={40}>
+        <Flex width='full' justify='center' marginTop={20} marginBottom={40} overflow='hidden'>
         <VStack fontFamily='Iosevka' spacing={10} fontSize={20} align='start' width='60%'>
             {/* <Fade cascade bottom> */}
             {

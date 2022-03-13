@@ -26,6 +26,7 @@ function App() {
     styles: {
       global: (props) => ({
         body: {
+	  fontFamily: 'Arial',
           // transition: 'ease 1000ms',
           bgGradient: 'linear(to-tl, #48048c, #3b005c)',
           backgroundImage: 'url("/images/background.webp")',
