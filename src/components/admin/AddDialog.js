@@ -35,6 +35,8 @@ export const AddDialog = ({isOpen, onClose, reload, category}) => {
         picture: '',
         category: category,
         price: 0,
+        min_number: 1,
+        max_number: 1,
         command: ''
     }
 

@@ -66,7 +66,7 @@ export const Chart = () => {
 }
 
 const CustomTooltip = ({ active, payload, label }) => {
-	if (active) {
+	if (active && payload) {
 		return (
 			<Flex paddingY={1} paddingX={3} direction='column' backgroundColor='purple' borderRadius={10}>
 				<Text fontSize={14} fontWeight='bold'>{label ? `${label.toLocaleDateString('ru')} ${label.getHours()}:00` : ''}</Text>

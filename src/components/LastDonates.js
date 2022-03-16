@@ -8,6 +8,27 @@ import '@fontsource/iosevka'
 
 import './Slideshow.css'
 
+const dateString = (date) => {
+  let dayWord = ''
+  const currentDate = new Date()
+
+  const dateMinusDays = (dt, dy) => {
+    const d = new Date(dt)
+    d.setDate(d.getDate() - dy)
+    return d
+  }
+
+  if (date.toDateString() == currentDate.toDateString())
+    dayWord = 'Сегодня'
+  else if (date.toDateString() == dateMinusDays(currentDate, 1).toDateString())
+    dayWord = 'Вчера'
+  else if (date.toDateString() == dateMinusDays(currentDate, 2).toDateString())
+    dayWord = 'Позавчера'
+  else dayWord = `${date.toLocaleDateString('ru', { month: 'long', day: 'numeric' })}`
+    
+  return `${dayWord} в ${date.getHours()}:${date.getMinutes()}`
+}
+
 const Slideshow = ({ donates }) => {
   const [index, setIndex] = useState(0)
   const [windowWidth, setWindowWidth] = useState(window.innerWidth)
@@ -84,14 +105,15 @@ const Slideshow = ({ donates }) => {
               boxShadow='lg' _hover={{ boxShadow: '2xl', cursor: 'pointer' }} 
               backgroundColor='#bb88bb22' 
               direction='column' justify='flex-end' alignItems='center'
-              height={200} width={150} borderColor='purple' borderWidth={2} borderRadius={10} paddingBottom={3} paddingX={5}>
+              height={200} width={150} borderColor='purple' borderWidth={2} borderRadius={10} paddingBottom={2} paddingX={5}>
 
-                <Text fontSize={16} marginTop={1} textShadow='0px 0px 5px white'>x{donate.amount}</Text>
+                <Text fontSize={15} marginTop={1} textShadow='0px 0px 5px white'>x{donate.amount}</Text>
                 <Spacer />
                 <Image alt='Donate.png' maxHeight={70} src={`${config.apiUrl}${donate.picture}`}/>
-                <Text color="#FCD9FF" fontSize={15} marginTop={1}>{donate.name}</Text>
-                <Text fontSize={15} paddingX={2} borderRadius={5} backgroundColor='purple' marginTop={1}>{donate.price}₽</Text>
-                <Text fontWeight='bold' color="#ccccdd" fontSize={15} marginTop={1}>{donate.donaterUsername}</Text>
+                <Text color="#FCD9FF" fontSize={14} marginTop={1}>{donate.name}</Text>
+                <Text fontSize={14} paddingX={2} borderRadius={5} backgroundColor='purple' marginTop={1}>{donate.price}₽</Text>
+                <Text fontWeight='bold' color="#ccccdd" fontSize={13} marginTop={1}>{donate.donaterUsername}</Text>
+                <Text fontWeight='bold' color="#cCa9cc" fontSize={11}>{dateString(new Date(donate.date))}</Text>
               </Flex>
 
               <Flex
@@ -101,20 +123,23 @@ const Slideshow = ({ donates }) => {
               transform='rotate(3deg)'
               boxShadow='lg' _hover={{ boxShadow: '2xl', cursor: 'pointer' }} 
               backgroundColor='#bb88bb22' direction='column' justify='flex-end' alignItems='center'
-              height={200} width={150} borderColor='purple' borderWidth={2} borderRadius={10} paddingBottom={3} paddingX={5}>
+              height={200} width={150} borderColor='purple' borderWidth={2} borderRadius={10} paddingBottom={2} paddingX={5}>
               </Flex>
             </Link> 
             :
             <Link to={`${donate.link}?id=${donate.itemId}`}>
               <Flex 
               boxShadow='lg' _hover={{ boxShadow: '2xl', cursor: 'pointer' }} 
-              backgroundColor='#bb88bb22' direction='column' justify='flex-end' alignItems='center'
-              height={200} width={150} borderColor='purple' borderWidth={2} borderRadius={10} paddingBottom={3} paddingX={5}>
+              backgroundColor='#bb88bb22' 
+              direction='column' justify='flex-end' alignItems='center'
+              height={200} width={150} borderColor='purple' borderWidth={2} borderRadius={10} paddingBottom={2} paddingX={5}>
                 <Image alt='Donate.png' maxHeight={70} src={`${config.apiUrl}${donate.picture}`}/>
-                <Text color="#FCD9FF" fontSize={15} marginTop={1}>{donate.name}</Text>
-                <Text fontSize={15} paddingX={2} borderRadius={5} backgroundColor='purple' marginTop={1}>{donate.price}₽</Text>
-                <Text fontWeight='bold' color="#ccccdd" fontSize={15} marginTop={1}>{donate.donaterUsername}</Text>
+                <Text color="#FCD9FF" fontSize={14} marginTop={1}>{donate.name}</Text>
+                <Text fontSize={14} paddingX={2} borderRadius={5} backgroundColor='purple' marginTop={1}>{donate.price}₽</Text>
+                <Text fontWeight='bold' color="#ccccdd" fontSize={13} marginTop={1}>{donate.donaterUsername}</Text>
+                <Text fontWeight='bold' color="#cCa9cc" fontSize={11}>{dateString(new Date(donate.date))}</Text>
               </Flex>
+
             </Link> 
             }
           </Flex>

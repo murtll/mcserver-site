@@ -9,7 +9,6 @@ import {
     Button,
     Text,
     Flex,
-    VStack,
     FormControl,
     FormLabel,
     Input,
@@ -23,13 +22,16 @@ import {
     NumberInputStepper,
     NumberIncrementStepper,
     NumberDecrementStepper,
+    InputRightElement,
+    InputGroup,
+    CircularProgress,
   } from '@chakra-ui/react'
 import '@fontsource/iosevka'
 import axios from 'axios'
 import { Markup } from 'interweave'
 import { useEffect, useState } from 'react'
 import { FaInfoCircle } from 'react-icons/fa'
-import { GoAlert } from 'react-icons/go'
+import { GoAlert, GoCheck } from 'react-icons/go'
 import Fade from 'react-reveal/Fade'
 import config from '../config'
 
@@ -41,8 +43,11 @@ export const DonateDialog = ({donateItem, isOpen, onClose, category}) => {
       price: donateItem.price,
       number: donateItem.min_number,
       kassa: 'freekassa',
-      successRedirect: `https://mcbrawl.ru/${category}`
+      successRedirect: `https://mcbrawl.ru/${category}`,
     })
+    const [ promoIsValid, setPromoIsValid ] = useState('initial')
+    const [ promoMultiplier, setPromoMultiplier ] = useState(1)
+    const [ promoMessage, setPromoMessage ] = useState(null)
 
     useEffect(() => {
       setRequestData({
@@ -50,20 +55,22 @@ export const DonateDialog = ({donateItem, isOpen, onClose, category}) => {
         price: donateItem.price,
         number: donateItem.min_number,
         kassa: 'freekassa',
-        successRedirect: `https://mcbrawl.ru/${category}`  
+        successRedirect: `https://mcbrawl.ru/${category}`,
       })
     }, [donateItem])
 
     const requestPayment = (e) => {
       e.preventDefault()
       console.log(requestData)
+      if (promoIsValid === 'loading' || promoIsValid === 'error') {
+        return
+      }
       setLoading('loading')
       axios.post(`${apiUrl}/mcserver/kassa-redirect`, JSON.stringify(requestData), { headers: { 'Content-Type': 'application/json' } })
           .then((res) => {
             setLoading('ok')
             console.log(res.data.redirectUrl)
             window.location.href = res.data.redirectUrl
-            // window.open(res.data.redirectUrl, '_blank')
           })
           .catch((error) => {
             setLoading('error')
@@ -71,8 +78,30 @@ export const DonateDialog = ({donateItem, isOpen, onClose, category}) => {
           })
     }
 
+    const checkPromo = (promo) => {
+      setRequestData({...requestData, promo: null})
+      setPromoMultiplier(1)
+      if (promo === '') {
+        setPromoIsValid('initial')
+        return
+      }
+
+      setPromoIsValid('loading')
+      axios.get(`${apiUrl}/check-promo?promo=${promo}`)
+            .then((res) => {
+              setPromoMultiplier(res.data.multiplier)
+              setPromoIsValid('ok')
+              setRequestData({...requestData, promo: promo})
+            })
+            .catch((err) => {
+                setPromoMultiplier(1)
+                setRequestData({...requestData, promo: null})
+                setPromoIsValid('error')
+            })
+    }
+
     const calculateSale = (number) => Math.round(50 / (Math.pow(Math.E, 3 - (number / Math.pow(Math.PI, 2))) + 1))
-    const calculatePrice = (price, number) => number > 1 ? number * Math.round(price * ((100 - calculateSale(number)) / 100)) : price
+    const calculatePrice = (price, number) => number > 1 ? number * Math.round((price) * ((100 - calculateSale(number)) / 100)) : (price)
 
     return (
         <Modal onClose={onClose} isOpen={isOpen} scrollBehavior={{base: 'outside', md: 'inside'}} 
@@ -106,7 +135,7 @@ export const DonateDialog = ({donateItem, isOpen, onClose, category}) => {
                         <Input onChange={(email) => {setRequestData({...requestData, email: email.target.value})}} borderRadius={10} borderWidth={2} _placeholder={{ color: 'purple.400' }} type="email" placeholder="example@example.com" />
                     </FormControl>
 
-		{donateItem.max_number > donateItem.min_number ?
+              		{donateItem.max_number > donateItem.min_number ?
                     <FormControl marginTop={6} width="full" isRequired>
                         <FormLabel>Количество</FormLabel>
                         <NumberInput defaultValue={requestData.number} min={donateItem.min_number} max={donateItem.max_number} onChange={(number) => {setRequestData({...requestData, number: number})}}>
@@ -119,9 +148,51 @@ export const DonateDialog = ({donateItem, isOpen, onClose, category}) => {
                         <Fade when={calculatePrice(donateItem.price, requestData.number) < donateItem.price * requestData.number} top collapse duration={400}>                  
                           <Text marginTop={1} fontSize={14} color='#9990aa'>Выгода - {calculateSale(requestData.number)}%</Text>
                         </Fade>
-{ /*<Input defaultValue={requestData.number} onChange={(number) => {setRequestData({...requestData, number: number.target.value})}} borderRadius={10} borderWidth={2} _placeholder={{ color: 'purple.400' }} type='number' min={1} max={100}/> */ }
                     </FormControl>
                     : <></>}
+
+                    <FormControl marginTop={6} width="full">
+                        <FormLabel>Промокод</FormLabel>
+                        <InputGroup>
+                          <Input 
+                          onChange={(promo) => {checkPromo(promo.target.value)}} 
+                          borderRadius={10} borderWidth={2} 
+                          _placeholder={{ color: 'purple.400' }} 
+                          type="text" 
+                          />
+
+                          <InputRightElement children={ promoIsValid === 'initial' ? '' 
+                          : promoIsValid === 'loading' ? 
+                          <CircularProgress isIndeterminate size={15} color="purple.400" /> 
+                          : promoIsValid === 'error' ?
+                          <GoAlert color='#F41E7E' onMouseEnter={() => setPromoMessage('Промокода не существует')} onMouseLeave={() => setPromoMessage(null)}/>
+                          : <GoCheck color='#1EF443' />} />
+                        </InputGroup>
+                        {
+                          promoMessage ?
+                          <Flex 
+                          shadow='2xl'
+                          transition='ease 400ms'
+                          // width={160}
+                          paddingX={3}
+                          marginLeft={20}
+                          fontFamily="Iosevka"
+                          backgroundColor='#1A001A62'
+                          direction='column' 
+                          justify='center' 
+                          align='center' 
+                          // marginTop={1} 
+                          borderRadius={10}
+                          paddingY={3}
+                          position='fixed'
+                          zIndex={2} 
+                          fontSize={14}
+                          >
+                          {promoMessage}
+                          </Flex>
+                          : <></>
+                        }
+                    </FormControl>
 
                     {/* <FormControl marginTop={6} width="full" isRequired>
                       <FormLabel>Платежная система</FormLabel>
@@ -134,7 +205,7 @@ export const DonateDialog = ({donateItem, isOpen, onClose, category}) => {
                       </Flex>
                     </Fade>
                     <Button transition='ease 500ms' isLoading={loading === "loading"} loadingText="Отправка..." width="full" backgroundColor="#99107B" borderRadius={15} px="8" marginTop={4} type="submit">
-                        Купить за {calculatePrice(requestData.price, requestData.number)}₽
+                        Купить за {Math.round(promoMultiplier * calculatePrice(requestData.price, requestData.number))}₽
                     </Button>
                 </form>
             </Flex>

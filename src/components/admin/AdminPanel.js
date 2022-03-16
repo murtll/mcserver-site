@@ -100,6 +100,29 @@ export const AdminPanel = () => {
                     <GoPlus />
                     <Text marginLeft={3}>Добавить</Text>
                 </Flex>
+                
+                <Flex 
+                 width='full'
+                 marginTop={262}
+                 paddingX={30} 
+                 paddingBottom={4} 
+                 paddingTop={4} 
+                 direction='row' 
+                 alignItems='center' 
+                 borderBottomColor='purple' 
+                 borderBottomWidth={1}
+                 bgColor='#2c1a4d92' 
+                 borderBottomRadius={30}
+                 _hover={{
+                     backgroundColor: '#2b144692',
+                     cursor: 'pointer'
+                 }}
+                 onClick={() => alert('Not implemented..')}
+                 >
+                    {/* <GoPlus /> */}
+                    <Text marginLeft={3}>Промокоды</Text>
+                </Flex>
+
             </Flex>
             <Flex width='full' marginY={10} marginX={20} direction='column' alignItems='center'>
                 <AdminItemGrid currentCategory={currentCategory}/>

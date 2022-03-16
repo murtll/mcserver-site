@@ -49,7 +49,7 @@ export const Header = () => {
           justify='center'
           shadow='md' 
           borderBottomRadius={50} 
-          paddingBottom={{base: 0, md: 3}} 
+          paddingBottom={{base: 85, md: 10}} 
           paddingTop={{base: 8, md: 8}} 
           paddingX={{base: 0, md: 12, lg: 20}} 
           bg="#3D005A72" 
