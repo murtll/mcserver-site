@@ -71,7 +71,7 @@ export const Header = () => {
               <VStack>
                 <Text transition='ease 400ms' color="#FCD9FF" fontFamily="Iosevka" fontWeight="normal" fontSize={{base: 20, md: 14, lg: 18, xl: 20}}>IP СЕРВЕРА</Text>
                 <Text transition='ease 400ms' color="#FFFFFF" fontFamily="Iosevka" fontWeight="bold" fontSize={{base: 24, md: 16, lg: 20, xl: 24}}>{serverIp}</Text>
-                <Text transition='ease 400ms' color="#cCa9cc" fontFamily="Iosevka" fontWeight="normal" fontSize={{base: 14, md: 8, lg: 12, xl: 14}}>Версия 1.12-1.18</Text>
+                <Text transition='ease 400ms' color="#cCa9cc" fontFamily="Iosevka" fontWeight="normal" fontSize={{base: 14, md: 12, lg: 12, xl: 14}}>Версия 1.12-1.18</Text>
               </VStack>
             </Button>
 

@@ -10,17 +10,21 @@ export const Chart = () => {
 
 	const [chartData, setChartData] = useState(cache.chartData || null)
 
-	useEffect(() => {
+	const getGraphInfo = () => {
 		axios.get(`${config.apiUrl}/serverinfo/graphinfo`)
-			.then((res) => {
-				const preparedData = { max: res.data.max, data: res.data.data.map((e) => { return { number: e.number, time: new Date(e.time) } }) }
-				cache.chartData = preparedData
-				setChartData(preparedData)
-			})
-			.catch((err) => {
-				console.log(err)
-			})
-	}, [])
+		.then((res) => {
+			const preparedData = { max: res.data.max, data: res.data.data.map((e) => { return { number: e.number, time: new Date(e.time) } }) }
+			cache.chartData = preparedData
+			setChartData(preparedData)
+
+			setTimeout(getGraphInfo, 300000)
+		})
+		.catch((err) => {
+			console.log(err)
+		})
+	}
+
+	useEffect(getGraphInfo, [])
 
 	return (
    <Flex fontFamily='Iosevka' direction='column' align='center' justify='center'>

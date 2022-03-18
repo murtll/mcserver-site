@@ -75,11 +75,11 @@ export const Categories = () => {
             )
         } else {
             if (categories.length > 0) return (
-                <Flex direction={{base: 'column', md: 'row'}} alignItems={{base: 'center'}} transition='ease 1000ms'>
+                <Flex direction={{base: 'column', md: 'row'}} alignItems={{base: 'center'}} transition='ease 1000ms' position='relative' zIndex={1}>
                     {
                         categories.map((category) => {
                             if (window.location.pathname === category.link) return ( <>
-                                <Button transition='ease 200ms' 
+                                <Button transition='ease 200ms'
                                 key={category.id} shadow='dark-lg' borderRadius="15" variant='outline' borderWidth={3} borderColor="#69009B" py={{base: 12, md: 8, lg: 12}} px={{base: 14, md: 10, lg: 14}}>
                                     <Text color="#FCD9FF" fontFamily="Iosevka" fontWeight="normal" fontSize={{base: 24, md: 20, lg: 24}}>{category.name}</Text>
                                 </Button>
