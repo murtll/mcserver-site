@@ -80,20 +80,20 @@ export const Categories = () => {
                         categories.map((category) => {
                             if (window.location.pathname === category.link) return ( <>
                                 <Button transition='ease 200ms'
-                                key={category.id} shadow='dark-lg' borderRadius="15" variant='outline' borderWidth={3} borderColor="#69009B" py={{base: 12, md: 8, lg: 12}} px={{base: 14, md: 10, lg: 14}}>
+                                shadow='dark-lg' borderRadius="15" variant='outline' borderWidth={3} borderColor="#69009B" py={{base: 12, md: 8, lg: 12}} px={{base: 14, md: 10, lg: 14}}>
                                     <Text color="#FCD9FF" fontFamily="Iosevka" fontWeight="normal" fontSize={{base: 24, md: 20, lg: 24}}>{category.name}</Text>
                                 </Button>
-                                {category !== categories[categories.length - 1] ? <Spacer key={`spacer${categories.id}`} minHeight={10} minWidth={{base: 47, md: 15, lg: 47}} /> : <></> }
+                                {category !== categories[categories.length - 1] ? <Spacer minHeight={10} minWidth={{base: 47, md: 15, lg: 47}} /> : <></> }
                                 </>
                             )
                             else return (<>
-                                <Link to={category.link} key={category.id}>
+                                <Link to={category.link}>
                                     <Button transition='ease 200ms'
                                     shadow='dark-lg' borderRadius={15} bgColor="#69009B92" py={{base: 12, md: 8, lg: 12}} px={{base: 14, md: 10, lg: 14}}>
                                         <Text color="#FCD9FF" fontFamily="Iosevka" fontWeight="normal" fontSize={{base: 24, md: 20, lg: 24}}>{category.name}</Text>
                                     </Button>
                                 </Link>
-                                {category !== categories[categories.length - 1] ? <Spacer key={`spacer${categories.id}`} minHeight={10} minWidth={{base: 47, md: 15, lg: 47}} /> : <></> }
+                                {category !== categories[categories.length - 1] ? <Spacer minHeight={10} minWidth={{base: 47, md: 15, lg: 47}} /> : <></> }
                                 </>
                             )
                         })
@@ -103,13 +103,13 @@ export const Categories = () => {
             else
             return (
                 <Flex direction={{base: 'column', md: 'row'}} alignItems={{base: 'center'}}>
-                    <Skeleton key={1} shadow='dark-lg' height={100} width={200} borderRadius={15} startColor='#18003682' endColor='#180036dd' opacity={0.3}/>
-                    <Spacer key={2} minHeight={10} minWidth={{base: 47, md: 15, lg: 47}} />                
-                    <Skeleton key={3} shadow='dark-lg' height={100} width={200} borderRadius={15} startColor='#18003682' endColor='#180036dd' opacity={0.3}/>
-                    <Spacer key={4} minHeight={10} minWidth={{base: 47, md: 15, lg: 47}} />
-                    <Skeleton key={5} shadow='dark-lg' height={100} width={200} borderRadius={15} startColor='#18003682' endColor='#180036dd' opacity={0.3}/>
-                    <Spacer key={6} minHeight={10} minWidth={{base: 47, md: 15, lg: 47}} />                
-                    <Skeleton key={7} shadow='dark-lg' height={100} width={200} borderRadius={15} startColor='#18003682' endColor='#180036dd' opacity={0.3}/>                
+                    <Skeleton shadow='dark-lg' height={100} width={200} borderRadius={15} startColor='#18003682' endColor='#180036dd' opacity={0.3}/>
+                    <Spacer minHeight={10} minWidth={{base: 47, md: 15, lg: 47}} />                
+                    <Skeleton shadow='dark-lg' height={100} width={200} borderRadius={15} startColor='#18003682' endColor='#180036dd' opacity={0.3}/>
+                    <Spacer minHeight={10} minWidth={{base: 47, md: 15, lg: 47}} />
+                    <Skeleton shadow='dark-lg' height={100} width={200} borderRadius={15} startColor='#18003682' endColor='#180036dd' opacity={0.3}/>
+                    <Spacer minHeight={10} minWidth={{base: 47, md: 15, lg: 47}} />                
+                    <Skeleton shadow='dark-lg' height={100} width={200} borderRadius={15} startColor='#18003682' endColor='#180036dd' opacity={0.3}/>                
                 </Flex>
             )
         }

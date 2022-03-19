@@ -44,7 +44,7 @@ export const ServerInfo = (props) => {
             cache.playerCount = res.data.Players
             cache.playerList = res.data.Playerlist
             setPlayerCount(res.data.Players)
-            setPlayerList([ ...res.data.Playerlist, 'aboba' ])
+            setPlayerList(res.data.Playerlist)
 
             // to auto update
             setTimeout(getPlayerCountAndUpdate,
@@ -64,7 +64,7 @@ export const ServerInfo = (props) => {
         align='center'
         marginTop={{base: 45, md: 71}}
         transition='ease 400ms' direction='column' onMouseLeave={() => setShowPlayers(false)}>
-        <Flex zIndex={5} _hover={{ cursor: 'pointer' }} height='min-content' width='min-content' {...props} onMouseEnter={() => { setShowPlayers(true) }} >
+        <Flex zIndex='5' _hover={{ cursor: 'pointer' }} height='min-content' width='min-content' {...props} onMouseEnter={() => { setShowPlayers(true) }} >
                 <Text color="#FCD9FF" fontFamily="Iosevka" fontWeight="normal" fontSize={20}>Онлайн:</Text>
                 {playerCount === null ? 
                     <Skeleton marginLeft={2} height={25} width={3} borderRadius={15} startColor='purple.400' endColor='purple.900' opacity={0.3}/> : 
@@ -88,7 +88,7 @@ export const ServerInfo = (props) => {
         marginTop={35} 
         borderRadius={15}
         paddingY={2}
-        zIndex={3}
+        zIndex='3'
         >
             {
                 playerList 

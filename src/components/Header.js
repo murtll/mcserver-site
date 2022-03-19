@@ -6,7 +6,6 @@ import {
   Flex,
   Button,
   HStack,
-  // useColorMode,
   Spacer
 } from '@chakra-ui/react';
 import { FaDiscord, FaVk } from 'react-icons/fa'
@@ -43,7 +42,9 @@ export const Header = () => {
     return (
         <Flex 
           transition='ease 400ms' 
-          top={0} 
+          position='relative'
+          zIndex='1000'
+          top={0}
           width='full' 
           align={{base: 'center', md: 'start'}}
           justify='center'
@@ -139,7 +140,6 @@ export const Header = () => {
                 <Text color="#A000FF" fontFamily="Iosevka" fontWeight="normal" fontSize="20" letterSpacing="widest">ВКонтакте</Text>
               </HStack>
           </Flex>
-
 
           <ServerInfo 
             transition='ease 400ms' 

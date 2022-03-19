@@ -57,12 +57,15 @@ export const DonateDialog = ({donateItem, isOpen, onClose, category}) => {
         kassa: 'freekassa',
         successRedirect: `https://mcbrawl.ru/${category}`,
       })
+
+      // setPromoMultiplier(1)
+      // setPromoIsValid('initial')
     }, [donateItem])
 
     const requestPayment = (e) => {
       e.preventDefault()
       console.log(requestData)
-      if (promoIsValid === 'loading' || promoIsValid === 'error') {
+      if (promoIsValid === 'loading') {
         return
       }
       setLoading('loading')
@@ -104,7 +107,7 @@ export const DonateDialog = ({donateItem, isOpen, onClose, category}) => {
     const calculatePrice = (price, number) => number > 1 ? number * Math.round((price) * ((100 - calculateSale(number)) / 100)) : (price)
 
     return (
-        <Modal onClose={onClose} isOpen={isOpen} scrollBehavior={{base: 'outside', md: 'inside'}} 
+        <Modal onClose={() => { onClose(); setPromoMultiplier(1); setPromoIsValid('initial') }} isOpen={isOpen} scrollBehavior={{base: 'outside', md: 'inside'}} 
         isCentered={window.innerHeight > 1000 && (donateItem.description ? donateItem.description.length < 200: true)}
         // initialFocusRef={initialRef}
         >
@@ -128,7 +131,7 @@ export const DonateDialog = ({donateItem, isOpen, onClose, category}) => {
                 <form name="payment" onSubmit={requestPayment}>
                     <FormControl paddingTop={{base: 8, md: 0}} width="full" isRequired>
                         <FormLabel>Ник в игре</FormLabel>
-                        <Input onChange={(username) => {setRequestData({...requestData, username: username.target.value})}} borderRadius={10} borderWidth={2} _placeholder={{ color: 'purple.400' }} type="text" placeholder="Nickname" />
+                        <Input onChange={(username) => {setRequestData({...requestData, username: username.target.value})}} borderRadius={10} borderWidth={2} _placeholder={{ color: 'purple.400' }} type="text" placeholder="nickname" />
                     </FormControl>
                     <FormControl marginTop={6} width="full" isRequired>
                         <FormLabel>Email</FormLabel>
@@ -157,41 +160,22 @@ export const DonateDialog = ({donateItem, isOpen, onClose, category}) => {
                           <Input 
                           onChange={(promo) => {checkPromo(promo.target.value)}} 
                           borderRadius={10} borderWidth={2} 
-                          _placeholder={{ color: 'purple.400' }} 
+                          _placeholder={{ color: 'purple.400' }}
+                          placeholder='XXXXX' 
                           type="text" 
                           />
 
                           <InputRightElement children={ promoIsValid === 'initial' ? '' 
                           : promoIsValid === 'loading' ? 
-                          <CircularProgress isIndeterminate size={15} color="purple.400" /> 
-                          : promoIsValid === 'error' ?
                           <GoAlert color='#F41E7E' onMouseEnter={() => setPromoMessage('Промокода не существует')} onMouseLeave={() => setPromoMessage(null)}/>
+                          // <CircularProgress isIndeterminate size={15} color="purple.400" /> 
+                          : promoIsValid === 'error' ?
+                            <GoAlert color='#F41E7E' onMouseEnter={() => setPromoMessage('Промокода не существует')} onMouseLeave={() => setPromoMessage(null)}/>
                           : <GoCheck color='#1EF443' />} />
                         </InputGroup>
-                        {
-                          promoMessage ?
-                          <Flex 
-                          shadow='2xl'
-                          transition='ease 400ms'
-                          // width={160}
-                          paddingX={3}
-                          marginLeft={20}
-                          fontFamily="Iosevka"
-                          backgroundColor='#1A001A62'
-                          direction='column' 
-                          justify='center' 
-                          align='center' 
-                          // marginTop={1} 
-                          borderRadius={10}
-                          paddingY={3}
-                          position='fixed'
-                          zIndex={2} 
-                          fontSize={14}
-                          >
-                          {promoMessage}
-                          </Flex>
-                          : <></>
-                        }
+                        <Fade when={promoMessage} top duration={400}>                  
+                          <Text textAlign='right' marginTop={1} fontSize={13} color='#9990aa'>{promoMessage}</Text>
+                        </Fade>
                     </FormControl>
 
                     {/* <FormControl marginTop={6} width="full" isRequired>

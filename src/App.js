@@ -31,8 +31,8 @@ function App() {
           bgGradient: 'linear(to-tl, #48048c, #3b005c)',
           backgroundImage: 'url("/images/background.webp")',
           bg: mode('#3b005c', '#3b005c')(props),
-		  backgroundAttachment: 'fixed',
-		  backgroundSize: 'cover'
+		      backgroundAttachment: 'fixed',
+		      backgroundSize: 'cover'
         }
       })
     }
@@ -75,9 +75,9 @@ function App() {
   return (
     <ChakraProvider resetCSS theme={customTheme}>
       <BrowserRouter>
-        <Fade top>
+        {/* <Fade top> */}
           <Header/>
-        </Fade>
+        {/* </Fade> */}
         <Routes>
           <Route exact path="/" element={<Home/>}/>
           <Route exact path="/admin" element={<AdminPanel/>}/>
