@@ -12,7 +12,6 @@ import { cache } from "../utils/GlobalCache"
 import '@fontsource/iosevka'
 import Fade from 'react-reveal/Fade'
 
-
 export const ServerInfo = (props) => {
 
     const [playerCount, setPlayerCount] = useState(cache.playerCount || null)
@@ -74,30 +73,34 @@ export const ServerInfo = (props) => {
         </Flex>
         {/* { showPlayers ? */}
         <Fade collapse top when={showPlayers} duration={400} distance='45px'>
-        <Flex         
+        <Flex
         shadow='2xl'
+        overflow='hidden'
         transition='ease 400ms'
         width={160}
         fontFamily="Iosevka"
         borderWidth={1} 
         backgroundColor='#3f007c'
         borderColor='#69009B' 
-        direction='column' 
-        justify='center' 
-        align='center' 
+        // direction='column' 
+        // justify='center' 
+        // align='center' 
         marginTop={35} 
         borderRadius={15}
-        paddingY={2}
         zIndex='3'
         >
+
             {
                 playerList 
                 && playerCount > 0 
                 ? 
-                playerList.slice(0, 5).map((playerName, i) => {
+                <Flex width='full' align='center' direction='column' overflow={`hidden ${playerList.length > 5 ? 'scroll' : 'none'}`} height={playerList.length < 5 ? 39 * playerList.length : 176} paddingY={2} scrollPaddingY={2}>
+                {
+                playerList.map((playerName, i) => {
                     return <HStack
                     width='80%'
                     paddingTop={1}
+                    marginX={3}
                     paddingBottom={1}
                     borderTopColor='purple'
                     borderTopWidth={i === 0 ? 0 : 1}
@@ -110,6 +113,8 @@ export const ServerInfo = (props) => {
                         </Text>
                     </HStack> 
                 })
+                }
+                </Flex>
                 :
                 <Text
                     textAlign='center'
@@ -117,7 +122,8 @@ export const ServerInfo = (props) => {
                     fontSize={18}>
                         Никого нет :(
                     </Text>
-            }{
+            }
+            {/* {
                 playerCount > 5 
                 ?
                 <Text
@@ -128,7 +134,7 @@ export const ServerInfo = (props) => {
                         {`и ещё ${playerCount - 5}`}
                     </Text>
                 : <></>
-            }
+            } */}
         </Flex>
         </Fade>
         {/* : <></>
