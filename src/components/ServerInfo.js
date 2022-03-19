@@ -40,8 +40,8 @@ export const ServerInfo = (props) => {
 
     const getPlayerCountAndUpdate = () => {
         axios.get(`https://api.minetools.eu/query/play.mcbrawl.ru/25565`).then((res) => {
-            cache.playerCount = res.data.Players
-            cache.playerList = res.data.Playerlist
+            // cache.playerCount = res.data.Players
+            // cache.playerList = res.data.Playerlist
             setPlayerCount(res.data.Players)
             setPlayerList(res.data.Playerlist)
 
@@ -83,10 +83,11 @@ export const ServerInfo = (props) => {
         backgroundColor='#3f007c'
         borderColor='#69009B' 
         // direction='column' 
-        // justify='center' 
-        // align='center' 
+        justify='center' 
+        align='center' 
         marginTop={35} 
         borderRadius={15}
+        paddingBottom={playerList.length > 5 || playerList.length == 0 ? 0 : 3}
         zIndex='3'
         >
 
@@ -94,7 +95,7 @@ export const ServerInfo = (props) => {
                 playerList 
                 && playerCount > 0 
                 ? 
-                <Flex width='full' align='center' direction='column' overflow={`hidden ${playerList.length > 5 ? 'scroll' : 'none'}`} height={playerList.length < 5 ? 39 * playerList.length : 176} paddingY={2} scrollPaddingY={2}>
+                <Flex width='full' align='center' direction='column' overflow={`hidden ${playerList.length > 5 ? 'scroll' : 'none'}`} height={playerList.length < 5 ? 37 * playerList.length : 176} paddingY={2} scrollPaddingY={2}>
                 {
                 playerList.map((playerName, i) => {
                     return <HStack
