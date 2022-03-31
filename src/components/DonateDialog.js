@@ -23,9 +23,8 @@ import {
     NumberIncrementStepper,
     NumberDecrementStepper,
     InputRightElement,
-    InputGroup,
-    CircularProgress,
-  } from '@chakra-ui/react'
+    InputGroup
+    } from '@chakra-ui/react'
 import '@fontsource/iosevka'
 import axios from 'axios'
 import { Markup } from 'interweave'

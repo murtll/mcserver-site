@@ -1,10 +1,6 @@
 import { 
     Flex,
-    FormControl,
-    FormLabel,
-    Input,
     Button,
-    Spacer,
     Text,
     Image,
     VStack,
@@ -21,24 +17,21 @@ import config from '../../config'
 import axios from "axios"
 import '@fontsource/iosevka'
 import { Markup } from "interweave"
-// import parse from 'html-react-parser'
 
 export const DeleteDialog = ({item, isOpen, onClose, reload}) => {
 
     const apiUrl = config.apiUrl
     const [loading, setLoading] = useState('initial')
 
-    var adminKey = null
-
     const sendItem = async () => {
         setLoading('loading')
         console.log(JSON.stringify(item));
         try {
-            const res = await axios.delete(`${apiUrl}/admin/item`, {
+            await axios.delete(`${apiUrl}/admin/item`, {
                 data: JSON.stringify(item),
+                withCredentials: true,
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': adminKey
                 }
             })
             setLoading('ok')
@@ -68,28 +61,6 @@ export const DeleteDialog = ({item, isOpen, onClose, reload}) => {
                         <Markup content={item.description}/>
                     </Text>
                 </VStack>
-                <Spacer minWidth={10}></Spacer>
-                <Flex direction='column'>
-                <FormControl paddingTop={{base: 8, md: 0}} width="full" isRequired>
-                        <FormLabel>Ник в игре</FormLabel>
-                        <Input borderRadius={10} borderWidth={2} _placeholder={{ color: 'purple.400' }} type="text" placeholder="Nickname" />
-                    </FormControl>
-                    <FormControl marginTop={6} width="full" isRequired>
-                        <FormLabel>Email</FormLabel>
-                        <Input borderRadius={10} borderWidth={2} _placeholder={{ color: 'purple.400' }} type="email" placeholder="example@example.com" />
-                    </FormControl>
-                    <Button width="full" backgroundColor="#69009B" borderRadius={15} px="8" mt={10}>
-                        Купить за {item.price}₽
-                    </Button>
-                </Flex>
-            </Flex>
-            <Flex direction='row' marginTop={35}>
-                    <FormControl marginTop={6} isRequired>
-                        <FormLabel>Ключ администратора</FormLabel>
-                        <Input borderRadius={10} borderWidth={2} _placeholder={{ color: 'purple.400' }} type="password"
-                        onChange={(event) => {adminKey = event.target.value}}
-                        />
-                    </FormControl>
             </Flex>
           </ModalBody>
           <ModalFooter alignItems='start'>

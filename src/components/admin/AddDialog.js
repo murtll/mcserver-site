@@ -25,8 +25,6 @@ import '@fontsource/iosevka'
 import { Select } from "chakra-react-select"
 import { Markup } from "interweave"
 
-// TODO change description input field to textarea
-
 export const AddDialog = ({isOpen, onClose, reload, category}) => {
 
     const defaultItem = {
@@ -45,7 +43,6 @@ export const AddDialog = ({isOpen, onClose, reload, category}) => {
     const [imageList, setImageList] = useState(cache.imageList || [])
     const [loading, setLoading] = useState('initial')
     const [uploadingImage, setUploadingImage] = useState('initial')
-    const [adminKey, setAdminKey] = useState()
     const [newImage, setNewImage] = useState()
 
     useEffect(() => {
@@ -56,8 +53,7 @@ export const AddDialog = ({isOpen, onClose, reload, category}) => {
     }, [category])
 
     const loadImages = () => {
-        axios.get(`${apiUrl}/admin/images`).then((res) => {
-            console.log(res)
+        axios.get(`${apiUrl}/admin/images`, { withCredentials: true }).then((res) => {
             cache.imageList = res.data
             setImageList(res.data)
           })
@@ -71,9 +67,9 @@ export const AddDialog = ({isOpen, onClose, reload, category}) => {
         formData.append('picture', newImage)
         formData.append('category', category)
         const config = {
+            withCredentials: true,
             headers: {
                 'content-type': 'multipart/form-data',
-                'authorization': adminKey
             }
         }
         axios.post(`${apiUrl}/admin/image`, formData, config)
@@ -102,17 +98,16 @@ export const AddDialog = ({isOpen, onClose, reload, category}) => {
         setLoading('loading')
         console.log(JSON.stringify(editedItem));
         try {
-            const res = await axios.post(`${apiUrl}/admin/item`, JSON.stringify(editedItem), {
+            await axios.post(`${apiUrl}/admin/item`, JSON.stringify(editedItem), {
+                withCredentials: true,
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': adminKey
                 }
             })
             setLoading('ok')
             reload()
             setTimeout(() => {
                 setLoading('initial')
-                setAdminKey(null)
                 setEditedItem(defaultItem)
                 onClose()
             }, 500)
@@ -124,7 +119,7 @@ export const AddDialog = ({isOpen, onClose, reload, category}) => {
     }
 
     if (editedItem) return (
-        <Modal onClose={() => {setAdminKey(null); setEditedItem(defaultItem); onClose()}} isOpen={isOpen} scrollBehavior='inside' isCentered>
+        <Modal onClose={() => {setEditedItem(defaultItem); onClose()}} isOpen={isOpen}>
         <ModalOverlay />
         <ModalContent bgColor="#180036" borderRadius={15} maxWidth={{base: 'max-content'}} marginX={10} fontFamily="Iosevka">
           <ModalHeader fontSize={24} alignSelf="center">{editedItem.name}</ModalHeader>
@@ -178,12 +173,6 @@ export const AddDialog = ({isOpen, onClose, reload, category}) => {
                                                 <Button width={150} type="submit" isLoading={uploadingImage === "loading"} loadingText="Загрузка...">{uploadingImage === 'ok' ? 'Загружено!' : uploadingImage === 'error' ? 'Ошибка' : 'Загрузить'}</Button>
                                             </Flex>
                                         </form>
-                                        { newImage ? <FormControl marginTop={6} width="full" isRequired>
-                                            <FormLabel>Ключ администратора</FormLabel>
-                                            <Input borderRadius={10} borderWidth={2} _placeholder={{ color: 'purple.400' }} type="password"
-                                            onChange={(event) => {setAdminKey(event.target.value)}}
-                                            />
-                                        </FormControl> : <></>}
                                     </Flex>
                                 </FormControl>
                                 </>
@@ -209,12 +198,6 @@ export const AddDialog = ({isOpen, onClose, reload, category}) => {
                               )
                           })
                       }
-                    { !newImage ? <FormControl marginTop={6} width="full" isRequired>
-                        <FormLabel>Ключ администратора</FormLabel>
-                        <Input borderRadius={10} borderWidth={2} _placeholder={{ color: 'purple.400' }} type="password"
-                        onChange={(event) => {setAdminKey(event.target.value)}}
-                        />
-                    </FormControl> : <></>}
                   </Flex>
 
                   <Flex direction={{base: 'column', md: 'row'}} alignItems={{base: 'initial', md: 'start'}}>

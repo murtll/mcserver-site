@@ -28,20 +28,14 @@ export const AddCategoryDialog = ({isOpen, onClose, reload}) => {
     const [editedCategory, setEditedCategory] = useState(defaultCategory)
     const [loading, setLoading] = useState('initial')
 
-    // useEffect(() => {
-    //     setEditedCategory(editedCategory)
-    // }, [])
-
-    var adminKey = null
-
     const sendCategory = async () => {
         setLoading('loading')
         console.log(JSON.stringify(editedCategory));
         try {
-            const res = await axios.post(`${apiUrl}/admin/category`, JSON.stringify(editedCategory), {
+            await axios.post(`${apiUrl}/admin/category`, JSON.stringify(editedCategory), {
+                withCredentials: true,
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': adminKey
                 }
             })
             setLoading('ok')
@@ -59,7 +53,7 @@ export const AddCategoryDialog = ({isOpen, onClose, reload}) => {
     }
 
     if (editedCategory) return (
-        <Modal onClose={() => {setEditedCategory(defaultCategory); onClose()}} isOpen={isOpen} scrollBehavior='inside' isCentered>
+        <Modal onClose={() => {setEditedCategory(defaultCategory); onClose()}} isOpen={isOpen}>
         <ModalOverlay />
         <ModalContent bgColor="#180036" borderRadius={15} maxWidth={{base: 400, md: 'max-content'}} fontFamily="Iosevka">
           <ModalHeader fontSize={24} alignSelf="center">{editedCategory.name}</ModalHeader>
@@ -83,12 +77,6 @@ export const AddCategoryDialog = ({isOpen, onClose, reload}) => {
                               )
                           })
                       }
-                    <FormControl marginTop={6} width="full" isRequired>
-                        <FormLabel>Ключ администратора</FormLabel>
-                        <Input borderRadius={10} borderWidth={2} _placeholder={{ color: 'purple.400' }} type="password"
-                        onChange={(event) => {adminKey = event.target.value}}
-                        />
-                    </FormControl>
                   </Flex>
             {/* </Flex> */}
           </ModalBody>

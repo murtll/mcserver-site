@@ -22,7 +22,6 @@ import config from '../../config'
 import { cache } from '../../utils/GlobalCache'
 import axios from "axios"
 import '@fontsource/iosevka'
-// import parse from 'html-react-parser'
 import { Markup } from 'interweave';
 
 import { Select } from "chakra-react-select";
@@ -35,7 +34,6 @@ export const EditDialog = ({item, isOpen, onClose, reload}) => {
 
     const [imageList, setImageList] = useState(cache.imageList || [])
     const [uploadingImage, setUploadingImage] = useState('initial')
-    const [adminKey, setAdminKey] = useState()
     const [newImage, setNewImage] = useState()
 
 
@@ -44,7 +42,7 @@ export const EditDialog = ({item, isOpen, onClose, reload}) => {
     }, [item])
 
     const loadImages = () => {
-        axios.get(`${apiUrl}/admin/images`).then((res) => {
+        axios.get(`${apiUrl}/admin/images`, { withCredentials: true }).then((res) => {
             console.log(res)
             cache.imageList = res.data
             setImageList(res.data)
@@ -59,9 +57,9 @@ export const EditDialog = ({item, isOpen, onClose, reload}) => {
         formData.append('picture', newImage)
         formData.append('category_id', item.category_id)
         const config = {
+            withCredentials: true,
             headers: {
                 'content-type': 'multipart/form-data',
-                'authorization': adminKey
             }
         }
         axios.post(`${apiUrl}/admin/image`, formData, config)
@@ -90,14 +88,13 @@ export const EditDialog = ({item, isOpen, onClose, reload}) => {
         setLoading('loading')
         console.log(JSON.stringify(editedItem));
         try {
-            const res = await axios.put(`${apiUrl}/admin/item`, JSON.stringify(editedItem), {
+            await axios.put(`${apiUrl}/admin/item`, JSON.stringify(editedItem), {
+                withCredentials: true,
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': adminKey
                 }
             })
             setLoading('ok')
-            setAdminKey(null)
             setEditedItem(null) 
             reload()
             setTimeout(() => {
@@ -111,27 +108,14 @@ export const EditDialog = ({item, isOpen, onClose, reload}) => {
         }
     }
 
-    // const tryToParse = (html) => {
-    	// if (!html) return ''
-    	// try {
-            // console.log('trying');
-    		// const res = parse(html)
-            // console.log('ok');
-            // return res
-    	// } catch (e) {
-    		// console.log(e)
-    		// return html
-    	// }
-    // }
-
     if (item && editedItem) return (
-        <Modal onClose={() => {setAdminKey(null); setEditedItem(item); onClose()}} isOpen={isOpen} scrollBehavior='inside' isCentered>
+        <Modal onClose={() => {setEditedItem(item); onClose()}} isOpen={isOpen}>
         <ModalOverlay />
         <ModalContent bgColor="#180036" borderRadius={15} maxWidth={{base: 'max-content'}} fontFamily="Iosevka" marginX={10}>
           <ModalHeader fontSize={24} alignSelf="center">{editedItem.name}</ModalHeader>
           <ModalCloseButton />
           <ModalBody margin={10}>
-              <Flex direction={{base: 'column', lg: 'row'}} alignItems='center' width='full'>
+              <Flex direction={{base: 'column', lg: 'row'}} width='full'>
                   <Flex width='full' marginRight={{base: 5, lg: 20}} paddingRight={{base: 5, lg: 20}} marginBottom={{base: 10, lg: 5}} paddingBottom={{base: 10, lg: 5}} direction='column' borderRightWidth={{base: 0, lg: 1}} borderBottomWidth={{base: 1, lg: 0}} borderRightColor='whitesmoke' borderColor='whitesmoke'>
                       {
                           Object.keys(item)
@@ -180,12 +164,6 @@ export const EditDialog = ({item, isOpen, onClose, reload}) => {
                                                 <Button width={150} type="submit" isLoading={uploadingImage === "loading"} loadingText="Загрузка...">{uploadingImage === 'ok' ? 'Загружено!' : uploadingImage === 'error' ? 'Ошибка' : 'Загрузить'}</Button>
                                             </Flex>
                                         </form>
-                                        { newImage ? <FormControl marginTop={6} width="full" isRequired>
-                                            <FormLabel>Ключ администратора</FormLabel>
-                                            <Input value={adminKey} borderRadius={10} borderWidth={2} _placeholder={{ color: 'purple.400' }} type="password"
-                                            onChange={(event) => {setAdminKey(event.target.value)}}
-                                            />
-                                        </FormControl> : <></>}
                                     </Flex>
                                 </FormControl>
                                 </>
@@ -214,12 +192,6 @@ export const EditDialog = ({item, isOpen, onClose, reload}) => {
 
                           })
                       }
-                    { !newImage ? <FormControl marginTop={6} width="full" isRequired>
-                        <FormLabel>Ключ администратора</FormLabel>
-                        <Input value={adminKey} borderRadius={10} borderWidth={2} _placeholder={{ color: 'purple.400' }} type="password"
-                        onChange={(event) => {setAdminKey(event.target.value)}}
-                        />
-                    </FormControl> : <></>}
                   </Flex>
 
                   <Flex direction={{base: 'column', md: 'row'}} alignItems={{base: 'initial', md: 'start'}}>
@@ -248,7 +220,7 @@ export const EditDialog = ({item, isOpen, onClose, reload}) => {
             </Flex>
           </ModalBody>
           <ModalFooter alignItems='start'>
-            <Button onClick={() => {setAdminKey(null); setEditedItem(item)}}>Cбросить</Button>
+            <Button onClick={() => {setEditedItem(item)}}>Cбросить</Button>
             <Button marginLeft={10} isLoading={loading === "loading"} loadingText="Отправка..." onClick={sendItem}>{loading === 'ok' ? 'Сохранено!' : loading === 'error' ? 'Ошибка' : 'Сохранить'}</Button>
           </ModalFooter>
         </ModalContent>

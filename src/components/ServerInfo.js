@@ -20,29 +20,12 @@ export const ServerInfo = (props) => {
         cache.playerList || []
         // ['aboba', 'murtll', 'jairman', 'tornado7898', 'vitalik', 'BolderHuelder', 'VOLERA2341', 'CatsGeimer']
         )
-    // const [mobileWidth, setMobileWidth] = useState(window.matchMedia('(max-width: 767px)').matches)
-    // const [windowWidth, setWindowWidth] = useState(window.innerWidth)
-
-
-    // const getPlayerCount = () => {
-    //     // setPlayerCount(null)
-    //     axios.get(`https://api.minetools.eu/query/play.mcbrawl.ru/25565`).then((res) => {
-    //         cache.playerCount = res.data.Players
-    //         cache.playerList = res.data.Playerlist
-    //         setPlayerCount(res.data.Players)
-    //         setPlayerList(res.data.Playerlist)
-
-    //       })
-	//     .catch((err) => {
-	// 	console.log(err)
-	//     })
-    // }
 
     const getPlayerCountAndUpdate = () => {
         axios.get(`https://api.minetools.eu/query/play.mcbrawl.ru/25565`).then((res) => {
             // cache.playerCount = res.data.Players
             // cache.playerList = res.data.Playerlist
-            setPlayerCount(res.data.Players)
+            setPlayerCount(res.data.Playerlist.length)
             setPlayerList(res.data.Playerlist)
 
             // to auto update
@@ -71,7 +54,6 @@ export const ServerInfo = (props) => {
                     fontFamily="Iosevka" 
                     fontWeight="bold" marginLeft={2} fontSize={20}>{playerCount}</Text>}
         </Flex>
-        {/* { showPlayers ? */}
         <Fade collapse top when={showPlayers} duration={400} distance='45px'>
         <Flex
         shadow='2xl'
@@ -82,12 +64,11 @@ export const ServerInfo = (props) => {
         borderWidth={1} 
         backgroundColor='#3f007c'
         borderColor='#69009B' 
-        // direction='column' 
         justify='center' 
         align='center' 
         marginTop={35} 
         borderRadius={15}
-        paddingBottom={playerList.length > 5 || playerList.length == 0 ? 0 : 3}
+        paddingBottom={playerCount > 5 || playerCount == 0 ? 0 : 3}
         zIndex='3'
         >
 
@@ -95,7 +76,7 @@ export const ServerInfo = (props) => {
                 playerList 
                 && playerCount > 0 
                 ? 
-                <Flex width='full' align='center' direction='column' overflow={`hidden ${playerList.length > 5 ? 'scroll' : 'none'}`} height={playerList.length < 5 ? 37 * playerList.length : 176} paddingY={2} scrollPaddingY={2}>
+                <Flex width='full' align='center' direction='column' overflow={`hidden ${playerCount > 5 ? 'scroll' : 'none'}`} height={playerCount < 5 ? 37 * playerCount : 176} paddingY={2} scrollPaddingY={2}>
                 {
                 playerList.map((playerName, i) => {
                     return <HStack
@@ -124,22 +105,9 @@ export const ServerInfo = (props) => {
                         Никого нет :(
                     </Text>
             }
-            {/* {
-                playerCount > 5 
-                ?
-                <Text
-                    paddingX={35}
-                    paddingBottom={1}
-                    paddingTop={1}
-                    fontSize={14}>
-                        {`и ещё ${playerCount - 5}`}
-                    </Text>
-                : <></>
-            } */}
+
         </Flex>
         </Fade>
-        {/* : <></>
-        } */}
         </Flex>
     )
 }

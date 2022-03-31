@@ -22,20 +22,17 @@ export const EditCategoryDialog = ({category, isOpen, onClose, reload}) => {
     const [editedCategory, setEditedCategory] = useState()
     const [loading, setLoading] = useState('initial')
 
-    var adminKey = null
-
     useEffect(() => {
         setEditedCategory(category)
     }, [category])
 
     const sendCategory = async () => {
         setLoading('loading')
-        console.log(JSON.stringify(editedCategory));
         try {
-            const res = await axios.put(`${apiUrl}/admin/category`, JSON.stringify(editedCategory), {
+            await axios.put(`${apiUrl}/admin/category`, JSON.stringify(editedCategory), {
+                withCredentials: true,
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': adminKey
                 }
             })
             setLoading('ok')
@@ -59,7 +56,6 @@ export const EditCategoryDialog = ({category, isOpen, onClose, reload}) => {
           <ModalHeader fontSize={24} alignSelf="center">{editedCategory.name}</ModalHeader>
           <ModalCloseButton />
           <ModalBody margin={10}>
-              {/* <Flex direction='row'> */}
                   <Flex direction='column'>
                       {
                           Object.keys(category)
@@ -76,12 +72,6 @@ export const EditCategoryDialog = ({category, isOpen, onClose, reload}) => {
                               )
                           })
                       }
-                    <FormControl marginTop={6} width="full" isRequired>
-                        <FormLabel>Ключ администратора</FormLabel>
-                        <Input borderRadius={10} borderWidth={2} _placeholder={{ color: 'purple.400' }} type="password"
-                        onChange={(event) => {adminKey = event.target.value}}
-                        />
-                    </FormControl>
                   </Flex>
           </ModalBody>
           <ModalFooter alignItems='start'>
