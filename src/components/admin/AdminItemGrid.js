@@ -46,10 +46,10 @@ export const AdminItemGrid = ({ currentCategory }) => {
         <EditDialog item={currentItem} isOpen={editClosure.isOpen} onClose={editClosure.onClose} reload={loadItems}/>
         <DeleteDialog item={currentItem} isOpen={deleteClosure.isOpen} onClose={deleteClosure.onClose} reload={loadItems}/>
         <AddDialog isOpen={addClosure.isOpen} onClose={addClosure.onClose} reload={loadItems} category={currentCategory ? currentCategory.link.substring(1) : ''}/>
-        <SimpleGrid columns={{base: 1, sm: 2, md: 2, lg: 3, xl: 4, '2xl': 5}} spacingY={61} spacingX={41}>
+        <SimpleGrid columns={{base: 1, sm: 2, md: 3, xl: 4, '2xl': 5}} spacingY={61} spacingX={41}>
         {items.map((item) => {
           return (
-          <Box height={250} width={{base: 200, sm: 180, md: 200, }} variant='outline' borderRadius={15} borderWidth={3} borderColor="#69009B" py="4" px="4" alignItems="center"
+          <Box height={250} width={180} variant='outline' borderRadius={15} borderWidth={3} borderColor="#69009B" py="4" px="4" alignItems="center"
           onMouseEnter={() => setHovered(item.id)} onMouseLeave={() => setHovered(null)}
           _hover={{backgroundColor: '#69009B42'}}
           >
@@ -70,7 +70,7 @@ export const AdminItemGrid = ({ currentCategory }) => {
             </Flex>}
           </Box>)
         })}
-        <IconButton icon={<FaPlus size={70} color='#69009B' />} height={250} variant='outline' width={{base: 200, sm: 180, md: 200, }} borderRadius={15} borderWidth={3} borderColor="#69009B" py="12" px="14" alignItems="center" onClick={addClosure.onOpen} />
+        <IconButton icon={<FaPlus size={70} color='#69009B' />} height={250} variant='outline' width={180} borderRadius={15} borderWidth={3} borderColor="#69009B" py="12" px="14" alignItems="center" onClick={addClosure.onOpen} />
       </SimpleGrid>
       </>
     )

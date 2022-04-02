@@ -69,12 +69,12 @@ export const AdminPanel = () => {
     }
     
     if (categories.length > 0 && currentCategory.link && loggedIn) return (
-        <Flex marginX={{base: 10, xl: 100}} marginY={70} direction={{base: 'column', lg: 'row'}} alignItems={{base: 'center', md: 'start'}} borderColor="purple" borderRadius={30} borderWidth={1} fontFamily="Iosevka">
+        <Flex transition='ease 400ms' marginX={10} marginY={70} direction={{base: 'column', lg: 'row'}} alignItems={{base: 'center', md: 'start'}} borderColor="purple" borderRadius={30} borderWidth={1} fontFamily="Iosevka">
             <DeleteCategoryDialog category={currentCategory} isOpen={deleteClosure.isOpen} onClose={deleteClosure.onClose} reload={() => { setCurrentCategory(categories[0]); loadCategories() } }/>
             <EditCategoryDialog category={currentCategory} isOpen={editClosure.isOpen} onClose={editClosure.onClose} reload={loadCategories}/>
             <AddCategoryDialog isOpen={addClosure.isOpen} onClose={addClosure.onClose} reload={loadCategories}/>
             <PromosDialog isOpen={promoClosure.isOpen} onClose={promoClosure.onClose}/>
-            <Flex width={{base: 'full', lg: 300}} direction={{base: 'column', md: 'column'}} alignItems='center' fontSize={20} borderColor="purple" borderRadius={30} borderRightWidth={1} borderBottomWidth={1} borderLeftWidth={1}>
+            <Flex width={{base: 'full', lg: 300}} direction='column' alignItems='center' fontSize={20} borderColor="purple" borderRadius={30} borderRightWidth={1} borderBottomWidth={1} borderLeftWidth={1}>
                 {
                     categories.map((category) => {
                         return (
@@ -130,31 +130,31 @@ export const AdminPanel = () => {
                     <GoPlus />
                     <Text marginLeft={3}>Добавить</Text>
                 </Flex>
-                
+
                 <Flex 
                  width='full'
-                 marginTop={262}
+                 marginTop={10}
                  paddingX={30} 
                  paddingBottom={4} 
                  paddingTop={4} 
                  direction='row' 
                  alignItems='center' 
-                 borderBottomColor='purple' 
-                 borderBottomWidth={1}
+                 borderTopColor='purple' 
+                 borderTopWidth={1}
                  bgColor='#2c1a4d92' 
                  borderBottomRadius={30}
+                 borderTopRadius={15}
                  _hover={{
                      backgroundColor: '#2b144692',
                      cursor: 'pointer'
                  }}
                  onClick={promoClosure.onOpen}
                  >
-                    {/* <GoPlus /> */}
                     <Text marginLeft={3}>Промокоды</Text>
                 </Flex>
 
             </Flex>
-            <Flex width='full' marginY={10} marginX={20} direction='column' alignItems='center'>
+            <Flex width='full' marginY={10} direction='column' align='center'>
                 <AdminItemGrid currentCategory={currentCategory}/>
             </Flex>
         </Flex>

@@ -99,7 +99,7 @@ export const PromosDialog = ({isOpen, onClose}) => {
     return (
         <Modal onClose={() => { setNewPromo({name: '', multiplier: 1 }); onClose() }} isOpen={isOpen}>
         <ModalOverlay />
-        <ModalContent bgColor="#180036" borderRadius={15} maxWidth={{base: 400, md: 600}} fontFamily="Iosevka">
+        <ModalContent bgColor="#180036" borderRadius={15} maxWidth={{base: 400, md: 700}} fontFamily="Iosevka">
           <ModalHeader fontSize={24} alignSelf="center">Промокоды</ModalHeader>
           <ModalCloseButton />
           <ModalBody margin={10}>
@@ -107,7 +107,8 @@ export const PromosDialog = ({isOpen, onClose}) => {
                     <Flex direction='column'>
                       {
                         promos.map((promo) => {
-                          return ( <Flex borderWidth={1} borderColor='purple' borderRadius={5} padding={3} marginTop={6} width="full"> 
+                          return ( <Flex borderWidth={1} borderColor='purple' borderRadius={5} paddingY={3} paddingX={5} align='center' marginTop={6} width="full"> 
+                          <Flex direction={{base: 'column', md: 'row'}}>
                             { Object.keys(promo)
                                 .filter((prop) => prop !== 'id')
                                 .map((prop) => {
@@ -117,37 +118,38 @@ export const PromosDialog = ({isOpen, onClose}) => {
                                           <Text>{`${prop[0].toUpperCase()}${prop.substring(1)}:`}</Text>
                                           <Text marginLeft={3} padding={1}>{promo[prop]}</Text>
                                       </Flex>
-                                      <Spacer/>
                                     </>
                                     )
                               }) 
                             }
+                            </Flex>
+                            <Spacer/>
                             <Box _hover={{cursor: 'pointer'}} onClick={() => deletePromo(promo.id)}>
                                 <GoTrashcan color="red" size={24}/>
                             </Box>
                         </Flex> )
                         })
                       }
-                        <Flex marginTop={6} width="full">
+                        <Flex marginTop={6} marginLeft={5} width="full" direction={{base: 'column', md: 'row'}} align='center'>
                             { Object.keys(newPromo)
                                 .filter((prop) => prop !== 'id')
                                 .map((prop) => {
                                     return (
                                         <>
-                                          <Flex direction='row' align='center'>
+                                          <Flex direction='row' align='center' justify='start' width={{base: 'full', md: 'min-content'}} marginRight={3} marginBottom={{base: 3, md: 0}}>
                                           <Text>{`${prop[0].toUpperCase()}${prop.substring(1)}:`}</Text>
-                                          <Input marginX={2} width={100} borderRadius={10} borderWidth={2} _placeholder={{ color: 'purple.400' }} 
+                                          <Input marginLeft={2} width={100} borderRadius={10} borderWidth={2} _placeholder={{ color: 'purple.400' }} 
                                             type={ prop === 'multiplier' ? "number" : "text" }
                                             value={newPromo[prop]}
                                             onChange={(event) => setNewPromo({...newPromo, [prop]: event.target.value})}
                                           />
                                           </Flex>
-                                          <Spacer/>
                                         </>
                                     )
                               }) 
                             }
-                            <Button onClick={sendPromo}>Добавить</Button>
+                            <Spacer/>
+                            <Button width={150} onClick={sendPromo} marginRight={10}>Добавить</Button>
                         </Flex>
                   </Flex>
                   : loading === 'loading' ?

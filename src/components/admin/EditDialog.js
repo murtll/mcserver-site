@@ -43,7 +43,6 @@ export const EditDialog = ({item, isOpen, onClose, reload}) => {
 
     const loadImages = () => {
         axios.get(`${apiUrl}/admin/images`, { withCredentials: true }).then((res) => {
-            console.log(res)
             cache.imageList = res.data
             setImageList(res.data)
           })
