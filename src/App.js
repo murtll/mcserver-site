@@ -1,19 +1,19 @@
 import React, { useEffect, useState } from 'react';
-import {
-  ChakraProvider, extendTheme, theme, Spacer, Flex} from '@chakra-ui/react';
+import { ChakraProvider, extendTheme, theme, Spacer, Flex} from '@chakra-ui/react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { mode } from "@chakra-ui/theme-tools"
+import Fade from 'react-reveal/Fade'
+import Snowfall from 'react-snowfall'
 
 import { Header } from './components/Header'
 import { Home } from './components/Home'
 import { Footer } from './components/Footer'
 import { AdminPanel } from './components/admin/AdminPanel'
 import { CategoryPage } from './components/CategoryPage'
-import { LastDonates } from './components/LastDonates';
+import { LastDonates } from './components/LastDonates'
 
-import Fade from 'react-reveal/Fade';
 import { Chart } from './components/Chart';
-import { Developers } from './components/Developers';
+import { Developers } from './components/Developers'
 
 function App() {
 
@@ -45,15 +45,9 @@ function App() {
 
   const showDonates = () => {
     const newScroll = window.scrollY + window.innerHeight
-    if (
-      // prevScroll < newScroll && 
-      newScroll > 1200) {
+    if (newScroll > 1200) {
       !donatesShown && setDonatesShown(true)
     } 
-    // if (prevScroll > newScroll && prevScroll < 1400) {
-    //   setDonatesShown(false)
-    // }
-    // prevScroll = newScroll
 
     if (newScroll > 1300) {
       !footerShown && setFooterShown(true)
@@ -74,6 +68,7 @@ function App() {
 
   return (
     <ChakraProvider resetCSS theme={customTheme}>
+      <Snowfall/>
       <BrowserRouter>
         {/* <Fade top> */}
           <Header/>
