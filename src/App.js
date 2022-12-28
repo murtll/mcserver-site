@@ -68,7 +68,11 @@ function App() {
 
   return (
     <ChakraProvider resetCSS theme={customTheme}>
-      <Snowfall/>
+      {
+        (new Date().getMonth() == 11 && new Date().getDate() > 15) || (new Date().getMonth() == 0 && new Date().getDate() < 15) ?
+        <Snowfall/> :
+        <></>
+      }
       <BrowserRouter>
         {/* <Fade top> */}
           <Header/>
