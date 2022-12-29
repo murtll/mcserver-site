@@ -14,6 +14,7 @@ import { LastDonates } from './components/LastDonates'
 
 import { Chart } from './components/Chart';
 import { Developers } from './components/Developers'
+import { RatingTable } from './components/RatingTable';
 
 function App() {
 
@@ -39,6 +40,7 @@ function App() {
   })
 
   const [ donatesShown, setDonatesShown ] = useState(false)
+  const [ ratingShown, setRatingShown ] = useState(false)
   const [ footerShown, setFooterShown ] = useState(false)
   
   var prevScroll = 0
@@ -50,10 +52,14 @@ function App() {
     } 
 
     if (newScroll > 1300) {
+      !ratingShown && setRatingShown(true)
+    }
+
+    if (newScroll > 1700) {
       !footerShown && setFooterShown(true)
     }
-    
-    if (footerShown && donatesShown) {
+
+    if (footerShown && ratingShown && donatesShown) {
       window.removeEventListener('scroll', showDonates);
       window.removeEventListener('resize', showDonates);
     }
@@ -83,15 +89,19 @@ function App() {
           <Route exact path="/developers" element={<Developers/>}/>
           <Route path="/:category" element={<CategoryPage />} />
         </Routes>
-      <Flex marginTop={20} marginX={20} justify='center' direction={{base: 'column', md: 'row-reverse'}}> 
-        <Fade bottom when={donatesShown}>
-          <LastDonates />
-        </Fade>
-        <Fade bottom when={donatesShown}>
-          <Chart />
-        </Fade>
-      </Flex>
+        <Flex marginTop={20} marginX={20} justify='center' direction={{base: 'column', md: 'row-reverse'}}> 
+          <Fade bottom when={donatesShown}>
+            <LastDonates />
+          </Fade>
+          <Fade bottom when={donatesShown}>
+            <Chart />
+          </Fade>
+        </Flex>
         <Spacer height={85} />
+        <Fade bottom when={ratingShown}>
+          <RatingTable />        
+        </Fade>
+        <Spacer height={85} />        
         <Fade bottom when={footerShown} duration={700}>
           <Footer /> 
         </Fade>

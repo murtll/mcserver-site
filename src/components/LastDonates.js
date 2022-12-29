@@ -6,28 +6,9 @@ import config from '../config'
 import { cache } from '../utils/GlobalCache'
 import '@fontsource/iosevka'
 
+import { dateString } from '../utils/DateUtils'
+
 import './Slideshow.css'
-
-const dateString = (date) => {
-  let dayWord = ''
-  const currentDate = new Date()
-
-  const dateMinusDays = (dt, dy) => {
-    const d = new Date(dt)
-    d.setDate(d.getDate() - dy)
-    return d
-  }
-
-  if (date.toDateString() == currentDate.toDateString())
-    dayWord = 'Сегодня'
-  else if (date.toDateString() == dateMinusDays(currentDate, 1).toDateString())
-    dayWord = 'Вчера'
-  else if (date.toDateString() == dateMinusDays(currentDate, 2).toDateString())
-    dayWord = 'Позавчера'
-  else dayWord = `${date.toLocaleDateString('ru', { month: 'long', day: 'numeric' })}`
-    
-  return `${dayWord} в ${date.getHours()}:${date.getMinutes()}`
-}
 
 const Slideshow = ({ donates }) => {
   const [index, setIndex] = useState(0)
