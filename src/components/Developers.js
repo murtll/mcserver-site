@@ -28,7 +28,7 @@ const devs = [
         ]
     },
     {
-        name: 'BoulderHuelder',
+        name: 'BolderHuelder',
         description: 'Дед, который решает вопросы с налогами и платежными системами. Если что-то пойдет не так, он сядет в тюрьму :)',
         image: '/images/special/boulder.png',
         social: [
