@@ -33,7 +33,13 @@ export const RatingTable = () => {
             marginTop={5} borderColor='purple' borderWidth={1} borderRadius={15} width={{ base: 300, sm: 500, md: 800, xl: 1000, '2xl': 1300 }} direction='column' height='515'>
             {/* <TableContainer> */}
             <Table variant='simple' colorScheme='purple'>
-                <TableCaption paddingBottom={6}><Flex fontFamily='Iosevka' justify='center' width='full'>Здесь показаны первые 25 игроков. Чтобы попасть в этот список, больше играйте на нашем сервере!</Flex></TableCaption>
+                <TableCaption paddingBottom={6}>
+                    <Flex fontFamily='Iosevka' justify='center' width='full'>Здесь показаны первые 25 игроков. Чтобы попасть в этот список, больше играйте на нашем сервере!</Flex>
+                    <Flex fontFamily='Iosevka' justify='center' width='full' marginTop={4}>
+                <Text marginTop={2} marginRight={2} textColor='#ddaabb'>Данные получены с помощью </Text> <link rel="stylesheet" href="https://mineserv.top/widgets.min.css" /> <a href="https://mineserv.top/mcbrawl" target="_blank" rel="noopener noreferrer" class="mn-srv-btn mn-srv-btn--small"><span class="mn-srv-btn__icon"><svg width="16" height="16" viewBox="0 0 360 360"><g fill="none" fill-rule="evenodd"><path d="M0 0H360V360H0z" transform="translate(-371 -350) translate(371 350)"></path> <g fill="#FFF"><path d="M253.844 259.461L253.844.539 203.075.539 203.065 52.329 152.307 52.324 152.307 104.108 203.065 104.108 203.075 259.461zM152.307 156.432L152.307 104.647 101.538 104.647 101.538 156.432zM50.769.539L0 .539 0 259.461 50.769 259.461 50.769 104.108 101.538 104.108 101.538 52.324 50.769 52.324z" transform="translate(-371 -350) translate(371 350) translate(53 50)"></path></g></g></svg></span> <span class="mn-srv-btn__text">Mineserv</span></a>
+            </Flex>
+
+                </TableCaption>
                 <Thead position='sticky' top='0' background='#2D115A'>
                 <Tr>
                     <Th><Flex paddingTop='10px' fontFamily='Iosevka' justify='center' width='full'>Место</Flex></Th>
