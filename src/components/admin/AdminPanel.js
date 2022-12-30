@@ -21,6 +21,7 @@ import { EditCategoryDialog } from './EditCategoryDialog'
 import { AddCategoryDialog } from './AddCategoryDialog'
 import { DeleteCategoryDialog } from './DeleteCategoryDialog'
 import { PromosDialog } from './PromosDialog'
+import { ConsoleDialog } from "./ConsoleDialog"
 
 export const AdminPanel = () => {
     const [currentCategory, setCurrentCategory] = useState({ link: '/cases' })
@@ -34,6 +35,7 @@ export const AdminPanel = () => {
     const addClosure = useDisclosure()
     const deleteClosure = useDisclosure()
     const promoClosure = useDisclosure()
+    const consoleClosure = useDisclosure()
 
     const loadCategories = () => {
         axios.get(`${apiUrl}/admin/categories`, { withCredentials: true })
@@ -74,6 +76,7 @@ export const AdminPanel = () => {
             <EditCategoryDialog category={currentCategory} isOpen={editClosure.isOpen} onClose={editClosure.onClose} reload={loadCategories}/>
             <AddCategoryDialog isOpen={addClosure.isOpen} onClose={addClosure.onClose} reload={loadCategories}/>
             <PromosDialog isOpen={promoClosure.isOpen} onClose={promoClosure.onClose}/>
+            <ConsoleDialog isOpen={consoleClosure.isOpen} onClose={consoleClosure.onClose}/>
             <Flex width={{base: 'full', lg: 300}} direction='column' alignItems='center' fontSize={20} borderColor="purple" borderRadius={30} borderRightWidth={1} borderBottomWidth={1} borderLeftWidth={1}>
                 {
                     categories.map((category) => {
@@ -142,7 +145,6 @@ export const AdminPanel = () => {
                  borderTopColor='purple' 
                  borderTopWidth={1}
                  bgColor='#2c1a4d92' 
-                 borderBottomRadius={30}
                  borderTopRadius={15}
                  _hover={{
                      backgroundColor: '#2b144692',
@@ -152,6 +154,26 @@ export const AdminPanel = () => {
                  >
                     <Text marginLeft={3}>Промокоды</Text>
                 </Flex>
+                <Flex 
+                 width='full'
+                 paddingX={30} 
+                 paddingBottom={4} 
+                 paddingTop={4} 
+                 direction='row' 
+                 alignItems='center' 
+                 borderTopColor='purple' 
+                 borderTopWidth={1}
+                 bgColor='#2c1a4d92' 
+                 borderBottomRadius={30}
+                 _hover={{
+                     backgroundColor: '#2b144692',
+                     cursor: 'pointer'
+                 }}
+                 onClick={consoleClosure.onOpen}
+                 >
+                    <Text marginLeft={3}>Консоль сервера</Text>
+                </Flex>
+
 
             </Flex>
             <Flex width='full' marginY={10} direction='column' align='center'>
