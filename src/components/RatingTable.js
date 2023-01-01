@@ -7,6 +7,8 @@ import { FaCrown, FaPoop } from "react-icons/fa"
 
 import { secToTime, dateString } from "../utils/DateUtils"
 
+import './Scroll.css'
+
 export const RatingTable = () => {
 
 	const [playerRatings, setPlayerRatings] = useState(cache.playerRatings || [])

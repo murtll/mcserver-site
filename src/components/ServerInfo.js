@@ -12,6 +12,8 @@ import { cache } from "../utils/GlobalCache"
 import '@fontsource/iosevka'
 import Fade from 'react-reveal/Fade'
 
+import './Scroll.css'
+
 export const ServerInfo = (props) => {
 
     const [playerCount, setPlayerCount] = useState(cache.playerCount || null)
