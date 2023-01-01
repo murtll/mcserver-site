@@ -29,7 +29,7 @@ export const RatingTable = () => {
 	return (
     <Flex fontFamily='Iosevka' direction='column' align='center' justify='center'>
     	<Text fontSize={24} color="#FCD9FF" fontWeight='bold' textAlign='center'>Рейтинг игроков</Text>
-        <Box shadow='inset 0px 0px 30px 10px #00000052' transition='ease 1000ms' overflowX='hidden scroll' overflowY='hidden scroll'
+        <Box shadow='inset 0px 0px 30px 10px #00000052' transition='ease 1000ms' overflow='scroll'
             marginTop={5} borderColor='purple' borderWidth={1} borderRadius={15} width={{ base: 300, sm: 500, md: 800, xl: 1000, '2xl': 1300 }} direction='column' height='515'>
             {/* <TableContainer> */}
             <Table variant='simple' colorScheme='purple'>
