@@ -1,1 +1,9 @@
 node_modules/
+Dockerfile
+docker-compose.yml
+README.md
+.git
+.github
+.dockerignore
+.gitignore
+.prettierrc

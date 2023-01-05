@@ -1,0 +1,31 @@
+version: '3.9'
+
+services:
+  frontend:
+    image: ${IMAGE}:${TAG}
+    expose: 8080
+    restart: always
+    networks:
+      - traefik-net
+    labels:
+      traefik.enable: true
+      traefik.http.routers.web.rule: 'Host(`${DEPLOY_HOST}`)'
+      traefik.http.routers.web.entrypoints: https
+      traefik.http.routers.web.tls: true
+      traefik.http.routers.web.tls.certresolver: letsencrypt
+      traefik.http.services.web.loadBalancer.server.port: 8080
+    healthcheck:
+      test: wget --no-verbose --tries=1 --spider http://localhost:8080/
+      interval: 10s
+      retries: 3
+      timeout: 1s
+      start_period: 5s
+    logging:
+      driver: json-file
+      options:
+        max-size: 10m
+
+networks:
+  traefik-net:
+    external: true
+    name: traefik-net
