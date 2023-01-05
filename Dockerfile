@@ -24,4 +24,6 @@ EXPOSE 8080
 RUN rm -rf /var/cache/apk/*  \
     && rm -rf /usr/share/nginx/html/*
 
+COPY default.conf /etc/nginx/conf.d/
+
 COPY --from=BUILDER /app/build /usr/share/nginx/html

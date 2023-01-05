@@ -4,7 +4,7 @@ services:
   frontend:
     image: ${IMAGE}:${TAG}
     expose: 
-      - 80
+      - 8080
     restart: always
     networks:
       - traefik-net
@@ -14,9 +14,9 @@ services:
       traefik.http.routers.front.entrypoints: https
       traefik.http.routers.front.tls: true
       traefik.http.routers.front.tls.certresolver: letsencrypt
-      traefik.http.services.front.loadBalancer.server.port: 80
+      traefik.http.services.front.loadBalancer.server.port: 8080
     healthcheck:
-      test: wget --no-verbose --tries=1 --spider http://localhost/
+      test: wget --no-verbose --tries=1 --spider http://localhost:8080/
       interval: 10s
       retries: 3
       timeout: 1s
