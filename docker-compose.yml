@@ -15,9 +15,9 @@ services:
       traefik.http.routers.front.tls: true
       traefik.http.routers.front.tls.certresolver: letsencrypt
       traefik.http.services.front.loadBalancer.server.port: 8080
-      traefik.http.middlewares.cache.headers.customresponseheaders.cache-control: max-age=604800
-      traefik.http.middlewares.gzip.compress: true
-      traefik.http.routers.front.middlewares: gzip,cache
+      traefik.http.middlewares.front.headers.customresponseheaders.cache-control: max-age=604800
+      traefik.http.middlewares.front.compress: true
+      traefik.http.routers.front.middlewares: front
     healthcheck:
       test: wget --no-verbose --tries=1 --spider http://localhost:8080/
       interval: 10s
