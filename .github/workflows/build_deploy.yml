@@ -15,22 +15,101 @@ jobs:
     runs-on: ubuntu-22.04
     outputs:
       image_name: ${{ steps.envs.outputs.image_name }}
-      image_tag: ${{ steps.envs.outputs.image_tag }}
+      image_tag: ${{ steps.build.outputs.tag }}
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
 
       - run: |
           echo image_name=${GITHUB_REPOSITORY##*/} >> $GITHUB_OUTPUT
-          echo image_tag=$(echo $GITHUB_SHA | cut -c 1-8) >> $GITHUB_OUTPUT
         id: envs
 
-      - name: Build and push image
+      - name: Get previous tag
+        id: previous-tag
+        uses: WyriHaximus/github-action-get-previous-tag@v1
+        with:
+          fallback: 1.0.0
+
+      - name: Check if it is new version
         run: |
+          CHANGED=( $(git diff ${{ steps.previous-tag.outputs.tag }}..HEAD --name-only) )
+          echo "Changed files since last tag (${{ steps.previous-tag.outputs.tag }}):"
+          printf '%s\n' "${CHANGED[@]}"
+          
+          while read LINE; do
+            CHANGED=( $(printf '%s\n' "${CHANGED[@]}" | grep -v "^$LINE" | cat) )
+
+            if [[ -z "${CHANGED[@]}" ]]; then
+              echo "All files are in .dockerignore -> no new version"
+              exit 0
+            fi
+          done < .dockerignore
+
+          if [[ -n "${CHANGED[@]}" ]]; then
+            echo NEW_VERSION=true >> $GITHUB_ENV
+              echo "Files"
+              printf '%s\n' "${CHANGED[@]}"
+              echo "are not in .dockerignore -> it's new version"
+          fi
+
+      - name: Get commit message
+        if: ${{ env.NEW_VERSION }}
+        run: |
+          COMMIT_MSG="$(git log --pretty=format:"%s" -n 1)"
+          VERSION_FRAGMENT=$(echo $COMMIT_MSG | awk '{ print $1 }' | sed 's/://g')
+          if [[ "$VERSION_FRAGMENT" != 'feature' && "$VERSION_FRAGMENT" != 'major' && "$VERSION_FRAGMENT" != 'bug' ]]; then
+            VERSION_FRAGMENT='bug'
+          fi
+          echo "VERSION_FRAGMENT=$VERSION_FRAGMENT" >> $GITHUB_ENV
+
+      - name: Bump patch version
+        if: ${{ env.NEW_VERSION }}
+        id: bump-version
+        uses: christian-draeger/increment-semantic-version@1.0.2
+        with:
+          current-version: ${{ steps.previous-tag.outputs.tag }}
+          version-fragment: ${{ env.VERSION_FRAGMENT }}
+
+      - name: Make changelog
+        if: ${{ env.NEW_VERSION }}
+        id: changelog
+        shell: bash
+        run: |
+          MY_SHA="$(git log -1 --format=format:"%h" ${{ steps.previous-tag.outputs.tag }})"
+          GIT_LOG="$(git log --pretty=format:"* %s" $MY_SHA..HEAD | uniq)"
+          echo "### Changes" > RELEASE.md
+          echo "$GIT_LOG" >> RELEASE.md
+
+      - name: Create release
+        if: ${{ env.NEW_VERSION }}
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ steps.bump-version.outputs.next-version }}
+          release_name: v${{ steps.bump-version.outputs.next-version }}
+          draft: false
+          prerelease: false
+          body_path: RELEASE.md
+
+      - name: Build and push image
+        id: build
+        run: |
+          if [[ -n "${{ steps.bump-version.outputs.next-version }}" ]]; then
+            TAG=${{ steps.bump-version.outputs.next-version }}
+          else
+            TAG=${{ steps.previous-tag.outputs.tag }}
+          fi
+
+          echo tag=$TAG >> $GITHUB_OUTPUT
+
           docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_PASSWORD }}
           docker build . \
-            -t ${{ secrets.DOCKERHUB_USERNAME }}/${{ steps.envs.outputs.image_name }}:${{ steps.envs.outputs.image_tag }} \
+            -t ${{ secrets.DOCKERHUB_USERNAME }}/${{ steps.envs.outputs.image_name }}:$TAG \
             -t ${{ secrets.DOCKERHUB_USERNAME }}/${{ steps.envs.outputs.image_name }}:latest
-          docker push ${{ secrets.DOCKERHUB_USERNAME }}/${{ steps.envs.outputs.image_name }}:${{ steps.envs.outputs.image_tag }}
+
+          docker push ${{ secrets.DOCKERHUB_USERNAME }}/${{ steps.envs.outputs.image_name }}:$TAG
           docker push ${{ secrets.DOCKERHUB_USERNAME }}/${{ steps.envs.outputs.image_name }}:latest
 
       - name: Failure notify
