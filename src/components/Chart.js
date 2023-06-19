@@ -1,4 +1,4 @@
-import { Flex, Text } from "@chakra-ui/react"
+import { Flex, Text, Image, HStack } from "@chakra-ui/react"
 import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts"
 import '@fontsource/iosevka'
 import { cache } from '../utils/GlobalCache'
@@ -11,9 +11,15 @@ export const Chart = () => {
 	const [chartData, setChartData] = useState(cache.chartData || null)
 
 	const getGraphInfo = () => {
-		axios.get(`${config.apiUrl}/serverinfo/graphinfo`)
+		axios.get(`${config.apiUrl}/beat/graphinfo`)
 		.then((res) => {
-			const preparedData = { max: res.data.max, data: res.data.data.map((e) => { return { number: e.number, time: new Date(e.time) } }) }
+			const preparedData = { 
+				max: res.data.max, 
+				data: res.data.data.map((e) => { 
+					return { number: e.number, time: new Date(e.time), players: e.players } 
+				})
+			}
+			console.log(preparedData)
 			cache.chartData = preparedData
 			setChartData(preparedData)
 
@@ -35,7 +41,7 @@ export const Chart = () => {
     <ResponsiveContainer width='100%' height={265}>
       <AreaChart data={chartData ? chartData.data : []}
           margin={{
-	    top: 10,
+		    top: 10,
             right: 10,
             left: 5,
             bottom: 5,
@@ -71,10 +77,60 @@ export const Chart = () => {
 
 const CustomTooltip = ({ active, payload, label }) => {
 	if (active && payload) {
+		console.log(payload)
+		const playerCount = payload[0].value
+		const playerList = payload[0].payload.players.slice(0, 5)
 		return (
-			<Flex paddingY={1} paddingX={3} direction='column' backgroundColor='purple' borderRadius={10}>
+			<Flex paddingY={1} paddingX={3} direction='column' backgroundColor='purple' borderRadius={10} height='max-content' shadow='2xl'>
 				<Text fontSize={14} fontWeight='bold'>{label ? `${label.toLocaleDateString('ru')} ${label.getHours()}:00` : ''}</Text>
-				<Text fontSize={15}>{`Игроков: ${payload[0].value}`}</Text>
+				<Text fontSize={15}>{`Игроков: ${playerCount}`}</Text>
+				{
+                playerList 
+                && playerCount > 0 
+                ? 
+                <Flex width='full' 
+					  direction='column'
+					  overflow={`hidden ${playerCount > 5 ? 'scroll' : 'none'}`}
+					  height={playerCount <= 5 ? 34 * playerCount : 192 }
+					  paddingTop={2}
+					  marginBottom={2}
+					  scrollPaddingY={2}>
+                {
+                playerList.map((playerName, i) => {
+                    return <HStack
+                    paddingTop={1}
+                    paddingBottom={1}
+                    >
+                        <Image src={`https://minotar.net/avatar/${playerName}/25`} height={25} borderRadius={5}/>
+                        <Text
+                        textAlign='center'
+                        fontSize={15}>
+                            {playerName.length > 12 ? `${playerName.substring(0, 9)}...` : playerName}
+                        </Text>
+                    </HStack> 
+                })
+                }
+				{
+					playerCount > 5
+					?
+					<Text
+					textAlign='center'
+					fontSize={15}>
+						...и еще {playerCount - 5}
+					</Text>
+					:
+					<div></div>
+				}
+                </Flex>
+                :
+                <Text
+                    textAlign='center'
+                    paddingY={2}
+                    fontSize={15}>
+                        Никто не пришел на фан-встречу :(
+                    </Text>
+            }
+
 			</Flex>
 		)
 	}
