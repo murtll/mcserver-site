@@ -12,6 +12,7 @@ import './Scroll.css'
 export const RatingTable = () => {
 
 	const [playerRatings, setPlayerRatings] = useState(cache.playerRatings || [])
+    const [activePlayers, setActivePlayers] = useState(cache.playerList || [])
 
 	const getRatingData = () => {
 		axios.get('https://api.mineserv.top/api/players/project/?name=mcbrawl&offset=0&limit=25&timeframe=all_time')
@@ -24,6 +25,12 @@ export const RatingTable = () => {
 		.catch((err) => {
 			console.log(err)
 		})
+        axios.get(`https://api.minetools.eu/query/play.mcbrawl.ru/25565`).then((res) => {
+            setActivePlayers(res.data.Playerlist)
+          })
+	    .catch((err) => {
+    		console.log(err)
+	    })
 	}
 
 	useEffect(getRatingData, [])
@@ -38,7 +45,28 @@ export const RatingTable = () => {
                 <TableCaption paddingBottom={6}>
                     <Flex fontFamily='Iosevka' justify='center' width='full'>Здесь показаны первые 25 игроков. Чтобы попасть в этот список, больше играйте на нашем сервере!</Flex>
                     <Flex fontFamily='Iosevka' justify='center' width='full' marginTop={4}>
-                <Text marginTop={2} marginRight={2} textColor='#ddaabb'>Данные получены с помощью </Text> <link rel="stylesheet" href="https://mineserv.top/widgets.min.css" /> <a href="https://mineserv.top/mcbrawl" target="_blank" rel="noopener noreferrer" class="mn-srv-btn mn-srv-btn--small"><span class="mn-srv-btn__icon"><svg width="16" height="16" viewBox="0 0 360 360"><g fill="none" fill-rule="evenodd"><path d="M0 0H360V360H0z" transform="translate(-371 -350) translate(371 350)"></path> <g fill="#FFF"><path d="M253.844 259.461L253.844.539 203.075.539 203.065 52.329 152.307 52.324 152.307 104.108 203.065 104.108 203.075 259.461zM152.307 156.432L152.307 104.647 101.538 104.647 101.538 156.432zM50.769.539L0 .539 0 259.461 50.769 259.461 50.769 104.108 101.538 104.108 101.538 52.324 50.769 52.324z" transform="translate(-371 -350) translate(371 350) translate(53 50)"></path></g></g></svg></span> <span class="mn-srv-btn__text">Mineserv</span></a>
+                <Text marginTop={2} marginRight={2} textColor='#ddaabb'>Данные получены с помощью </Text> 
+                <link rel="stylesheet" href="https://mineserv.top/widgets.min.css" /> 
+                    <a href="https://mineserv.top/mcbrawl" 
+                       target="_blank"
+                       rel="noopener noreferrer"
+                       class="mn-srv-btn mn-srv-btn--small">
+                        <span class="mn-srv-btn__icon">
+                            <svg width="16"
+                                 height="16"
+                                 viewBox="0 0 360 360">
+                                    <g fill="none"
+                                       fill-rule="evenodd">
+                                        <path d="M0 0H360V360H0z"
+                                              transform="translate(-371 -350) translate(371 350)"></path>
+                                              <g fill="#FFF">
+                                                <path d="M253.844 259.461L253.844.539 203.075.539 203.065 52.329 152.307 52.324 152.307 104.108 203.065 104.108 203.075 259.461zM152.307 156.432L152.307 104.647 101.538 104.647 101.538 156.432zM50.769.539L0 .539 0 259.461 50.769 259.461 50.769 104.108 101.538 104.108 101.538 52.324 50.769 52.324z" transform="translate(-371 -350) translate(371 350) translate(53 50)"></path>
+                                              </g>
+                                    </g>
+                            </svg>
+                        </span>
+                        <span class="mn-srv-btn__text">Mineserv</span>
+                    </a>
             </Flex>
 
                 </TableCaption>
@@ -59,7 +87,7 @@ export const RatingTable = () => {
                             <Td><Flex justify='center' width='full'><Image src={`https://minotar.net/avatar/${player.name}/25`} height={25} borderRadius={5}/></Flex></Td>
                             <Td><Flex justify='center' width='full'>{player.name}</Flex></Td>
                             <Td><Flex justify='center' width='full'>{secToTime(player.game_time)}</Flex></Td>
-                            <Td><Flex justify='center' width='full'>{dateString(new Date(player.last_online))}</Flex></Td>
+                            <Td><Flex justify='center' width='full'>{ activePlayers.includes(player.name) ? <div><a style={{ color: '#39FF14', textShadow: '0px 0px 10px #aaffbb' }}>⬤</a> Онлайн сейчас</div> : dateString(new Date(player.last_online)) }</Flex></Td>
                         </Tr>
                     })
                 }
