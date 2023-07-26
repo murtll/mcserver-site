@@ -17,7 +17,7 @@ services:
       traefik.http.services.front.loadBalancer.server.port: 8080
       traefik.http.middlewares.front-headers.headers.customresponseheaders.cache-control: max-age=604800
       traefik.http.middlewares.front-compress.compress: true
-      traefik.http.routers.front.middlewares: front-headers,front-compress
+      traefik.http.routers.front.middlewares: front-headers,front-compress,default-ratelimit
     healthcheck:
       test: wget --no-verbose --tries=1 --spider http://localhost:8080/
       interval: 10s
